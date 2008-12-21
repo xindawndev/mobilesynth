@@ -7,14 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* mobilesynthAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* mobilesynthAppDelegate.m */; };
+		1D3623260D0F684500981E51 /* mobilesynthAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* mobilesynthAppDelegate.mm */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		2899E5220DE3E06400AC0155 /* mobilesynthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* mobilesynthViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		28D7ACF80DDB3853001CB0EB /* mobilesynthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* mobilesynthViewController.m */; };
+		28D7ACF80DDB3853001CB0EB /* mobilesynthViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* mobilesynthViewController.mm */; };
+		2C1B9FB50EFDD342008008AD /* AudioOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1B9FB30EFDD342008008AD /* AudioOutput.m */; };
+		2C1BA0020EFDD45D008008AD /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C1BA0010EFDD45D008008AD /* AudioToolbox.framework */; };
+		2C1BA21A0EFDEF60008008AD /* combiner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BA2100EFDEF60008008AD /* combiner.cpp */; };
+		2C1BA21B0EFDEF60008008AD /* controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BA2120EFDEF60008008AD /* controller.cpp */; };
+		2C1BA21C0EFDEF60008008AD /* envelope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BA2140EFDEF60008008AD /* envelope.cpp */; };
+		2C1BA21D0EFDEF60008008AD /* modulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BA2160EFDEF60008008AD /* modulation.cpp */; };
+		2C1BA21E0EFDEF60008008AD /* oscillator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BA2180EFDEF60008008AD /* oscillator.cpp */; };
 		2C3FDD690EF5A94600284C99 /* mobilesynth.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C3FDD670EF5A94600284C99 /* mobilesynth.png */; };
 		2C3FDD6A0EF5A94600284C99 /* keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C3FDD680EF5A94600284C99 /* keyboard.png */; };
 		2C3FDDD80EF5FB5B00284C99 /* square-wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C3FDDD70EF5FB5B00284C99 /* square-wave.png */; };
@@ -27,15 +34,28 @@
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* mobilesynthAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mobilesynthAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* mobilesynthAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mobilesynthAppDelegate.m; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* mobilesynthAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mobilesynthAppDelegate.mm; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* mobilesynth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mobilesynth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E5210DE3E06400AC0155 /* mobilesynthViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = mobilesynthViewController.xib; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28D7ACF60DDB3853001CB0EB /* mobilesynthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mobilesynthViewController.h; sourceTree = "<group>"; };
-		28D7ACF70DDB3853001CB0EB /* mobilesynthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mobilesynthViewController.m; sourceTree = "<group>"; };
+		28D7ACF70DDB3853001CB0EB /* mobilesynthViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mobilesynthViewController.mm; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2C1B9FB30EFDD342008008AD /* AudioOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioOutput.m; sourceTree = "<group>"; };
+		2C1B9FB40EFDD342008008AD /* AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioOutput.h; sourceTree = "<group>"; };
+		2C1BA0010EFDD45D008008AD /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		2C1BA2100EFDEF60008008AD /* combiner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = combiner.cpp; path = synth/combiner.cpp; sourceTree = "<group>"; };
+		2C1BA2110EFDEF60008008AD /* combiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = combiner.h; path = synth/combiner.h; sourceTree = "<group>"; };
+		2C1BA2120EFDEF60008008AD /* controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = controller.cpp; path = synth/controller.cpp; sourceTree = "<group>"; };
+		2C1BA2130EFDEF60008008AD /* controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = controller.h; path = synth/controller.h; sourceTree = "<group>"; };
+		2C1BA2140EFDEF60008008AD /* envelope.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = envelope.cpp; path = synth/envelope.cpp; sourceTree = "<group>"; };
+		2C1BA2150EFDEF60008008AD /* envelope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = envelope.h; path = synth/envelope.h; sourceTree = "<group>"; };
+		2C1BA2160EFDEF60008008AD /* modulation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = modulation.cpp; path = synth/modulation.cpp; sourceTree = "<group>"; };
+		2C1BA2170EFDEF60008008AD /* modulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = modulation.h; path = synth/modulation.h; sourceTree = "<group>"; };
+		2C1BA2180EFDEF60008008AD /* oscillator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = oscillator.cpp; path = synth/oscillator.cpp; sourceTree = "<group>"; };
+		2C1BA2190EFDEF60008008AD /* oscillator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oscillator.h; path = synth/oscillator.h; sourceTree = "<group>"; };
 		2C3FDD670EF5A94600284C99 /* mobilesynth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mobilesynth.png; path = images/mobilesynth.png; sourceTree = "<group>"; };
 		2C3FDD680EF5A94600284C99 /* keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = keyboard.png; path = images/keyboard.png; sourceTree = "<group>"; };
 		2C3FDDD70EF5FB5B00284C99 /* square-wave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "square-wave.png"; path = "images/square-wave.png"; sourceTree = "<group>"; };
@@ -56,6 +76,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				2C1BA0020EFDD45D008008AD /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,10 +86,13 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2C1BA2070EFDEF29008008AD /* synth */,
+				2C1B9FB30EFDD342008008AD /* AudioOutput.m */,
+				2C1B9FB40EFDD342008008AD /* AudioOutput.h */,
 				1D3623240D0F684500981E51 /* mobilesynthAppDelegate.h */,
-				1D3623250D0F684500981E51 /* mobilesynthAppDelegate.m */,
+				1D3623250D0F684500981E51 /* mobilesynthAppDelegate.mm */,
 				28D7ACF60DDB3853001CB0EB /* mobilesynthViewController.h */,
-				28D7ACF70DDB3853001CB0EB /* mobilesynthViewController.m */,
+				28D7ACF70DDB3853001CB0EB /* mobilesynthViewController.mm */,
 				2C80E89C0EF4773C0083E440 /* KeyboardView.h */,
 				2C80E89D0EF4773C0083E440 /* KeyboardView.m */,
 			);
@@ -123,11 +147,29 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C1BA0010EFDD45D008008AD /* AudioToolbox.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2C1BA2070EFDEF29008008AD /* synth */ = {
+			isa = PBXGroup;
+			children = (
+				2C1BA2100EFDEF60008008AD /* combiner.cpp */,
+				2C1BA2110EFDEF60008008AD /* combiner.h */,
+				2C1BA2120EFDEF60008008AD /* controller.cpp */,
+				2C1BA2130EFDEF60008008AD /* controller.h */,
+				2C1BA2140EFDEF60008008AD /* envelope.cpp */,
+				2C1BA2150EFDEF60008008AD /* envelope.h */,
+				2C1BA2160EFDEF60008008AD /* modulation.cpp */,
+				2C1BA2170EFDEF60008008AD /* modulation.h */,
+				2C1BA2180EFDEF60008008AD /* oscillator.cpp */,
+				2C1BA2190EFDEF60008008AD /* oscillator.h */,
+			);
+			name = synth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,9 +233,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* mobilesynthAppDelegate.m in Sources */,
-				28D7ACF80DDB3853001CB0EB /* mobilesynthViewController.m in Sources */,
+				1D3623260D0F684500981E51 /* mobilesynthAppDelegate.mm in Sources */,
+				28D7ACF80DDB3853001CB0EB /* mobilesynthViewController.mm in Sources */,
 				2C80E89E0EF4773C0083E440 /* KeyboardView.m in Sources */,
+				2C1B9FB50EFDD342008008AD /* AudioOutput.m in Sources */,
+				2C1BA21A0EFDEF60008008AD /* combiner.cpp in Sources */,
+				2C1BA21B0EFDEF60008008AD /* controller.cpp in Sources */,
+				2C1BA21C0EFDEF60008008AD /* envelope.cpp in Sources */,
+				2C1BA21D0EFDEF60008008AD /* modulation.cpp in Sources */,
+				2C1BA21E0EFDEF60008008AD /* oscillator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,14 +277,17 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = iphoneos2.1;
+				USER_HEADER_SEARCH_PATHS = Classes/;
 			};
 			name = Debug;
 		};
@@ -250,6 +301,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = iphoneos2.1;
+				USER_HEADER_SEARCH_PATHS = Classes;
 			};
 			name = Release;
 		};

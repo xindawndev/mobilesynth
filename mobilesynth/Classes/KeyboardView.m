@@ -11,6 +11,7 @@
 
 @implementation KeyboardView
 
+@synthesize keyboardDelegate;
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -27,22 +28,23 @@
   NSLog(@"touchesBegan");
   UITouch* touch = [touches anyObject];
   CGPoint point = [touch locationInView:self];
-  NSLog(@"Key at point: %d", [self noteAtPoint:point]);
+  [keyboardDelegate noteBegin:[self noteAtPoint:point]]; 
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   NSLog(@"touchesMoved");
   UITouch* touch = [touches anyObject];
   CGPoint point = [touch locationInView:self];
-  NSLog(@"Key at point: %d", [self noteAtPoint:point]);
+// TODO(alen): Moving, send a new note event if the note changed?
+  [keyboardDelegate noteBegin:[self noteAtPoint:point]]; 
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  NSLog(@"touchesEnded");
+  [keyboardDelegate noteEnd];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  NSLog(@"touchesCancelled");
+  [keyboardDelegate noteEnd];
 }
 
 
@@ -59,12 +61,11 @@ static const float kOctaveSize = 60.33 * 7;
 static const float kKeysPerOctave = 12;
 
 // The X position that marks the start of the black keys
-static const int kBlackKeyEndY = 110;
+static const int kBlackKeyEndY = 105;
 
 // Offsets of the double black keys
 static const int kBlackKeyPairStartX = 43;
 static const int kBlackKeyPairEndX = 162;
-
 
 // Offsets of the triple black keys
 static const int kBlackKeyTrioStartX = 224;
