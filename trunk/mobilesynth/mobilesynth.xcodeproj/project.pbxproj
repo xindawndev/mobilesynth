@@ -32,6 +32,10 @@
 		2C61D5FD0F01DD2B00ECE3A2 /* EnvelopeView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C61D5F80F01DD2B00ECE3A2 /* EnvelopeView.mm */; };
 		2C61D5FE0F01DD2B00ECE3A2 /* ModulationView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C61D5FA0F01DD2B00ECE3A2 /* ModulationView.mm */; };
 		2C61D5FF0F01DD2B00ECE3A2 /* OscillatorDetailView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C61D5FC0F01DD2B00ECE3A2 /* OscillatorDetailView.mm */; };
+		2C61D7350F01FF5B00ECE3A2 /* attack.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C61D7340F01FF5B00ECE3A2 /* attack.png */; };
+		2C61D7370F0208CE00ECE3A2 /* decay.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C61D7360F0208CE00ECE3A2 /* decay.png */; };
+		2C61D7390F020AC800ECE3A2 /* sustain.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C61D7380F020AC800ECE3A2 /* sustain.png */; };
+		2C61D73C0F020FE200ECE3A2 /* release.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C61D73B0F020FE200ECE3A2 /* release.png */; };
 		2C80E89E0EF4773C0083E440 /* KeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C80E89D0EF4773C0083E440 /* KeyboardView.m */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +78,10 @@
 		2C61D5FA0F01DD2B00ECE3A2 /* ModulationView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ModulationView.mm; sourceTree = "<group>"; };
 		2C61D5FB0F01DD2B00ECE3A2 /* OscillatorDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscillatorDetailView.h; sourceTree = "<group>"; };
 		2C61D5FC0F01DD2B00ECE3A2 /* OscillatorDetailView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OscillatorDetailView.mm; sourceTree = "<group>"; };
+		2C61D7340F01FF5B00ECE3A2 /* attack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = attack.png; path = images/attack.png; sourceTree = "<group>"; };
+		2C61D7360F0208CE00ECE3A2 /* decay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = decay.png; path = images/decay.png; sourceTree = "<group>"; };
+		2C61D7380F020AC800ECE3A2 /* sustain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sustain.png; path = images/sustain.png; sourceTree = "<group>"; };
+		2C61D73B0F020FE200ECE3A2 /* release.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = release.png; path = images/release.png; sourceTree = "<group>"; };
 		2C80E89C0EF4773C0083E440 /* KeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardView.h; sourceTree = "<group>"; };
 		2C80E89D0EF4773C0083E440 /* KeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardView.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* mobilesynth_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mobilesynth_Prefix.pch; sourceTree = "<group>"; };
@@ -144,6 +152,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2C61D73B0F020FE200ECE3A2 /* release.png */,
+				2C61D7380F020AC800ECE3A2 /* sustain.png */,
+				2C61D7360F0208CE00ECE3A2 /* decay.png */,
+				2C61D7340F01FF5B00ECE3A2 /* attack.png */,
 				2C3FDDE00EF6072300284C99 /* reverse-sawtooth-wave.png */,
 				2C3FDDDE0EF606E600284C99 /* sawtooth-wave.png */,
 				2C3FDDDA0EF6052B00284C99 /* triangle-wave.png */,
@@ -250,6 +262,10 @@
 				2C3FDDDB0EF6052B00284C99 /* triangle-wave.png in Resources */,
 				2C3FDDDF0EF606E600284C99 /* sawtooth-wave.png in Resources */,
 				2C3FDDE10EF6072300284C99 /* reverse-sawtooth-wave.png in Resources */,
+				2C61D7350F01FF5B00ECE3A2 /* attack.png in Resources */,
+				2C61D7370F0208CE00ECE3A2 /* decay.png in Resources */,
+				2C61D7390F020AC800ECE3A2 /* sustain.png in Resources */,
+				2C61D73C0F020FE200ECE3A2 /* release.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
