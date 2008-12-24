@@ -28,6 +28,10 @@
 		2C3FDDDB0EF6052B00284C99 /* triangle-wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C3FDDDA0EF6052B00284C99 /* triangle-wave.png */; };
 		2C3FDDDF0EF606E600284C99 /* sawtooth-wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C3FDDDE0EF606E600284C99 /* sawtooth-wave.png */; };
 		2C3FDDE10EF6072300284C99 /* reverse-sawtooth-wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C3FDDE00EF6072300284C99 /* reverse-sawtooth-wave.png */; };
+		2C61D50F0F01D33600ECE3A2 /* OscillatorView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C61D50E0F01D33600ECE3A2 /* OscillatorView.mm */; };
+		2C61D5FD0F01DD2B00ECE3A2 /* EnvelopeView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C61D5F80F01DD2B00ECE3A2 /* EnvelopeView.mm */; };
+		2C61D5FE0F01DD2B00ECE3A2 /* ModulationView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C61D5FA0F01DD2B00ECE3A2 /* ModulationView.mm */; };
+		2C61D5FF0F01DD2B00ECE3A2 /* OscillatorDetailView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C61D5FC0F01DD2B00ECE3A2 /* OscillatorDetailView.mm */; };
 		2C80E89E0EF4773C0083E440 /* KeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C80E89D0EF4773C0083E440 /* KeyboardView.m */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +66,14 @@
 		2C3FDDDA0EF6052B00284C99 /* triangle-wave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "triangle-wave.png"; path = "images/triangle-wave.png"; sourceTree = "<group>"; };
 		2C3FDDDE0EF606E600284C99 /* sawtooth-wave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sawtooth-wave.png"; path = "images/sawtooth-wave.png"; sourceTree = "<group>"; };
 		2C3FDDE00EF6072300284C99 /* reverse-sawtooth-wave.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "reverse-sawtooth-wave.png"; path = "images/reverse-sawtooth-wave.png"; sourceTree = "<group>"; };
+		2C61D50D0F01D33600ECE3A2 /* OscillatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscillatorView.h; sourceTree = "<group>"; };
+		2C61D50E0F01D33600ECE3A2 /* OscillatorView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OscillatorView.mm; sourceTree = "<group>"; };
+		2C61D5F70F01DD2B00ECE3A2 /* EnvelopeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnvelopeView.h; sourceTree = "<group>"; };
+		2C61D5F80F01DD2B00ECE3A2 /* EnvelopeView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EnvelopeView.mm; sourceTree = "<group>"; };
+		2C61D5F90F01DD2B00ECE3A2 /* ModulationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModulationView.h; sourceTree = "<group>"; };
+		2C61D5FA0F01DD2B00ECE3A2 /* ModulationView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ModulationView.mm; sourceTree = "<group>"; };
+		2C61D5FB0F01DD2B00ECE3A2 /* OscillatorDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscillatorDetailView.h; sourceTree = "<group>"; };
+		2C61D5FC0F01DD2B00ECE3A2 /* OscillatorDetailView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OscillatorDetailView.mm; sourceTree = "<group>"; };
 		2C80E89C0EF4773C0083E440 /* KeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardView.h; sourceTree = "<group>"; };
 		2C80E89D0EF4773C0083E440 /* KeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardView.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* mobilesynth_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mobilesynth_Prefix.pch; sourceTree = "<group>"; };
@@ -86,6 +98,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2C61D51A0F01D36E00ECE3A2 /* Controls */,
 				2C1BA2070EFDEF29008008AD /* synth */,
 				2C1B9FB30EFDD342008008AD /* AudioOutput.m */,
 				2C1B9FB40EFDD342008008AD /* AudioOutput.h */,
@@ -172,6 +185,21 @@
 			name = synth;
 			sourceTree = "<group>";
 		};
+		2C61D51A0F01D36E00ECE3A2 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				2C61D5F70F01DD2B00ECE3A2 /* EnvelopeView.h */,
+				2C61D5F80F01DD2B00ECE3A2 /* EnvelopeView.mm */,
+				2C61D5F90F01DD2B00ECE3A2 /* ModulationView.h */,
+				2C61D5FA0F01DD2B00ECE3A2 /* ModulationView.mm */,
+				2C61D5FB0F01DD2B00ECE3A2 /* OscillatorDetailView.h */,
+				2C61D5FC0F01DD2B00ECE3A2 /* OscillatorDetailView.mm */,
+				2C61D50D0F01D33600ECE3A2 /* OscillatorView.h */,
+				2C61D50E0F01D33600ECE3A2 /* OscillatorView.mm */,
+			);
+			name = Controls;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -242,6 +270,10 @@
 				2C1BA21C0EFDEF60008008AD /* envelope.cpp in Sources */,
 				2C1BA21D0EFDEF60008008AD /* modulation.cpp in Sources */,
 				2C1BA21E0EFDEF60008008AD /* oscillator.cpp in Sources */,
+				2C61D50F0F01D33600ECE3A2 /* OscillatorView.mm in Sources */,
+				2C61D5FD0F01DD2B00ECE3A2 /* EnvelopeView.mm in Sources */,
+				2C61D5FE0F01DD2B00ECE3A2 /* ModulationView.mm in Sources */,
+				2C61D5FF0F01DD2B00ECE3A2 /* OscillatorDetailView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
