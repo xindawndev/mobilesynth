@@ -155,6 +155,7 @@ static float GetFrequencyForNote(int note) {
   // Link the synth objects to their UI controllers
   [oscillatorView setOsc1:osc1_];
   [oscillatorView setOsc2:osc2_];
+  [oscillatorDetailView setOsc2:osc2_];
   
   [self syncControls];
   

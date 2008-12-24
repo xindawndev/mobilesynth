@@ -26,7 +26,11 @@ class Oscillator {
   void set_level(float level);
 
   // Frequency at which to oscillate
-  void set_frequency(int frequency);
+  void set_frequency(float frequency);
+  
+  // A fine tune adjustment to the frequency.  Can be fixed as the base
+  // frequency is shifted.
+  void set_frequency_shift(int cents);
 
   // Returns the value at the specific time [0.0, 1.0].  The returned value
   // returned value is in the range [-1.0, 1.0].
@@ -34,11 +38,14 @@ class Oscillator {
 
  protected:
   float level() { return level_; }
+  void frequency_changed();
 
  private:
   WaveType wave_type_;
   float level_;
-  int frequency_;
+  float frequency_;
+  float cents_;
+  float real_frequency_;
 };
 
 }  // namespace synth
