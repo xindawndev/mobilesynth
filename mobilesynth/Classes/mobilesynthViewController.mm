@@ -157,10 +157,9 @@ static float GetFrequencyForNote(int note) {
   [oscillatorView setOsc2:osc2_];
   [oscillatorDetailView setOsc2:osc2_];
   [modulationView setLfo:lfo_osc_];
+  [envelopeView setEnvelope:envelope_];
   
   [self syncControls];
-  
-  
   
 
   // Initalize all the glue
