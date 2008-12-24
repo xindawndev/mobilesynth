@@ -4,14 +4,16 @@
 #include "synth/oscillator.h"
 #include <assert.h>
 #include <math.h>
-#include <cmath>
+#include <iostream>
 
 namespace synth {
 
 Oscillator::Oscillator()
     : wave_type_(SINE),
       level_(1.0),
-      frequency_(0) { }
+      frequency_(0),
+      cents_(0),
+      real_frequency_(0) { }
 
 Oscillator::~Oscillator() { }
 
@@ -25,13 +27,28 @@ void Oscillator::set_level(float level) {
   level_ = level;
 }
 
-void Oscillator::set_frequency(int frequency) {
+void Oscillator::set_frequency(float frequency) {
   assert(frequency >= 0);
   frequency_ = frequency;
+  frequency_changed();
+}
+  
+  
+void Oscillator::set_frequency_shift(int cents) {
+  cents_ = cents;
+  frequency_changed();
 }
 
+void Oscillator::frequency_changed() {
+  // One octave is 1200 cents.  Determine the width of each cent, then
+  // calculate the real frequency difference.
+  float octave_width = 2 * frequency_ - frequency_;
+  float cent_width = octave_width / 12;
+  real_frequency_ = frequency_ + cents_ * cent_width;
+}
+  
 float Oscillator::GetValue(float t) {
-  float x = frequency_ * t;
+  float x = real_frequency_ * t;
   float value = 0;
   switch (wave_type_) {
     case SINE:
