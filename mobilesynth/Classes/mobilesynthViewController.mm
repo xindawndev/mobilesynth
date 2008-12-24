@@ -156,6 +156,7 @@ static float GetFrequencyForNote(int note) {
   [oscillatorView setOsc1:osc1_];
   [oscillatorView setOsc2:osc2_];
   [oscillatorDetailView setOsc2:osc2_];
+  [modulationView setLfo:lfo_osc_];
   
   [self syncControls];
   
