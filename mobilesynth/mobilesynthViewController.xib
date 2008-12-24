@@ -8,8 +8,9 @@
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="152"/>
+			<integer value="104"/>
 			<integer value="6"/>
+			<integer value="76"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -45,19 +46,21 @@
 							<object class="IBUIImageView" id="288062322">
 								<reference key="NSNextResponder" ref="850241827"/>
 								<int key="NSvFlags">274</int>
-								<string key="NSFrameSize">{2534, 180}</string>
+								<string key="NSFrameSize">{1200, 180}</string>
 								<reference key="NSSuperview" ref="850241827"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">keyboard.png</string>
+									<string key="NSResourceName">keyboard-max.png</string>
 								</object>
 							</object>
 						</object>
 						<string key="NSFrame">{{36, 132}, {444, 188}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
+						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<bool key="IBUIBounces">NO</bool>
 						<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
 						<int key="IBUIIndicatorStyle">2</int>
@@ -82,8 +85,13 @@
 						<object class="NSPSMatrix" key="NSFrameMatrix"/>
 						<string key="NSFrame">{{0, 106}, {480, 36}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
+						<object class="NSColor" key="IBUIBackgroundColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MCAwIDAgMAA</bytes>
+						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
+						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUINumberOfPages">5</int>
@@ -160,6 +168,7 @@
 						<reference key="NSSuperview" ref="173786240"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<int key="IBSegmentControlStyle">2</int>
 						<int key="IBNumberOfSegments">4</int>
 						<int key="IBSelectedSegmentIndex">0</int>
@@ -289,7 +298,7 @@
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 			</object>
 			<object class="IBUIView" id="963819343">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -357,6 +366,7 @@
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
+						<float key="IBUIValue">3.000000e-01</float>
 						<float key="IBUIMaxValue">4.000000e+00</float>
 					</object>
 					<object class="IBUISlider" id="961855165">
@@ -433,11 +443,12 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{480, 105}</string>
+				<reference key="NSSuperview"/>
 				<reference key="IBUIBackgroundColor" ref="689275287"/>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 			</object>
 			<object class="IBUIView" id="843412761">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -588,12 +599,11 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{480, 105}</string>
-				<reference key="NSSuperview"/>
 				<reference key="IBUIBackgroundColor" ref="689275287"/>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 			</object>
 			<object class="IBUIView" id="153395917">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -638,9 +648,10 @@
 						<reference key="NSSuperview" ref="153395917"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<int key="IBSegmentControlStyle">2</int>
 						<int key="IBNumberOfSegments">4</int>
-						<int key="IBSelectedSegmentIndex">0</int>
+						<int key="IBSelectedSegmentIndex">1</int>
 						<object class="NSArray" key="IBSegmentTitles">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string/>
@@ -717,6 +728,7 @@
 						<reference key="NSSuperview" ref="153395917"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<int key="IBSegmentControlStyle">2</int>
 						<int key="IBNumberOfSegments">4</int>
 						<int key="IBSelectedSegmentIndex">0</int>
@@ -763,6 +775,7 @@
 						<reference key="NSSuperview" ref="153395917"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<int key="IBSegmentControlStyle">2</int>
 						<int key="IBNumberOfSegments">5</int>
 						<int key="IBSelectedSegmentIndex">0</int>
@@ -814,6 +827,7 @@
 						<reference key="NSSuperview" ref="153395917"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<int key="IBSegmentControlStyle">2</int>
 						<int key="IBNumberOfSegments">5</int>
 						<int key="IBSelectedSegmentIndex">0</int>
@@ -860,6 +874,7 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{480, 105}</string>
+				<reference key="NSSuperview"/>
 				<reference key="IBUIBackgroundColor" ref="689275287"/>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 			</object>
@@ -1265,8 +1280,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="850241827"/>
 							<reference ref="916929664"/>
-							<reference ref="833666565"/>
 							<reference ref="398894428"/>
+							<reference ref="833666565"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 					</object>
@@ -1298,9 +1313,9 @@
 							<reference ref="835076485"/>
 							<reference ref="836187360"/>
 							<reference ref="1034298999"/>
-							<reference ref="335247912"/>
 							<reference ref="324282115"/>
 							<reference ref="334264150"/>
+							<reference ref="335247912"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 						<string key="objectName">ModulationView</string>
@@ -1430,12 +1445,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="1068104717"/>
 							<reference ref="271684847"/>
-							<reference ref="604386409"/>
 							<reference ref="119512331"/>
 							<reference ref="145847174"/>
 							<reference ref="476242908"/>
 							<reference ref="56188023"/>
 							<reference ref="714013983"/>
+							<reference ref="604386409"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 						<string key="objectName">OscillatorView</string>
@@ -1640,7 +1655,7 @@
 					<integer value="1"/>
 					<integer value="0"/>
 					<string>OscillatorView</string>
-					<string>{{24, 412}, {480, 105}}</string>
+					<string>{{34, 364}, {480, 105}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

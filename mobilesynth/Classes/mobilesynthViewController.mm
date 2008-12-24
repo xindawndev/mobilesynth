@@ -124,7 +124,7 @@ static float GetFrequencyForNote(int note) {
   [keyboardScrollView setContentSize:[[keyboardImageView image] size]];
   // TODO(allen): Start at the middle of the keyboard (Scroll to key?)
   // TODO(allen): Set this to disable scrolling, and enable sliding.
-  //[keyboardScrollView setScrollEnabled:NO];
+  [keyboardScrollView setScrollEnabled:NO];
   
   osc1_ = new synth::Oscillator;
   osc2_ = new synth::Oscillator;

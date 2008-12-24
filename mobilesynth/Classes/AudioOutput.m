@@ -8,17 +8,6 @@
 
 #import "AudioOutput.h"
 
-static void playCallback(void *inUserData,
-                         AudioQueueRef inAQ,
-                         AudioQueueBufferRef inputBuffer) {
-  AudioOutput* output = (AudioOutput*)inUserData;
-  [[output sampleDelegate] generateSamples:inputBuffer];
-  OSStatus status = AudioQueueEnqueueBuffer(inAQ, inputBuffer, 0, NULL);
-  if (status != noErr) {
-    NSLog(@"AudioQueueEnqueueBuffer failed: %d", status);
-  }
-}
-
 @implementation AudioOutput
 
 @synthesize sampleDelegate;
@@ -36,13 +25,24 @@ static void playCallback(void *inUserData,
   exit(1);
 }
 
+static void playCallback(void *inUserData,
+                         AudioQueueRef inAQ,
+                         AudioQueueBufferRef inputBuffer) {
+  AudioOutput* output = (AudioOutput*)inUserData;
+  [[output sampleDelegate] generateSamples:inputBuffer];
+  OSStatus status = AudioQueueEnqueueBuffer(inAQ, inputBuffer, 0, NULL);
+  if (status != noErr) {
+    [AudioOutput displayErrorAndExit:@"AudioQueueEnqueueBuffer" errorCode:status];
+  }
+}
+
 - (id) init
 {
   self = [super init];
   if (self != nil) {
     audioFormat_.mSampleRate = 44100.0;
     audioFormat_.mFormatID = kAudioFormatLinearPCM;
-    audioFormat_.mFormatFlags = kAudioFormatFlagIsSignedInteger;
+    audioFormat_.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
     audioFormat_.mChannelsPerFrame = 1;
     audioFormat_.mBitsPerChannel = 8 * sizeof(short);
     audioFormat_.mBytesPerFrame = sizeof(short);
@@ -55,7 +55,8 @@ static void playCallback(void *inUserData,
 
 - (void) start {
   OSStatus status = AudioQueueNewOutput(&audioFormat_, playCallback, self,
-                                        NULL, NULL, 0, &queue_);
+                                        CFRunLoopGetCurrent(),
+                                        kCFRunLoopCommonModes, 0, &queue_);
   if (status != noErr) {
     [AudioOutput displayErrorAndExit:@"AudioQueueNewOutput" errorCode:status];
     return;

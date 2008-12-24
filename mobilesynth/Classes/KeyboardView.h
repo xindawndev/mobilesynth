@@ -16,6 +16,7 @@
 
 @interface KeyboardView : UIImageView {
   id <KeyboardDelegate> keyboardDelegate;
+  int currentNote;
 }
 
 @property (nonatomic, retain) IBOutlet id <KeyboardDelegate> keyboardDelegate;
