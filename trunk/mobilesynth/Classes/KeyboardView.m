@@ -24,6 +24,7 @@
     [super dealloc];
 }
 
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   NSLog(@"touchesBegan");
   UITouch* touch = [touches anyObject];

@@ -13,12 +13,10 @@ class LFO {
   LFO();
 
   void set_oscillator(Oscillator* oscillator);
-  void set_amount(float amount);
 
   float GetValue(float t);
 
  private:
-  float amount_;
   Oscillator* oscillator_;
 };
 

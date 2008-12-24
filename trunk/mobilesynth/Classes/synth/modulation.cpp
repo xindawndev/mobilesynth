@@ -8,20 +8,16 @@
 namespace synth {
 
 LFO::LFO()
-    : amount_(0.0),
-      oscillator_(NULL)
+    : oscillator_(NULL)
       { }
 
-void LFO::set_amount(float amount) {
-  amount_ = amount;
-}
 
 void LFO::set_oscillator(Oscillator* oscillator) {
   oscillator_ = oscillator;
 }
 
 float LFO::GetValue(float t) {
-  return 1.0 - amount_ * oscillator_->GetValue(t);
+  return 1.0 - oscillator_->GetValue(t);
 }
 
 }  // namespace synth

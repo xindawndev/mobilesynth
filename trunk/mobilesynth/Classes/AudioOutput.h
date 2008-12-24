@@ -10,7 +10,7 @@
 #include <AudioToolbox/AudioToolbox.h>
 
 #define NUM_BUFFERS 2
-#define BUFFER_SIZE 8 * 1024
+#define BUFFER_SIZE 1024
 
 @protocol SampleGenerator 
 @required

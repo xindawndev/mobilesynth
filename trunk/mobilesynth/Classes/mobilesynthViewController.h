@@ -16,12 +16,24 @@ namespace synth { class Envelope; }
 namespace synth { class LFO; }
 namespace synth { class Oscillator; }
 
-@interface mobilesynthViewController
-      : UIViewController <KeyboardDelegate, SampleGenerator> {
+@class OscillatorView;
+@class OscillatorDetailView;
+@class ModulationView;
+@class EnvelopeView;
+
+@interface mobilesynthViewController : UIViewController <KeyboardDelegate, SampleGenerator> {
   UIScrollView* keyboardScrollView;
   KeyboardView* keyboardImageView;
-  AudioOutput* output;
+  UIScrollView* controlScrollView;
+  UIPageControl* controlPageControl;
+        
+  OscillatorView* oscillatorView;
+  OscillatorDetailView* oscillatorDetailView;
+  ModulationView* modulationView;
+  EnvelopeView* envelopeView;
 
+  // Synthesizer components
+  AudioOutput* output;
   synth::Combiner* combiner_;
   synth::Oscillator* osc1_;
   synth::Oscillator* osc2_;
@@ -29,14 +41,27 @@ namespace synth { class Oscillator; }
   synth::Oscillator* lfo_osc_;
   synth::LFO* lfo_;
   synth::Controller* controller_;
+  
+  // Used to prevent a feedback loop
+  BOOL pageControlUsed;
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView *keyboardScrollView;
 @property (nonatomic, retain) IBOutlet KeyboardView *keyboardImageView;
+@property (nonatomic, retain) IBOutlet UIScrollView *controlScrollView;
+@property (nonatomic, retain) IBOutlet UIPageControl *controlPageControl;
+
+@property (nonatomic, retain) IBOutlet OscillatorView *oscillatorView;
+@property (nonatomic, retain) IBOutlet OscillatorDetailView *oscillatorDetailView;
+@property (nonatomic, retain) IBOutlet ModulationView *modulationView;
+@property (nonatomic, retain) IBOutlet EnvelopeView *envelopeView;
 
 - (void)noteBegin:(int)note;
 - (void)noteEnd;
 - (void)generateSamples:(AudioQueueBufferRef)buffer;
+
+// For control panel
+- (IBAction)changePage:(id)sender;
 
 @end
 
