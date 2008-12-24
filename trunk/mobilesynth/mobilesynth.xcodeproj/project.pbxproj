@@ -36,6 +36,7 @@
 		2C61D7370F0208CE00ECE3A2 /* decay.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C61D7360F0208CE00ECE3A2 /* decay.png */; };
 		2C61D7390F020AC800ECE3A2 /* sustain.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C61D7380F020AC800ECE3A2 /* sustain.png */; };
 		2C61D73C0F020FE200ECE3A2 /* release.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C61D73B0F020FE200ECE3A2 /* release.png */; };
+		2C68C41C0F02CCDE00C57532 /* keyboard-max.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C68C41B0F02CCDE00C57532 /* keyboard-max.png */; };
 		2C80E89E0EF4773C0083E440 /* KeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C80E89D0EF4773C0083E440 /* KeyboardView.m */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,7 @@
 		2C61D7360F0208CE00ECE3A2 /* decay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = decay.png; path = images/decay.png; sourceTree = "<group>"; };
 		2C61D7380F020AC800ECE3A2 /* sustain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sustain.png; path = images/sustain.png; sourceTree = "<group>"; };
 		2C61D73B0F020FE200ECE3A2 /* release.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = release.png; path = images/release.png; sourceTree = "<group>"; };
+		2C68C41B0F02CCDE00C57532 /* keyboard-max.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "keyboard-max.png"; path = "images/keyboard-max.png"; sourceTree = "<group>"; };
 		2C80E89C0EF4773C0083E440 /* KeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardView.h; sourceTree = "<group>"; };
 		2C80E89D0EF4773C0083E440 /* KeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardView.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* mobilesynth_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mobilesynth_Prefix.pch; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2C68C41B0F02CCDE00C57532 /* keyboard-max.png */,
 				2C61D73B0F020FE200ECE3A2 /* release.png */,
 				2C61D7380F020AC800ECE3A2 /* sustain.png */,
 				2C61D7360F0208CE00ECE3A2 /* decay.png */,
@@ -266,6 +269,7 @@
 				2C61D7370F0208CE00ECE3A2 /* decay.png in Resources */,
 				2C61D7390F020AC800ECE3A2 /* sustain.png in Resources */,
 				2C61D73C0F020FE200ECE3A2 /* release.png in Resources */,
+				2C68C41C0F02CCDE00C57532 /* keyboard-max.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,14 +331,18 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Allen Porter";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Allen Porter";
+				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.1;
+				PROVISIONING_PROFILE = "C1A8D510-C6F3-4C50-A8F4-17B63C79D60E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C1A8D510-C6F3-4C50-A8F4-17B63C79D60E";
+				SDKROOT = iphoneos2.2;
 				USER_HEADER_SEARCH_PATHS = Classes/;
 			};
 			name = Debug;

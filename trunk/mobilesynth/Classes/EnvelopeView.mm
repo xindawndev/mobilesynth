@@ -22,7 +22,6 @@ static const float kSampleRate = 44100.0;
 // Convert seconds to number of samples
 - (long)samples:(float)seconds {
   float result = kSampleRate * seconds;
-  NSLog(@"samples: %f", result);
   return (long)result;
 }
 

@@ -15,7 +15,7 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        // Initialization code
+      currentNote = 0;
     }
     return self;
 }
@@ -29,22 +29,30 @@
   NSLog(@"touchesBegan");
   UITouch* touch = [touches anyObject];
   CGPoint point = [touch locationInView:self];
-  [keyboardDelegate noteBegin:[self noteAtPoint:point]]; 
+  currentNote = [self noteAtPoint:point];
+  [keyboardDelegate noteBegin:currentNote]; 
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   NSLog(@"touchesMoved");
   UITouch* touch = [touches anyObject];
   CGPoint point = [touch locationInView:self];
-// TODO(alen): Moving, send a new note event if the note changed?
-  [keyboardDelegate noteBegin:[self noteAtPoint:point]]; 
+  int note = [self noteAtPoint:point];
+  if (note != currentNote) {
+    currentNote = note;
+    [keyboardDelegate noteBegin:note];
+  }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  NSLog(@"touchedEnded");
+  currentNote = 0;
   [keyboardDelegate noteEnd];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+  NSLog(@"touchesCancelled");
+  currentNote = 0;
   [keyboardDelegate noteEnd];
 }
 
@@ -54,25 +62,29 @@
 // laid out vertically.
 //
 
+// TODO(allen): The keyboard range has been limited temporarily to workaround
+// the fact that it is drawn as a single image which is too large to render
+// when extended with more octaves.  Fix!
+
 // The "width" of each white key
-static const float kKeySize = 60.33;
+static const float kKeySize = 57.14;
 
 // An octive is 7 white keys
-static const float kOctaveSize = 60.33 * 7;
+static const float kOctaveSize = 57.14 * 7;
 static const float kKeysPerOctave = 12;
 
 // The X position that marks the start of the black keys
-static const int kBlackKeyEndY = 105;
+static const int kBlackKeyEndY = 102;
 
 // Offsets of the double black keys
-static const int kBlackKeyPairStartX = 43;
-static const int kBlackKeyPairEndX = 162;
+static const int kBlackKeyPairStartX = 39;
+static const int kBlackKeyPairEndX = 152;
 
 // Offsets of the triple black keys
-static const int kBlackKeyTrioStartX = 224;
-static const int kBlackKeyTrioEndX = 404;
+static const int kBlackKeyTrioStartX = 211;
+static const int kBlackKeyTrioEndX = 382;
 
-static const int kLowC = 4;
+static const int kLowC = 28;
 
 - (int)octaveAtPoint:(CGPoint)point {
   return point.x / kOctaveSize;
