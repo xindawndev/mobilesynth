@@ -59,11 +59,31 @@ static void TestMaxLevel() {
   ASSERT_DOUBLE_EQ(1.0, mod.GetValue(-1)); 
 }
 
+static void TestMidLevel() {
+  FakeOscillator osc;
+
+  synth::LFO mod;
+  mod.set_level(0.2);
+  mod.set_oscillator(&osc);
+
+  osc.set_value(-1);
+  ASSERT_DOUBLE_EQ(0.8, mod.GetValue(-1)); 
+  osc.set_value(-0.5);
+  ASSERT_DOUBLE_EQ(0.85, mod.GetValue(-1)); 
+  osc.set_value(0.0);
+  ASSERT_DOUBLE_EQ(0.9, mod.GetValue(-1)); 
+  osc.set_value(0.5);
+  ASSERT_DOUBLE_EQ(0.95, mod.GetValue(-1)); 
+  osc.set_value(1.0);
+  ASSERT_DOUBLE_EQ(1.0, mod.GetValue(-1)); 
+}
+
 }  // namespace
 
 int main(int argc, char* argv[]) {
   TestNoLevel();
   TestMaxLevel();
+  TestMidLevel();
   std::cout << "PASS" << std::endl;
   return 0;
 }
