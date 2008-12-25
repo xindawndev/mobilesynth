@@ -8,6 +8,7 @@
 
 #import "ModulationView.h"
 #include "synth/oscillator.h"
+#include "synth/modulation.h"
 
 @implementation ModulationView
 
@@ -15,6 +16,7 @@
 @synthesize lfoAmount;
 @synthesize lfoWave;
 @synthesize lfo;
+@synthesize osc;
 
 - (synth::Oscillator::WaveType)waveTypeForButtonIndex:(int)index {
   switch (index) {
@@ -33,10 +35,11 @@
 }
 
 - (void)changed:(id)sender {
-  lfo->set_level([lfoAmount value]);
-  lfo->set_frequency([lfoRate value]);
-  lfo->set_wave_type(
+  osc->set_level(1.0);
+  osc->set_frequency([lfoRate value]);
+  osc->set_wave_type(
       [self waveTypeForButtonIndex:[lfoWave selectedSegmentIndex]]);
+  lfo->set_level([lfoAmount value]);
 }
 
 @end

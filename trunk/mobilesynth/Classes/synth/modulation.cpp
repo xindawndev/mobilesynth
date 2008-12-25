@@ -27,7 +27,10 @@ void LFO::set_oscillator(Oscillator* oscillator) {
 float LFO::GetValue(float t) {
   float m = 0.5 * level_;
   float b = 1.0 - m;
-  return m * oscillator_->GetValue(t) + b;
+  float value =  m * oscillator_->GetValue(t) + b;
+  assert(value >= 0);
+  assert(value <= 1.0);
+  return value;
 }
 
 }  // namespace synth
