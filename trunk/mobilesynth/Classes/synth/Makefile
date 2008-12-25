@@ -21,9 +21,13 @@ oscillator_test: libsynth.a oscillator_test.o
 envelope_test: libsynth.a envelope_test.o
 	$(CC) -o $@ $(CFLAGS) -lsynth envelope_test.o
 
-test: oscillator_test envelope_test
+modulation_test: libsynth.a modulation_test.o
+	$(CC) -o $@ $(CFLAGS) -lsynth modulation_test.o
+
+test: oscillator_test envelope_test modulation_test
 	./oscillator_test
 	./envelope_test
+	./modulation_test
 
 install: libsynth.a
 	cp libsynth.a /usr/local/lib/
