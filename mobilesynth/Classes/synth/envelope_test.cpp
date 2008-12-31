@@ -72,18 +72,18 @@ static void TestAttackRelease() {
   synth::Envelope env;
   env.set_attack(4);
   env.set_decay(0);
-  env.set_sustain(0.0);
-  env.set_release(8);
+  env.set_sustain(0.99);  // ignored since we never reach it
+  env.set_release(3);
   env.NoteOn();
   // Attack
   ASSERT_DOUBLE_EQ(0.25, env.GetValue());
   ASSERT_DOUBLE_EQ(0.5, env.GetValue());
   ASSERT_DOUBLE_EQ(0.75, env.GetValue());
   env.NoteOff();
-  // Released before we finished attacking.  No sustain so its always 0.
-  for (int i = 0; i < 10; ++i) {
-    ASSERT_DOUBLE_EQ(0.0, env.GetValue());
-  }
+  // Released before we finished attacking.  Release from the current value
+  ASSERT_DOUBLE_EQ(0.5, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.25, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.0, env.GetValue());
 }
 
 static void TestDecay() {
@@ -106,6 +106,35 @@ static void TestDecay() {
   }
 }
 
+static void TestDecayRelease() {
+  synth::Envelope env;
+  env.set_attack(4);
+  env.set_decay(4);
+  env.set_sustain(0.5);  // ignored since we never reach it
+  env.set_release(8);
+  env.NoteOn();
+  // Attack
+  ASSERT_DOUBLE_EQ(0.25, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.5, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.75, env.GetValue());
+  ASSERT_DOUBLE_EQ(1.0, env.GetValue());
+  // Decay
+  ASSERT_DOUBLE_EQ(0.875, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.75, env.GetValue());
+  env.NoteOff();
+  // Released before we finished decaying.  Release starts from the decay point.
+  ASSERT_DOUBLE_EQ(0.65625, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.5625, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.46875, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.375, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.28125, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.1875, env.GetValue());
+  ASSERT_DOUBLE_EQ(0.09375, env.GetValue());
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(0.0, env.GetValue());
+  }
+}
+
 }  // namespace
 
 int main(int argc, char* argv[]) {
@@ -114,6 +143,7 @@ int main(int argc, char* argv[]) {
   TestCurve();
   TestAttackRelease();
   TestDecay();
+  TestDecayRelease();
   std::cout << "PASS" << std::endl;
   return 0;
 }

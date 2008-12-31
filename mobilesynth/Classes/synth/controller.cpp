@@ -64,8 +64,11 @@ float Controller::GetSample() {
   
   sample_ = (sample_ + 1) % sample_rate_;
   float t = sample_ / (float)sample_rate_;
-  return volume_ * volume_envelope_->GetValue() *
+  float value = volume_ * volume_envelope_->GetValue() *
          oscillator_->GetValue(t) * lfo_->GetValue(t);
+  assert(value >= -1);
+  assert(value <= 1);
+  return value;
 }
   
 
