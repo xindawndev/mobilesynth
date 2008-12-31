@@ -56,8 +56,8 @@ void Envelope::NoteOn() {
 
 void Envelope::NoteOff() {
   state_ = RELEASE;
-  release_slope_ = sustain_ / release_;
-  release_start_value_ = std::min(sustain_, last_value_);
+  release_start_value_ = last_value_;
+  release_slope_ = release_start_value_ / release_;
   release_start_ = current_; 
   release_end_ = current_ + release_;
 }
