@@ -13,9 +13,16 @@ Oscillator::Oscillator()
       level_(1.0),
       frequency_(0),
       cents_(0),
-      real_frequency_(0) { }
+      sample_rate_(kDefaultSampleRate),
+      sample_num_(0),
+      period_(0) { }
 
 Oscillator::~Oscillator() { }
+
+void Oscillator::set_sample_rate(long sample_rate) {
+  sample_rate_ = sample_rate;
+  frequency_changed();
+}
 
 void Oscillator::set_wave_type(WaveType wave_type) {
   wave_type_ = wave_type;
@@ -44,11 +51,24 @@ void Oscillator::frequency_changed() {
   // calculate the real frequency difference.
   float octave_width = 2 * frequency_ - frequency_;
   float cent_width = octave_width / 12;
-  real_frequency_ = frequency_ + cents_ * cent_width;
+  float real_frequency = frequency_ + cents_ * cent_width;
+  
+  // Determine the number of samples until a full period is reached.  There
+  // are sample_rate_ samples per second and the frequency is cycles per second
+  // and we want the number of samles per cycle.
+  if (real_frequency == 0) {
+    period_ = 0;
+  } else {
+    period_ = (float)sample_rate_ / real_frequency;
+  }
+  sample_num_ = 0;
 }
   
-float Oscillator::GetValue(float t) {
-  float x = real_frequency_ * t;
+float Oscillator::GetValue() {
+  if (period_ == 0) {
+    return 0;
+  }
+  float x = (sample_num_ / (float)period_);
   float value = 0;
   switch (wave_type_) {
     case SINE:
@@ -71,6 +91,7 @@ float Oscillator::GetValue(float t) {
       assert(false);
       break;
   }
+  sample_num_ = (sample_num_ + 1) % period_;
   return level_ * value;
 }
 

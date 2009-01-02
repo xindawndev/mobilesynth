@@ -7,8 +7,15 @@
 //
 
 #import "AudioOutput.h"
+#import <AudioUnit/AudioUnitProperties.h>
+#import <AudioUnit/AudioOutputUnit.h>
+#import <AudioToolbox/AudioServices.h>
+
 
 @implementation AudioOutput
+
+static const float kSampleRate = 44100.0;
+static const int kOutputBus = 0;
 
 @synthesize sampleDelegate;
 
@@ -25,66 +32,113 @@
   exit(1);
 }
 
-static void playCallback(void *inUserData,
-                         AudioQueueRef inAQ,
-                         AudioQueueBufferRef inputBuffer) {
-  AudioOutput* output = (AudioOutput*)inUserData;
-  [[output sampleDelegate] generateSamples:inputBuffer];
-  OSStatus status = AudioQueueEnqueueBuffer(inAQ, inputBuffer, 0, NULL);
-  if (status != noErr) {
-    [AudioOutput displayErrorAndExit:@"AudioQueueEnqueueBuffer" errorCode:status];
-  }
+static OSStatus playCallback(void *inRefCon,
+                             AudioUnitRenderActionFlags *ioActionFlags,
+                             const AudioTimeStamp *inTimeStamp,
+                             UInt32 inBusNumber,
+                             UInt32 inNumberFrames,
+                             AudioBufferList *ioData) {
+  assert(inBusNumber == kOutputBus);
+  AudioOutput* output = (AudioOutput*)inRefCon;
+  return [[output sampleDelegate] generateSamples:ioData];
 }
 
-- (id) init
-{
-  self = [super init];
-  if (self != nil) {
-    audioFormat_.mSampleRate = 44100.0;
-    audioFormat_.mFormatID = kAudioFormatLinearPCM;
-    audioFormat_.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;
-    audioFormat_.mChannelsPerFrame = 1;
-    audioFormat_.mBitsPerChannel = 8 * sizeof(short);
-    audioFormat_.mBytesPerFrame = sizeof(short);
-    audioFormat_.mFramesPerPacket = 1;
-    audioFormat_.mBytesPerPacket =
-        audioFormat_.mFramesPerPacket * audioFormat_.mBytesPerFrame;
+- (id)init {
+  AudioStreamBasicDescription desc;
+  return [self initWithAudioFormat:&desc];
+}
+
+- (id)initWithAudioFormat:(const AudioStreamBasicDescription*)streamDescription {
+  if ((self = [super init])) {
+    memcpy(&audioFormat, streamDescription, sizeof(AudioStreamBasicDescription));
   }
   return self;
 }
 
 - (void) start {
-  OSStatus status = AudioQueueNewOutput(&audioFormat_, playCallback, self,
-                                        CFRunLoopGetCurrent(),
-                                        kCFRunLoopCommonModes, 0, &queue_);
-  if (status != noErr) {
-    [AudioOutput displayErrorAndExit:@"AudioQueueNewOutput" errorCode:status];
-    return;
+  OSStatus status;
+  // Describe audio component
+  AudioComponentDescription desc;
+  desc.componentType = kAudioUnitType_Output;
+  desc.componentSubType = kAudioUnitSubType_RemoteIO;
+  desc.componentFlags = 0;
+  desc.componentFlagsMask = 0;
+  desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+  
+  // Get component
+  AudioComponent outputComponent = AudioComponentFindNext(NULL, &desc);
+  if (outputComponent == NULL) {
+    [AudioOutput displayErrorAndExit:@"AudioComponentFindNext"
+                           errorCode:0];
   }
   
-  status = AudioQueueReset(queue_);
-  if (status != noErr) {
-    [AudioOutput displayErrorAndExit:@"AudioQueueReset" errorCode:status];
-    return;
+  // Get audio units
+  status = AudioComponentInstanceNew(outputComponent, &audioUnit);
+  if (status) {
+    [AudioOutput displayErrorAndExit:@"AudioComponentInstanceNew"
+                           errorCode:status];
   }
-  // allocate and prime the queue with some data
-  int bufferIndex;
-  for (bufferIndex = 0; bufferIndex < NUM_BUFFERS; ++bufferIndex) {
-    status = AudioQueueAllocateBuffer(queue_, BUFFER_SIZE,
-                                      &buffers_[bufferIndex]); 
-    if (status != noErr) {
-      [AudioOutput displayErrorAndExit:@"AudioQueueAllocateBuffer"
-                             errorCode:status];
-      return;
-    }
-    playCallback(self, queue_, buffers_[bufferIndex]);
+  
+  // Enable playback
+  UInt32 enableIO = 1;
+  status = AudioUnitSetProperty(audioUnit,
+                                kAudioOutputUnitProperty_EnableIO,
+                                kAudioUnitScope_Output,
+                                kOutputBus,
+                                &enableIO,
+                                sizeof(UInt32));
+  if (status) {
+    [AudioOutput displayErrorAndExit:@"AudioUnitSetProperty EnableIO (out)"
+                           errorCode:status];
   }
-  status = AudioQueueStart(queue_, NULL);  
-  if (status != noErr) {
-    [AudioOutput displayErrorAndExit:@"AudioQueueStart" errorCode:status];
-    return;
+   
+  // Apply format
+  status = AudioUnitSetProperty(audioUnit,
+                                kAudioUnitProperty_StreamFormat,
+                                kAudioUnitScope_Input,
+                                kOutputBus,
+                                &audioFormat,
+                                sizeof(AudioStreamBasicDescription));
+  if (status) {
+    [AudioOutput displayErrorAndExit:@"AudioUnitSetProperty StreamFormat"
+                           errorCode:status];
+  }
+  
+  AURenderCallbackStruct callback;
+  callback.inputProc = &playCallback;
+  callback.inputProcRefCon = self;
+
+  // Set output callback
+  status = AudioUnitSetProperty(audioUnit,
+                                kAudioUnitProperty_SetRenderCallback,
+                                kAudioUnitScope_Global,
+                                kOutputBus,
+                                &callback,
+                                sizeof(AURenderCallbackStruct));
+  if (status) {
+    [AudioOutput displayErrorAndExit:@"AudioUnitSetProperty SetRenderCallback"
+                           errorCode:status];
+  } 
+ 
+  status = AudioUnitInitialize(audioUnit);
+  if (status) {
+    [AudioOutput displayErrorAndExit:@"AudioUnitInitialize"
+                           errorCode:status];
+  }
+  
+  status = AudioOutputUnitStart(audioUnit);
+  if (status) {
+    [AudioOutput displayErrorAndExit:@"AudioOutputUnitStart"
+                           errorCode:status];
   }
 }
+
+- (void) dealloc
+{
+  AudioUnitUninitialize(audioUnit);
+  [super dealloc];
+}
+
 
 
 @end

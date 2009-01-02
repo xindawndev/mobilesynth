@@ -1,4 +1,4 @@
-// envelope_test.cpp
+// oscillator_test.cpp
 // Author: Allen Porter <allen@thebends.org>
 
 #include <assert.h>
@@ -13,106 +13,136 @@ namespace {
 
 static void TestSine() {
   synth::Oscillator osc;
+  osc.set_sample_rate(4);
   osc.set_wave_type(synth::Oscillator::SINE);
   osc.set_level(1.0);
   osc.set_frequency(1.0);  // one cycle per second
 
-  ASSERT_DOUBLE_EQ(0.0, osc.GetValue(0));
-  ASSERT_DOUBLE_EQ(1.0, osc.GetValue(0.25));
-  ASSERT_DOUBLE_EQ(0.0, osc.GetValue(0.5));
-  ASSERT_DOUBLE_EQ(-1.0, osc.GetValue(0.75));
-  ASSERT_DOUBLE_EQ(0.0, osc.GetValue(1));
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(0.0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(1.0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-1.0, osc.GetValue());
+  }
 }
 
 static void TestSquare() {
   synth::Oscillator osc;
+  osc.set_sample_rate(7);
   osc.set_wave_type(synth::Oscillator::SQUARE);
-  osc.set_level(1.0);
+  osc.set_level(0.2);
   osc.set_frequency(1.0);  // one cycle per second
 
-  ASSERT_DOUBLE_EQ(-1, osc.GetValue(0));
-  ASSERT_DOUBLE_EQ(1, osc.GetValue(0.25));
-  ASSERT_DOUBLE_EQ(-1, osc.GetValue(0.5));
-  ASSERT_DOUBLE_EQ(-1, osc.GetValue(0.75));
-  ASSERT_DOUBLE_EQ(1, osc.GetValue(1));
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(-0.2, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.2, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.2, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.2, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.2, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.2, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.2, osc.GetValue());
+  }
 }
 
 static void TestSawtooth() {
   synth::Oscillator osc;
+  osc.set_sample_rate(8);
   osc.set_wave_type(synth::Oscillator::SAWTOOTH);
   osc.set_level(1.0);
   osc.set_frequency(1.0);  // one cycle per second
 
-  ASSERT_DOUBLE_EQ(-1, osc.GetValue(0));
-  ASSERT_DOUBLE_EQ(-0.75, osc.GetValue(0.125));
-  ASSERT_DOUBLE_EQ(-0.5, osc.GetValue(0.25));
-  ASSERT_DOUBLE_EQ(-0.25, osc.GetValue(0.375));
-  ASSERT_DOUBLE_EQ(0, osc.GetValue(0.5));
-  ASSERT_DOUBLE_EQ(0.25, osc.GetValue(0.625));
-  ASSERT_DOUBLE_EQ(0.5, osc.GetValue(0.75));
-  ASSERT_DOUBLE_EQ(0.75, osc.GetValue(0.875));
-  ASSERT_DOUBLE_EQ(-1, osc.GetValue(1));
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(-1, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.75, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.5, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.25, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.25, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.5, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.75, osc.GetValue());
+  }
 }
 
 static void TestSawtooth2() {
   synth::Oscillator osc;
+  osc.set_sample_rate(8);
   osc.set_wave_type(synth::Oscillator::SAWTOOTH);
   osc.set_level(1.0);
   osc.set_frequency(2.0);  // two cycles per second
 
-  ASSERT_DOUBLE_EQ(-1.0, osc.GetValue(0));
-  ASSERT_DOUBLE_EQ(-0.5, osc.GetValue(0.125));
-  ASSERT_DOUBLE_EQ(0, osc.GetValue(0.25));
-  ASSERT_DOUBLE_EQ(0.5, osc.GetValue(0.375));
-  ASSERT_DOUBLE_EQ(-1.0, osc.GetValue(0.5));
-  ASSERT_DOUBLE_EQ(-0.5, osc.GetValue(0.625));
-  ASSERT_DOUBLE_EQ(0, osc.GetValue(0.75));
-  ASSERT_DOUBLE_EQ(0.5, osc.GetValue(0.875));
-  ASSERT_DOUBLE_EQ(-1.0, osc.GetValue(1));
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(-1.0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.5, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.5, osc.GetValue());
+  }
 }
 
 static void TestReverseSawtooth() {
   synth::Oscillator osc;
+  osc.set_sample_rate(8);
   osc.set_wave_type(synth::Oscillator::REVERSE_SAWTOOTH);
   osc.set_level(1.0);
   osc.set_frequency(1.0);  // one cycle per second
 
-  ASSERT_DOUBLE_EQ(1, osc.GetValue(0));
-  ASSERT_DOUBLE_EQ(0.75, osc.GetValue(0.125));
-  ASSERT_DOUBLE_EQ(0.5, osc.GetValue(0.25));
-  ASSERT_DOUBLE_EQ(0.25, osc.GetValue(0.375));
-  ASSERT_DOUBLE_EQ(0, osc.GetValue(0.5));
-  ASSERT_DOUBLE_EQ(-0.25, osc.GetValue(0.625));
-  ASSERT_DOUBLE_EQ(-0.5, osc.GetValue(0.75));
-  ASSERT_DOUBLE_EQ(-0.75, osc.GetValue(0.875));
-  ASSERT_DOUBLE_EQ(1, osc.GetValue(1));
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(1, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.75, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.5, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.25, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.25, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.5, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.75, osc.GetValue());
+  }
 }
 
 static void TestTriangle() {
   synth::Oscillator osc;
+  osc.set_sample_rate(8);
   osc.set_wave_type(synth::Oscillator::TRIANGLE);
   osc.set_level(1.0);
   osc.set_frequency(1.0);  // one cycle per second
 
-  ASSERT_DOUBLE_EQ(1.0, osc.GetValue(0));
-  ASSERT_DOUBLE_EQ(0.5, osc.GetValue(0.125));
-  ASSERT_DOUBLE_EQ(0, osc.GetValue(0.25));
-  ASSERT_DOUBLE_EQ(-0.5, osc.GetValue(0.375));
-  ASSERT_DOUBLE_EQ(-1, osc.GetValue(0.5));
-  ASSERT_DOUBLE_EQ(-0.5, osc.GetValue(0.625));
-  ASSERT_DOUBLE_EQ(0, osc.GetValue(0.75));
-  ASSERT_DOUBLE_EQ(0.5, osc.GetValue(0.875));
-  ASSERT_DOUBLE_EQ(1, osc.GetValue(1));
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(1.0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.5, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.5, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-1, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-0.5, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0.5, osc.GetValue());
+  }
+}
+
+static void TestTriangle2() {
+  synth::Oscillator osc;
+  osc.set_sample_rate(8);
+  osc.set_wave_type(synth::Oscillator::TRIANGLE);
+  osc.set_level(1.0);
+  osc.set_frequency(2.0);  // two cycle per second
+
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(1.0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(-1, osc.GetValue());
+    ASSERT_DOUBLE_EQ(0, osc.GetValue());
+  }
 }
 
 static void TestOff() {
   synth::Oscillator osc1;
+  osc1.set_sample_rate(8);
   osc1.set_wave_type(synth::Oscillator::SINE);
   synth::Oscillator osc2;
+  osc2.set_sample_rate(8);
   osc2.set_wave_type(synth::Oscillator::SQUARE);
   synth::Oscillator osc3;
+  osc3.set_sample_rate(8);
   osc3.set_wave_type(synth::Oscillator::TRIANGLE);
   synth::Oscillator osc4;
+  osc4.set_sample_rate(8);
   osc4.set_wave_type(synth::Oscillator::SAWTOOTH);
 
   std::vector<synth::Oscillator*> oscs;
@@ -126,7 +156,7 @@ static void TestOff() {
     osc->set_level(0.0);
     osc->set_frequency(1.0);
     for (int i = 0; i < 10; ++i) {
-      ASSERT_DOUBLE_EQ(0.0, osc->GetValue(i / 10.0));
+      ASSERT_DOUBLE_EQ(0.0, osc->GetValue());
     }
   }
 
@@ -137,10 +167,11 @@ static void TestOff() {
 int main(int argc, char* argv[]) {
   TestSine();
   TestSquare();
+  TestTriangle();
+  TestTriangle2();
   TestSawtooth();
   TestSawtooth2();
   TestReverseSawtooth();
-  TestTriangle();
   TestOff();
   std::cout << "PASS" << std::endl;
   return 0;

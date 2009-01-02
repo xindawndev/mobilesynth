@@ -14,33 +14,11 @@
 namespace synth {
 
 Controller::Controller()
-    : sample_rate_(0),
-      sample_(0),
-      volume_(1.0),
-      oscillator_(NULL),
-      volume_envelope_(NULL),
+    : volume_envelope_(NULL),
       lfo_(NULL) { }
 
-int Controller::sample_rate() {
-  return sample_rate_;
-}
-
-void Controller::set_sample_rate(int sample_rate) {
-  sample_rate_ = sample_rate;
-}
-
-void Controller::set_volume(float volume) {
-  assert(volume >= 0.0);
-  assert(volume <= 1.0);
-  volume_ = volume;
-}
-
-float Controller::volume() {
-  return volume_;
-}
-
-void Controller::set_oscillator(Oscillator* oscillator) {
-  oscillator_ = oscillator;
+void Controller::add_oscillator(Oscillator* oscillator) {
+  oscillators_.push_back(oscillator);
 }
 
 void Controller::set_volume_envelope(Envelope* envelope) {
@@ -58,17 +36,34 @@ void Controller::GetSamples(int num_output_samples, float* output_buffer) {
 }
   
 float Controller::GetSample() {
-  assert(sample_rate_ > 0);
-  assert(oscillator_);
-  assert(volume_envelope_);
+  assert(oscillators_.size() > 0);
+  float volume = 1.0;
+  if (lfo_) {
+    volume *= lfo_->GetValue();
+  }
+  if (volume_envelope_) {
+    volume *= volume_envelope_->GetValue();
+  }
+  assert(volume >= 0);
+  assert(volume <= 1);
   
-  sample_ = (sample_ + 1) % sample_rate_;
-  float t = sample_ / (float)sample_rate_;
-  float value = volume_ * volume_envelope_->GetValue() *
-         oscillator_->GetValue(t) * lfo_->GetValue(t);
-  assert(value >= -1);
-  assert(value <= 1);
-  return value;
+  // Combine oscillators
+  float value = 0;
+  for (size_t i = 0; i < oscillators_.size(); ++i) {
+    value += oscillators_[i]->GetValue();
+  }
+
+  // Clip the combined oscillators
+  if (value > 1.0) {
+    value = 1.0;
+  } else if (value < -1.0) {
+    value = -1.0;
+  }
+  
+  float result = value * volume;
+  assert(result >= -1);
+  assert(result <= 1);
+  return result;
 }
   
 
