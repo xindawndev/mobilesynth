@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "AudioOutput.h"
 #import "KeyboardView.h"
+#import <AudioToolbox/AudioConverter.h>
 
 namespace synth { class Controller; }
-namespace synth { class Combiner; }
 namespace synth { class Envelope; }
 namespace synth { class LFO; }
 namespace synth { class Oscillator; }
@@ -22,6 +22,7 @@ namespace synth { class Oscillator; }
 @class EnvelopeView;
 
 @interface mobilesynthViewController : UIViewController <KeyboardDelegate, SampleGenerator> {
+ @private
   UIScrollView* keyboardScrollView;
   KeyboardView* keyboardImageView;
   UIScrollView* controlScrollView;
@@ -34,13 +35,17 @@ namespace synth { class Oscillator; }
 
   // Synthesizer components
   AudioOutput* output;
-  synth::Combiner* combiner_;
   synth::Oscillator* osc1_;
   synth::Oscillator* osc2_;
   synth::Envelope* envelope_;
   synth::Oscillator* lfo_osc_;
   synth::LFO* lfo_;
   synth::Controller* controller_;
+  
+  AudioStreamBasicDescription generatedFormat;
+  AudioStreamBasicDescription outputFormat;
+  AudioBuffer conversionBuffer;
+  AudioConverterRef audioConverter;
   
   // Used to prevent a feedback loop
   BOOL pageControlUsed;
@@ -58,7 +63,7 @@ namespace synth { class Oscillator; }
 
 - (void)noteBegin:(int)note;
 - (void)noteEnd;
-- (void)generateSamples:(AudioQueueBufferRef)buffer;
+- (OSStatus)generateSamples:(AudioBufferList*)buffers;
 
 // For control panel
 - (IBAction)changePage:(id)sender;

@@ -19,7 +19,7 @@ class LFO {
   void set_oscillator(Oscillator* oscillator);
 
   // Returns an amplitude multiplier from [0, 1].
-  float GetValue(float t);
+  float GetValue();
 
  private:
   float level_;

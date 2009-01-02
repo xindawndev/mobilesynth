@@ -65,7 +65,6 @@ void Envelope::NoteOff() {
 float Envelope::GetValue() {
   current_++;
   float value = 0;
-
   // Check that we haven't transitioned longo the next state
   if (state_ == ATTACK || state_ == DECAY) {
     if (current_ > decay_end_) {

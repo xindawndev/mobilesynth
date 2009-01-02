@@ -24,10 +24,10 @@ void LFO::set_oscillator(Oscillator* oscillator) {
 
 // The oscillator affects the amplitude more as the level is increased, or
 // not at all if the level is zero.
-float LFO::GetValue(float t) {
+float LFO::GetValue() {
   float m = 0.5 * level_;
   float b = 1.0 - m;
-  float value =  m * oscillator_->GetValue(t) + b;
+  float value =  m * oscillator_->GetValue() + b;
   assert(value >= 0);
   assert(value <= 1.0);
   return value;

@@ -22,7 +22,7 @@ class FakeOscillator : public synth::Oscillator {
     value_ = value;
   }
 
-  virtual float GetValue(float t) {
+  virtual float GetValue() {
     return value_;
   }
 
@@ -37,7 +37,7 @@ static void TestNoLevel() {
   synth::LFO mod;
   mod.set_level(0.0);
   mod.set_oscillator(&osc);
-  ASSERT_DOUBLE_EQ(1.0, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(1.0, mod.GetValue()); 
 }
 
 static void TestMaxLevel() {
@@ -48,15 +48,15 @@ static void TestMaxLevel() {
   mod.set_oscillator(&osc);
 
   osc.set_value(-1);
-  ASSERT_DOUBLE_EQ(0.0, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(0.0, mod.GetValue()); 
   osc.set_value(-0.5);
-  ASSERT_DOUBLE_EQ(0.25, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(0.25, mod.GetValue()); 
   osc.set_value(0.0);
-  ASSERT_DOUBLE_EQ(0.5, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(0.5, mod.GetValue()); 
   osc.set_value(0.5);
-  ASSERT_DOUBLE_EQ(0.75, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(0.75, mod.GetValue()); 
   osc.set_value(1.0);
-  ASSERT_DOUBLE_EQ(1.0, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(1.0, mod.GetValue()); 
 }
 
 static void TestMidLevel() {
@@ -67,15 +67,15 @@ static void TestMidLevel() {
   mod.set_oscillator(&osc);
 
   osc.set_value(-1);
-  ASSERT_DOUBLE_EQ(0.8, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(0.8, mod.GetValue()); 
   osc.set_value(-0.5);
-  ASSERT_DOUBLE_EQ(0.85, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(0.85, mod.GetValue()); 
   osc.set_value(0.0);
-  ASSERT_DOUBLE_EQ(0.9, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(0.9, mod.GetValue()); 
   osc.set_value(0.5);
-  ASSERT_DOUBLE_EQ(0.95, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(0.95, mod.GetValue()); 
   osc.set_value(1.0);
-  ASSERT_DOUBLE_EQ(1.0, mod.GetValue(-1)); 
+  ASSERT_DOUBLE_EQ(1.0, mod.GetValue()); 
 }
 
 }  // namespace

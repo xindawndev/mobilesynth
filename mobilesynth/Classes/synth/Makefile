@@ -4,7 +4,7 @@ CC = g++
 CFLAGS = -Wall -Werror -I../ -L.
 .PHONY: all clean test
 
-SRC = oscillator.cpp combiner.cpp envelope.cpp controller.cpp modulation.cpp
+SRC = oscillator.cpp envelope.cpp controller.cpp modulation.cpp filter.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(SUBDIRS) libsynth.a
@@ -24,10 +24,14 @@ envelope_test: libsynth.a envelope_test.o
 modulation_test: libsynth.a modulation_test.o
 	$(CC) -o $@ $(CFLAGS) -lsynth modulation_test.o
 
-test: oscillator_test envelope_test modulation_test
+controller_test: libsynth.a controller_test.o
+	$(CC) -o $@ $(CFLAGS) -lsynth controller_test.o
+
+test: oscillator_test envelope_test modulation_test controller_test
 	./oscillator_test
 	./envelope_test
 	./modulation_test
+	./controller_test
 
 install: libsynth.a
 	cp libsynth.a /usr/local/lib/
