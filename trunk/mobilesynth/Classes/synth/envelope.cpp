@@ -87,7 +87,8 @@ float Envelope::GetValue() {
   switch (state_) {
     case ATTACK:
       value = current_ * attack_slope_;
-      break;
+      value = std::min(value, 1.0f);
+     break;
     case DECAY:
       assert(current_ >= attack_);
       value = 1.0 - (current_ - attack_) * decay_slope_;
@@ -101,6 +102,7 @@ float Envelope::GetValue() {
       assert(current_ >= release_start_);
       value = release_start_value_ -
            (current_ - release_start_) * release_slope_;
+      value = std::max(value, 0.0f);
       break;
     case DONE:
       value = 0.0;
@@ -110,6 +112,8 @@ float Envelope::GetValue() {
       exit(1);
       break;
   }
+  assert(value <= 1);
+  assert(value >= 0);
   last_value_ = value;
   return value;
 }
