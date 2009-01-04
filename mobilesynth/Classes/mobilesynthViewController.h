@@ -15,6 +15,7 @@ namespace synth { class Controller; }
 namespace synth { class Envelope; }
 namespace synth { class LFO; }
 namespace synth { class Oscillator; }
+namespace synth { class LowPass; }
 
 @class OscillatorView;
 @class OscillatorDetailView;
@@ -40,12 +41,10 @@ namespace synth { class Oscillator; }
   synth::Envelope* envelope_;
   synth::Oscillator* lfo_osc_;
   synth::LFO* lfo_;
+  synth::LowPass* filter_;
   synth::Controller* controller_;
   
-  AudioStreamBasicDescription generatedFormat;
   AudioStreamBasicDescription outputFormat;
-  AudioBuffer conversionBuffer;
-  AudioConverterRef audioConverter;
   
   // Used to prevent a feedback loop
   BOOL pageControlUsed;
