@@ -49,10 +49,8 @@ void Oscillator::set_frequency_shift(int cents) {
 void Oscillator::frequency_changed() {
   // One octave is 1200 cents.  Determine the width of each cent, then
   // calculate the real frequency difference.
-  float octave_width = 2 * frequency_ - frequency_;
-  float cent_width = octave_width / 12;
+  float cent_width = frequency_ / 1200;
   float real_frequency = frequency_ + cents_ * cent_width;
-  
   // Determine the number of samples until a full period is reached.  There
   // are sample_rate_ samples per second and the frequency is cycles per second
   // and we want the number of samles per cycle.
