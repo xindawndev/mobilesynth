@@ -27,7 +27,7 @@
     case 2:
       return synth::Oscillator::SAWTOOTH;
     case 3:
-      return synth::Oscillator::REVERSE_SAWTOOTH;
+      return synth::Oscillator::REVERSE_SAWTOOTH;   
     default:
       NSLog(@"Unknown wave type: %d", index);
       return synth::Oscillator::SQUARE;

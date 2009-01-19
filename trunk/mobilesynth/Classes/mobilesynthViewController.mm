@@ -9,6 +9,7 @@
 #import "mobilesynthViewController.h"
 #import "AudioOutput.h"
 #import "EnvelopeView.h"
+#import "FilterView.h"
 #import "KeyboardView.h"
 #import "ModulationView.h"
 #import "OscillatorView.h"
@@ -30,6 +31,7 @@
 @synthesize oscillatorView;
 @synthesize oscillatorDetailView;
 @synthesize modulationView;
+@synthesize filterView;
 @synthesize envelopeView;
 
 
@@ -43,19 +45,18 @@ static float GetFrequencyForNote(int note) {
 }
 
 - (void)noteBegin:(int)note {
-  @synchronized(self) {
-    float freq = GetFrequencyForNote(note);
-    NSLog(@"Note: %d Freq: %f", note, freq);
-    osc1_->set_frequency(freq);
-    osc2_->set_frequency(freq);
-    envelope_->NoteOn();
-  }
+  [self noteChange:note];
+  envelope_->NoteOn();
+}
+
+- (void)noteChange:(int)note {
+  float freq = GetFrequencyForNote(note);
+  osc1_->set_frequency(freq);
+  osc2_->set_frequency(freq);
 }
 
 - (void)noteEnd {
-  @synchronized(self) {
-    envelope_->NoteOff();
-  }
+  envelope_->NoteOff();
 }
 
 
@@ -64,6 +65,7 @@ static float GetFrequencyForNote(int note) {
     [oscillatorView changed:self];
     [oscillatorDetailView changed:self];
     [modulationView changed:self];
+    [filterView changed:self];
     [envelopeView changed:self];
   }
 }
@@ -74,10 +76,10 @@ static float GetFrequencyForNote(int note) {
   AudioBuffer* outputBuffer = &buffers->mBuffers[0];
   SInt32* data = (SInt32*)outputBuffer->mData;
   int samples = outputBuffer->mDataByteSize / sizeof(SInt32);
-  for (int i = 0; i < samples; i++) {
-    // Convert from float to fixed 8.24 by multiplying by 2^24
-    float sample = controller_->GetSample();
-    data[i] = sample * 16777216L;
+  float buffer[samples];
+  controller_->GetFloatSamples(buffer, samples);
+  for (int i = 0; i < samples; ++i) {
+    data[i] = buffer[i] * 16777216L;
   }
   return noErr;
 }
@@ -97,6 +99,7 @@ static float GetFrequencyForNote(int note) {
   [controlViews addObject:oscillatorView];
   [controlViews addObject:oscillatorDetailView];
   [controlViews addObject:modulationView];
+  [controlViews addObject:filterView];
   [controlViews addObject:envelopeView];
   
   for (int i = 0; i < [controlViews count]; ++i) {
@@ -137,7 +140,6 @@ static float GetFrequencyForNote(int note) {
   envelope_ = new synth::Envelope;
   
   filter_ = new synth::LowPass;
-  filter_->set_cutoff(100.0);
   
   // Tie all of the components together with the controller. 
   controller_ = new synth::Controller;
@@ -153,10 +155,10 @@ static float GetFrequencyForNote(int note) {
   [oscillatorDetailView setOsc2:osc2_];
   [modulationView setOsc:lfo_osc_];
   [modulationView setLfo:lfo_];
+  [filterView setFilter:filter_];
   [envelopeView setEnvelope:envelope_];
   
   [self syncControls];
-  
 
   // Initalize all the glue
   [keyboardImageView setKeyboardDelegate:self];

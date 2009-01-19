@@ -13,6 +13,7 @@ namespace synth {
 class Envelope;
 class LFO;
 class Oscillator;
+class Filter;
 
 class Controller {
  public:
@@ -21,16 +22,19 @@ class Controller {
   // The envelope and oscillator must be set before generating samples.
   void add_oscillator(Oscillator* oscillator);
   void set_volume_envelope(Envelope* envelope);
-  // TODO(allen): Filter envelope
   void set_lfo(LFO* lfo);
+  void set_filter(Filter* filter);
 
-  void GetSamples(int num_output_samples, float* output_buffer);
+  // Get a single sample
   float GetSample();
+
+  void GetFloatSamples(float* buffer, int size);
 
  private:
   std::vector<Oscillator*> oscillators_;
   Envelope* volume_envelope_;
   LFO* lfo_;
+  Filter* filter_;
 };
 
 }  // namespace synth
