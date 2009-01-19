@@ -22,6 +22,7 @@ class Controller {
   // The envelope and oscillator must be set before generating samples.
   void add_oscillator(Oscillator* oscillator);
   void set_volume_envelope(Envelope* envelope);
+  void set_filter_envelope(Envelope* envelope);
   void set_lfo(LFO* lfo);
   void set_filter(Filter* filter);
 
@@ -33,6 +34,7 @@ class Controller {
  private:
   std::vector<Oscillator*> oscillators_;
   Envelope* volume_envelope_;
+  Envelope* filter_envelope_;
   LFO* lfo_;
   Filter* filter_;
 };

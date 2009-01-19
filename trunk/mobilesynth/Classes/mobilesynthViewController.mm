@@ -33,6 +33,7 @@
 @synthesize modulationView;
 @synthesize filterView;
 @synthesize envelopeView;
+@synthesize filterEnvelopeView;
 
 
 // Use A above Middle C as the reference frequency
@@ -47,6 +48,7 @@ static float GetFrequencyForNote(int note) {
 - (void)noteBegin:(int)note {
   [self noteChange:note];
   envelope_->NoteOn();
+  filter_envelope_->NoteOn();
 }
 
 - (void)noteChange:(int)note {
@@ -57,6 +59,7 @@ static float GetFrequencyForNote(int note) {
 
 - (void)noteEnd {
   envelope_->NoteOff();
+  filter_envelope_->NoteOff();
 }
 
 
@@ -101,6 +104,7 @@ static float GetFrequencyForNote(int note) {
   [controlViews addObject:modulationView];
   [controlViews addObject:filterView];
   [controlViews addObject:envelopeView];
+  [controlViews addObject:filterEnvelopeView];
   
   for (int i = 0; i < [controlViews count]; ++i) {
     UIView* view = [controlViews objectAtIndex:i];
@@ -138,7 +142,8 @@ static float GetFrequencyForNote(int note) {
   lfo_->set_oscillator(lfo_osc_);
   
   envelope_ = new synth::Envelope;
-  
+  filter_envelope_ = new synth::Envelope;
+
   filter_ = new synth::LowPass;
   
   // Tie all of the components together with the controller. 
@@ -146,6 +151,7 @@ static float GetFrequencyForNote(int note) {
   controller_->add_oscillator(osc1_);
   controller_->add_oscillator(osc2_);
   controller_->set_volume_envelope(envelope_);
+  controller_->set_filter_envelope(filter_envelope_);
   controller_->set_lfo(lfo_);
   controller_->set_filter(filter_);
   
@@ -157,7 +163,8 @@ static float GetFrequencyForNote(int note) {
   [modulationView setLfo:lfo_];
   [filterView setFilter:filter_];
   [envelopeView setEnvelope:envelope_];
-  
+  [filterEnvelopeView setEnvelope:filter_envelope_];
+
   [self syncControls];
 
   // Initalize all the glue

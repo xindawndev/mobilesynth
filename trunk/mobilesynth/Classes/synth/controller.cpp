@@ -27,6 +27,10 @@ void Controller::set_volume_envelope(Envelope* envelope) {
   volume_envelope_ = envelope;
 }
 
+void Controller::set_filter_envelope(Envelope* envelope) {
+  filter_envelope_ = envelope;
+}
+
 void Controller::set_lfo(LFO* lfo) {
   lfo_ = lfo;
 }
@@ -63,9 +67,11 @@ float Controller::GetSample() {
   if (filter_) {
     assert(value >= -1);
     assert(value <= 1);
+    float frequency_offset = filter_envelope_->GetValue();
+    filter_->set_offset(frequency_offset);
     value = filter_->GetValue(value);
-    assert(value >= -1);
-    assert(value <= 1);
+//    assert(value >= -1);
+//    assert(value <= 1);
   }
 
   // Clip the combined oscillators

@@ -15,6 +15,7 @@ class Filter {
   virtual ~Filter();
   
   virtual void set_cutoff(float frequency) = 0;
+  virtual void set_offset(float amount) = 0;
   virtual float GetValue(float x) = 0;
 
  protected:
@@ -28,10 +29,15 @@ class LowPass : public Filter {
   virtual ~LowPass();
 
   virtual void set_cutoff(float frequency);
-  
+  virtual void set_offset(float amount);
   virtual float GetValue(float x);
 
  private:
+  void reset(float frequency);
+
+  float cutoff_;
+  float offset_;
+
   // for input value x[k] and output y[k]
   float x1_;  // input value x[k-1]
   float x2_;  // input value x[k-2]
