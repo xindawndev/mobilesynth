@@ -13,12 +13,25 @@ Filter::Filter() { }
 
 Filter::~Filter() { }
 
-LowPass::LowPass() {
+LowPass::LowPass() : cutoff_(0), offset_(0){
 }
 
 LowPass::~LowPass() { }
 
 void LowPass::set_cutoff(float frequency) {
+  cutoff_ = frequency;  
+  reset(cutoff_ + offset_);
+}
+
+void LowPass::set_offset(float amount) {
+  assert(amount <= 1);
+  assert(amount >= 0);
+  // TODO(allen): How do you come up with the max value?
+  offset_ = amount * 10000;
+  reset(cutoff_ + offset_);
+}
+
+void LowPass::reset(float frequency) {
   // Number of filter passes
   float n = 1;
 
@@ -39,8 +52,8 @@ void LowPass::set_cutoff(float frequency) {
   float fp = c * (f0 / fs);
 
   // Ensure fs is OK for stability constraint
-  assert(fp > 0);
-  assert(fp < 0.125);
+  //assert(fp > 0);
+  //assert(fp < 0.125);
 
   // Warp cutoff freq from analog to digital domain
   float w0 = tanf(M_PI * fp);
