@@ -21,6 +21,7 @@ namespace synth { class LowPass; }
 @class OscillatorDetailView;
 @class ModulationView;
 @class EnvelopeView;
+@class FilterView;
 
 @interface mobilesynthViewController : UIViewController <KeyboardDelegate, SampleGenerator> {
  @private
@@ -32,6 +33,7 @@ namespace synth { class LowPass; }
   OscillatorView* oscillatorView;
   OscillatorDetailView* oscillatorDetailView;
   ModulationView* modulationView;
+  FilterView* filterView;
   EnvelopeView* envelopeView;
 
   // Synthesizer components
@@ -58,6 +60,7 @@ namespace synth { class LowPass; }
 @property (nonatomic, retain) IBOutlet OscillatorView *oscillatorView;
 @property (nonatomic, retain) IBOutlet OscillatorDetailView *oscillatorDetailView;
 @property (nonatomic, retain) IBOutlet ModulationView *modulationView;
+@property (nonatomic, retain) IBOutlet FilterView *filterView;
 @property (nonatomic, retain) IBOutlet EnvelopeView *envelopeView;
 
 - (void)noteBegin:(int)note;

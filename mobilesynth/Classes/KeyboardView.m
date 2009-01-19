@@ -40,7 +40,7 @@
   int note = [self noteAtPoint:point];
   if (note != currentNote) {
     currentNote = note;
-    [keyboardDelegate noteBegin:note];
+    [keyboardDelegate noteChange:note];
   }
 }
 

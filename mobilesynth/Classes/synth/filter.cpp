@@ -2,16 +2,67 @@
 // Author: Allen Porter <allen@thebends.org>
 
 #include "synth/filter.h"
+#include <math.h>
+#include <iostream>
 
 namespace synth {
 
-Filter::Filter()
-    : rc_(0) { }
+static const float kSampleRate = 44100.0;
+
+Filter::Filter() { }
 
 Filter::~Filter() { }
 
-float Filter::GetValue(float t) {
-  return 0;
+LowPass::LowPass() {
+}
+
+LowPass::~LowPass() { }
+
+void LowPass::set_cutoff(float frequency) {
+  // Number of filter passes
+  float n = 1;
+
+  // 3dB cutoff frequency
+  float f0 = frequency;
+
+  // Sample frequency
+  const float fs = 44100.0;
+
+  // 3dB cutoff correction
+  float c = powf(powf(2, 1.0f / n) - 1, -0.25);
+
+  // Polynomial coefficients
+  float g = 1;
+  float p = sqrtf(2);
+
+  // Corrected cutoff frequency
+  float fp = c * (f0 / fs);
+
+  // Ensure fs is OK for stability constraint
+  assert(fp > 0);
+  assert(fp < 0.125);
+
+  // Warp cutoff freq from analog to digital domain
+  float w0 = tanf(M_PI * fp);
+
+  // Calculate the filter co-efficients
+  float k1 = p * w0;
+  float k2 = g * w0 * w0;
+
+  a0_ = k2 / (1 + k1 + k2);
+  a1_ = 2 * a0_;
+  a2_ = a0_;
+  b1_ = 2 * a0_ * (1 / k2 - 1);
+  b2_ = 1 - (a0_ + a1_ + a2_ + b1_);
+}
+
+float LowPass::GetValue(float x) {
+  float y = a0_ * x + a1_ * x1_ + a2_ *  x2_ + b1_ * y1_ + b2_ * y2_;
+  x1_ = x;
+  x2_ = x1_;
+  y2_ = y1_;
+  y1_ = y;
+  return y;
 }
 
 }  // namespace synth

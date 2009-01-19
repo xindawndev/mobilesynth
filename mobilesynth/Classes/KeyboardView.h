@@ -11,6 +11,7 @@
 @protocol KeyboardDelegate
 @required
 - (void)noteBegin:(int)note;
+- (void)noteChange:(int)note;
 - (void)noteEnd;
 @end
 
