@@ -2,12 +2,10 @@
 // Author: Allen Porter <allen@thebends.org>
 
 #include <assert.h>
-#include <math.h>
 #include <iostream>
 #include <vector>
 #include "synth/oscillator.h"
-
-#define ASSERT_DOUBLE_EQ(x, y) (assert(fabs(x - y) < 0.000001))
+#include "synth/test_util.h"
 
 namespace {
 

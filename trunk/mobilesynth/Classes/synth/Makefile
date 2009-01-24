@@ -4,7 +4,8 @@ CC = g++
 CFLAGS = -Wall -Werror -I../ -L.
 .PHONY: all clean test
 
-SRC = oscillator.cpp envelope.cpp controller.cpp modulation.cpp filter.cpp
+SRC = oscillator.cpp envelope.cpp controller.cpp modulation.cpp filter.cpp \
+      parameter.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(SUBDIRS) libsynth.a
@@ -14,6 +15,9 @@ all: $(SUBDIRS) libsynth.a
 
 libsynth.a: $(OBJ)
 	$(AR) rc $@ $(OBJ)
+
+parameter_test: libsynth.a parameter_test.o
+	$(CC) -o $@ $(CFLAGS) -lsynth parameter_test.o
 
 oscillator_test: libsynth.a oscillator_test.o
 	$(CC) -o $@ $(CFLAGS) -lsynth oscillator_test.o
@@ -27,7 +31,9 @@ modulation_test: libsynth.a modulation_test.o
 controller_test: libsynth.a controller_test.o
 	$(CC) -o $@ $(CFLAGS) -lsynth controller_test.o
 
-test: oscillator_test envelope_test modulation_test controller_test
+test: oscillator_test envelope_test modulation_test controller_test \
+      parameter_test
+	./parameter_test
 	./oscillator_test
 	./envelope_test
 	./modulation_test
