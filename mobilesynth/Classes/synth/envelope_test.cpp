@@ -2,11 +2,9 @@
 // Author: Allen Porter <allen@thebends.org>
 
 #include <assert.h>
-#include <math.h>
 #include <iostream>
 #include "synth/envelope.h"
-
-#define ASSERT_DOUBLE_EQ(x, y) (assert(fabs(x - y) < 0.0000001))
+#include "synth/test_util.h"
 
 namespace {
 
