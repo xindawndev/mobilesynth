@@ -13,9 +13,13 @@
 
 @synthesize cutoff;
 @synthesize controller;
+@synthesize frequencyLabel;
 
 - (void)changed:(id)sender {
   controller->set_filter_cutoff([cutoff value]);
+  [frequencyLabel
+   setText:[NSString stringWithFormat:@"%d Hz", (int)[cutoff value]]];
+
 }
 
 @end

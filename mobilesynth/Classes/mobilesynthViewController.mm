@@ -99,8 +99,8 @@ static float GetFrequencyForNote(int note) {
   [controlViews addObject:oscillatorView];
   [controlViews addObject:oscillatorDetailView];
   [controlViews addObject:modulationView];
-  [controlViews addObject:filterView];
   [controlViews addObject:envelopeView];
+  [controlViews addObject:filterView];
   [controlViews addObject:filterEnvelopeView];
   
   for (int i = 0; i < [controlViews count]; ++i) {

@@ -13,7 +13,8 @@
 
 @synthesize lfoRate;
 @synthesize lfoAmount;
-@synthesize lfoWave;
+@synthesize lfoSrc;
+@synthesize lfoDest;
 @synthesize controller;
 
 - (synth::Controller::ModulationSource)sourceForButtonIndex:(int)index {
@@ -32,13 +33,27 @@
   }
 }
 
+- (synth::Controller::ModulationDestination)destForButtonIndex:(int)index {
+  switch (index) {
+    case 0:
+      return synth::Controller::LFO_DEST_FILTER;
+    case 1:
+      return synth::Controller::LFO_DEST_PITCH;
+    case 2:
+      return synth::Controller::LFO_DEST_WAVE;
+    default:
+      NSLog(@"Unknown wave type: %d", index);
+      return  synth::Controller::LFO_DEST_WAVE;
+  }
+}
+
 - (void)changed:(id)sender {
   controller->set_modulation_amount([lfoAmount value]);
   controller->set_modulation_frequency([lfoRate value]);
   controller->set_modulation_source(
-      [self sourceForButtonIndex:[lfoWave selectedSegmentIndex]]);
-  // Tremelo
-  controller->set_modulation_destination(synth::Controller::LFO_DEST_WAVE);
+      [self sourceForButtonIndex:[lfoSrc selectedSegmentIndex]]);
+  controller->set_modulation_destination(
+      [self destForButtonIndex:[lfoDest selectedSegmentIndex]]);
 }
 
 @end

@@ -32,6 +32,7 @@ Controller::Controller()
       osc1_level_(0.0),
       osc2_level_(0.0),
       volume_(1.0),
+      osc_sync_(false),
       modulation_source_(LFO_SRC_SQUARE),
       modulation_destination_(LFO_DEST_WAVE),
       modulation_frequency_(0),
@@ -58,8 +59,8 @@ Controller::Controller()
   modulation_osc_.set_frequency(&modulation_frequency_);
   modulation_.set_oscillator(&modulation_osc_);
   modulation_.set_level(&modulation_amount_);
-        
-  filter_.set_cutoff(&filter_cutoff_);
+
+  filter_.set_cutoff(&filter_cutoff_total_);
 
   reset_routing();
 }
@@ -173,6 +174,10 @@ void Controller::reset_routing() {
       assert(false);
   }
 
+  filter_cutoff_total_.Clear();
+  filter_cutoff_total_.AddParameter(&filter_cutoff_);
+  filter_cutoff_total_.AddParameter(&filter_envelope_);
+
   // Route modulation into the correct pipeline
   switch (modulation_destination_) {
     case LFO_DEST_WAVE:
@@ -186,6 +191,7 @@ void Controller::reset_routing() {
       break;
     case LFO_DEST_FILTER:
       // Modulate the cutoff frequency
+      filter_cutoff_total_.AddParameter(&modulation_);
       break;
     default:
       assert(false);
@@ -218,9 +224,7 @@ float Controller::GetSample() {
   value = fmax(-1, value);
   value = fmin(1, value);
 
-  // Filter
-// TODO(allen): Filter envelope
-//    float frequency_offset = filter_envelope_.GetValue();
+  // Combined filter with envelope/modulation
   value = filter_.GetValue(value);
 
   // Clip!

@@ -13,14 +13,18 @@ namespace synth { class Controller; }
 @interface ModulationView : UIView {
   UISlider* lfoRate;
   UISlider* lfoAmount;
-  UISegmentedControl* lfoWave;
+  UISegmentedControl* lfoSrc;
+  UISegmentedControl* lfoDest;
+
   
   synth::Controller* controller;
 }
 
 @property (nonatomic, retain) IBOutlet UISlider *lfoRate;
 @property (nonatomic, retain) IBOutlet UISlider *lfoAmount;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *lfoWave;
+@property (nonatomic, retain) IBOutlet UISegmentedControl *lfoSrc;
+@property (nonatomic, retain) IBOutlet UISegmentedControl *lfoDest;
+
 @property (nonatomic) IBOutlet synth::Controller *controller;
 
 - (void)changed:(id)sender;
