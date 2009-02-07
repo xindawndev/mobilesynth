@@ -56,6 +56,8 @@ class Controller {
   void set_osc2_octave(OctaveShift octave);
   void set_osc2_shift(int cents);
 
+  void set_osc_sync(bool sync);
+
   Envelope* volume_envelope() { return &volume_envelope_; }
   Envelope* filter_envelope() { return &filter_envelope_; }
 
@@ -119,6 +121,8 @@ class Controller {
   MutableParameter volume_;
   Envelope volume_envelope_;
   MultiplyParameter wave_;
+
+  bool osc_sync_;
 
   ModulationSource modulation_source_;
   ModulationDestination modulation_destination_;
