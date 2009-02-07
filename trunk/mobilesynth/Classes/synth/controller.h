@@ -23,7 +23,8 @@ class Controller {
   // Volume [0, 1.0]
   void set_volume(float volume);
 
-  // Start/Stop playing a note.
+  // Start/Stop playing a note.  These trigger the Attack and Release of the
+  // volume and filter envelopes.
   void NoteOn(int midi_note);
   void NoteOnFrequency(float frequency);  // For testing
   void NoteChange(int midi_note);  // Note changes without release
@@ -74,7 +75,7 @@ class Controller {
     LFO_DEST_WAVE,  // Tremelo
     LFO_DEST_PITCH,  // Vibrato
     LFO_DEST_FILTER,
-    LFO_DEST_OSC2,
+    LFO_DEST_OSC2,  // Ring modulation?
   };
   // TODO(allen): Adjust LFO phase
   void set_modulation_source(ModulationSource source);
@@ -131,13 +132,9 @@ class Controller {
   MutableParameter modulation_amount_;
   LFO modulation_;
 
-//  Note note_;
   MutableParameter filter_cutoff_;
+  MultiplyParameter filter_cutoff_total_;
   Envelope filter_envelope_;
-//  MultiplyParameter filter_cutoff_;
-
-  // TODO(allen): Need a filter envelope
-  //Envelope filter_envelope_;
   LowPass filter_;
 };
 

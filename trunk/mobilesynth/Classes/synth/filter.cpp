@@ -69,7 +69,8 @@ float LowPass::GetValue(float x) {
   // Re-initialize the filter co-efficients if they changed
   float cutoff = cutoff_->GetValue();
   if (cutoff == 0) {
-    return x;
+    // Filtering all frequencies
+    return 0.0;
   }
   if (cutoff != last_cutoff_) {
     reset(cutoff);

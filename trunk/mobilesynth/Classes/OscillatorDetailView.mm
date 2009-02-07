@@ -29,6 +29,7 @@
   [osc2TotalLabel
       setText:[NSString stringWithFormat:@"%d", total]];
   controller->set_osc2_shift(total);
+  NSLog(@"Sync: %d", [oscSync isOn]);
   controller->set_osc_sync([oscSync isOn]);
 }
 
