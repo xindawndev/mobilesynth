@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-namespace synth { class Oscillator; }
+namespace synth { class Controller; }
 
 @interface OscillatorView : UIView {
   UISlider* osc1Level;
@@ -18,8 +18,7 @@ namespace synth { class Oscillator; }
   UISegmentedControl* osc2Wave;
   UISegmentedControl* osc2Octave;
 
-  synth::Oscillator* osc1;
-  synth::Oscillator* osc2;
+  synth::Controller* controller;
 }
 
 @property (nonatomic, retain) IBOutlet UISlider *osc1Level;
@@ -30,8 +29,7 @@ namespace synth { class Oscillator; }
 @property (nonatomic, retain) IBOutlet UISegmentedControl *osc2Wave;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *osc2Octave;
 
-@property (nonatomic) IBOutlet synth::Oscillator *osc1;
-@property (nonatomic) IBOutlet synth::Oscillator *osc2;
+@property (nonatomic) IBOutlet synth::Controller *controller;
 
 - (void)changed:(id)sender;
 

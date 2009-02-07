@@ -15,6 +15,7 @@ namespace synth { class Controller; }
 namespace synth { class Envelope; }
 namespace synth { class LFO; }
 namespace synth { class Oscillator; }
+namespace synth { class Note; }
 namespace synth { class LowPass; }
 
 @class OscillatorView;
@@ -40,13 +41,6 @@ namespace synth { class LowPass; }
   
   // Synthesizer components
   AudioOutput* output;
-  synth::Oscillator* osc1_;
-  synth::Oscillator* osc2_;
-  synth::Envelope* envelope_;
-  synth::Envelope* filter_envelope_;
-  synth::Oscillator* lfo_osc_;
-  synth::LFO* lfo_;
-  synth::LowPass* filter_;
   synth::Controller* controller_;
   
   AudioStreamBasicDescription outputFormat;

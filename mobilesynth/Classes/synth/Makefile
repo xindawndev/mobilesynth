@@ -1,11 +1,11 @@
 ECHO = echo
 INSTALL_DIR = /usr/local
 CC = g++
-CFLAGS = -Wall -Werror -I../ -L.
+CFLAGS = -Wall -Werror -I../ -L. -g
 .PHONY: all clean test
 
 SRC = oscillator.cpp envelope.cpp controller.cpp modulation.cpp filter.cpp \
-      parameter.cpp
+      parameter.cpp lag_processor.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(SUBDIRS) libsynth.a
@@ -16,9 +16,6 @@ all: $(SUBDIRS) libsynth.a
 libsynth.a: $(OBJ)
 	$(AR) rc $@ $(OBJ)
 
-parameter_test: libsynth.a parameter_test.o
-	$(CC) -o $@ $(CFLAGS) -lsynth parameter_test.o
-
 oscillator_test: libsynth.a oscillator_test.o
 	$(CC) -o $@ $(CFLAGS) -lsynth oscillator_test.o
 
@@ -28,16 +25,19 @@ envelope_test: libsynth.a envelope_test.o
 modulation_test: libsynth.a modulation_test.o
 	$(CC) -o $@ $(CFLAGS) -lsynth modulation_test.o
 
+lag_processor_test: libsynth.a lag_processor_test.o
+	$(CC) -o $@ $(CFLAGS) -lsynth lag_processor_test.o
+
 controller_test: libsynth.a controller_test.o
 	$(CC) -o $@ $(CFLAGS) -lsynth controller_test.o
 
 test: oscillator_test envelope_test modulation_test controller_test \
-      parameter_test
-	./parameter_test
+      lag_processor_test
 	./oscillator_test
 	./envelope_test
 	./modulation_test
 	./controller_test
+	./lag_processor_test
 
 install: libsynth.a
 	cp libsynth.a /usr/local/lib/

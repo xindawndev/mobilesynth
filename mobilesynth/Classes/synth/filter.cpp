@@ -13,22 +13,13 @@ Filter::Filter() { }
 
 Filter::~Filter() { }
 
-LowPass::LowPass() : cutoff_(0), offset_(0){
+LowPass::LowPass() : cutoff_(NULL), last_cutoff_(0), x1_(0), x2_(0), y1_(0), y2_(0) {
 }
 
 LowPass::~LowPass() { }
 
-void LowPass::set_cutoff(float frequency) {
-  cutoff_ = frequency;  
-  reset(cutoff_ + offset_);
-}
-
-void LowPass::set_offset(float amount) {
-  assert(amount <= 1);
-  assert(amount >= 0);
-  // TODO(allen): How do you come up with the max value?
-  offset_ = amount * 10000;
-  reset(cutoff_ + offset_);
+void LowPass::set_cutoff(Parameter* cutoff) {
+  cutoff_ = cutoff;
 }
 
 void LowPass::reset(float frequency) {
@@ -51,6 +42,7 @@ void LowPass::reset(float frequency) {
   // Corrected cutoff frequency
   float fp = c * (f0 / fs);
 
+  // TODO(allen): We should probably do more filter passes so that we can ensure  // these stability constraints are met for sufficiently high frequencies.
   // Ensure fs is OK for stability constraint
   //assert(fp > 0);
   //assert(fp < 0.125);
@@ -70,6 +62,20 @@ void LowPass::reset(float frequency) {
 }
 
 float LowPass::GetValue(float x) {
+  if (cutoff_ == NULL) {
+    return x;
+  }
+
+  // Re-initialize the filter co-efficients if they changed
+  float cutoff = cutoff_->GetValue();
+  if (cutoff == 0) {
+    return x;
+  }
+  if (cutoff != last_cutoff_) {
+    reset(cutoff);
+    last_cutoff_ = cutoff;
+  }
+
   float y = a0_ * x + a1_ * x1_ + a2_ *  x2_ + b1_ * y1_ + b2_ * y2_;
   x1_ = x;
   x2_ = x1_;

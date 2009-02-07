@@ -15,6 +15,8 @@
 #ifndef __PARAMETER_H__
 #define __PARAMETER_H__
 
+#include <vector>
+
 namespace synth {
   
 class Parameter {
@@ -30,64 +32,68 @@ class Parameter {
   Parameter() { }
 };
 
-class Frequency : public Parameter {
+// A parameter that always returns a fixed value.  This is mostly used for
+// testing other components with a simple parameter.
+class FixedParameter : public Parameter {
  public:
-  static const float kOctaveCents;
+  FixedParameter(float value);
+  virtual ~FixedParameter();
 
-  Frequency();
-  virtual ~Frequency();
-
-  virtual float GetValue();  
-
-  // Set the base frequency in Hz.
-  void set_frequency(float frequency);
-
-  // Fine tuning adjustment added to the frequency.  The offset is the number of
-  // cents to shift from the frequency.  There are kOctaveCents per octave.
-  void set_offset(int cents);
+  virtual float GetValue();
 
  private:
-  // Update the frequency.  Should be called when any parameters change.
-  void reset_frequency();
-
-  float base_frequency_;
-  float offset_cents_;
-
-  // Calculated from base_frequency + offset
-  float frequency_;
+  float value_;
 };
 
-class Note : public Frequency {
+// A parameter that can be changed.
+class MutableParameter : public Parameter {
  public:
-  // The key number of Middle A (the A above Middle C).
-  static const int kMiddleAKey;
+  MutableParameter(float value);
+  virtual ~MutableParameter();
 
-  Note();
-  virtual ~Note();
-
-  // The key number of the note.  Keys are integers typically between 1 and 88.
-  void set_key(int key);
-
-  // A shift in frequency by the specified amount.  The frequency gets
-  // multiplied by 2^n
-  enum OctaveShift {
-    NONE = 1,
-    OCTAVE_2 = 2,
-    OCTAVE_4 = 4,
-    OCTAVE_8 = 8,
-    OCTAVE_16 = 16
-  };
-
-  // Play the note at the specified octave shift instead of the key
-  // specified.
-  void set_octave(OctaveShift octave);
+  virtual float GetValue();
+  void set_value(float value);
 
  private:
-  // Update the frequency.  Should be called when any parameters change.
-  void reset_key();
+  float value_;
+};
 
-  int key_;
-  OctaveShift octave_;
+// Sums the values of multiple parameters together
+class SumParameter : public Parameter {
+ public:
+  SumParameter();
+  virtual ~SumParameter();
+
+  // Returns the sum of all parameters added with AddParameter
+  virtual float GetValue();
+
+  // Remove all parameters previously added with AddParameter()
+  void Clear();
+
+  // Add a parameter to the stack.
+  void AddParameter(Parameter* parameter);
+
+ private:
+  std::vector<Parameter*> parameters_;
+};
+
+// Multiplies the values of multiple parameters together
+class MultiplyParameter : public Parameter {
+ public:
+  MultiplyParameter();
+  virtual ~MultiplyParameter();
+
+  // Returns the multiplication of all parameters added with AddParameter
+  virtual float GetValue();
+
+  // Remove all parameters previously added with AddParameter()
+  void Clear();
+
+  // Add a parameter to the stack.
+  void AddParameter(Parameter* parameter);
+
+ private:
+  std::vector<Parameter*> parameters_;
 };
 
 }  // namespce synth

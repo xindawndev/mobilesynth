@@ -10,39 +10,21 @@
 
 namespace {
 
-// An oscillator that actually does not oscillate, so that we can test
-// the modulation effect only.
-class FakeOscillator : public synth::Oscillator {
- public:
-  FakeOscillator() : value_(0.0) { }
-
-  void set_value(float value) {
-    value_ = value;
-  }
-
-  virtual float GetValue() {
-    return value_;
-  }
-
- private:
-  float value_;
-};
-
 static void TestNoLevel() {
-  FakeOscillator osc;
-  osc.set_value(0.2);  // ignored
-
+  synth::FixedParameter osc(0.2);
+  synth::FixedParameter level(0.0);
   synth::LFO mod;
-  mod.set_level(0.0);
   mod.set_oscillator(&osc);
+  mod.set_level(&level);
   ASSERT_DOUBLE_EQ(1.0, mod.GetValue()); 
 }
 
 static void TestMaxLevel() {
-  FakeOscillator osc;
+  synth::MutableParameter osc(0.2);
+  synth::FixedParameter level(1.0);
 
   synth::LFO mod;
-  mod.set_level(1.0);
+  mod.set_level(&level);
   mod.set_oscillator(&osc);
 
   osc.set_value(-1);
@@ -58,10 +40,11 @@ static void TestMaxLevel() {
 }
 
 static void TestMidLevel() {
-  FakeOscillator osc;
+  synth::MutableParameter osc(0.0);
+  synth::FixedParameter level(0.2);
 
   synth::LFO mod;
-  mod.set_level(0.2);
+  mod.set_level(&level);
   mod.set_oscillator(&osc);
 
   osc.set_value(-1);

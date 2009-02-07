@@ -7,39 +7,38 @@
 //
 
 #import "ModulationView.h"
-#include "synth/oscillator.h"
-#include "synth/modulation.h"
+#include "synth/controller.h"
 
 @implementation ModulationView
 
 @synthesize lfoRate;
 @synthesize lfoAmount;
 @synthesize lfoWave;
-@synthesize lfo;
-@synthesize osc;
+@synthesize controller;
 
-- (synth::Oscillator::WaveType)waveTypeForButtonIndex:(int)index {
+- (synth::Controller::ModulationSource)sourceForButtonIndex:(int)index {
   switch (index) {
     case 0:
-      return synth::Oscillator::SQUARE;
+      return synth::Controller::LFO_SRC_SQUARE;
     case 1:
-      return synth::Oscillator::TRIANGLE;
+      return synth::Controller::LFO_SRC_TRIANGLE;
     case 2:
-      return synth::Oscillator::SAWTOOTH;
+      return synth::Controller::LFO_SRC_SAWTOOTH;
     case 3:
-      return synth::Oscillator::REVERSE_SAWTOOTH;   
+      return synth::Controller::LFO_SRC_REVERSE_SAWTOOTH;   
     default:
       NSLog(@"Unknown wave type: %d", index);
-      return synth::Oscillator::SQUARE;
+      return  synth::Controller::LFO_SRC_SQUARE;
   }
 }
 
 - (void)changed:(id)sender {
-  osc->set_level(1.0);
-  osc->set_frequency([lfoRate value]);
-  osc->set_wave_type(
-      [self waveTypeForButtonIndex:[lfoWave selectedSegmentIndex]]);
-  lfo->set_level([lfoAmount value]);
+  controller->set_modulation_amount([lfoAmount value]);
+  controller->set_modulation_frequency([lfoRate value]);
+  controller->set_modulation_source(
+      [self sourceForButtonIndex:[lfoWave selectedSegmentIndex]]);
+  // Tremelo
+  controller->set_modulation_destination(synth::Controller::LFO_DEST_WAVE);
 }
 
 @end

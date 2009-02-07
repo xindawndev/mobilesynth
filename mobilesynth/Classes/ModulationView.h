@@ -8,23 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-namespace synth { class Oscillator; }
-namespace synth { class LFO; }
+namespace synth { class Controller; }
 
 @interface ModulationView : UIView {
   UISlider* lfoRate;
   UISlider* lfoAmount;
   UISegmentedControl* lfoWave;
   
-  synth::LFO* lfo;
-  synth::Oscillator* osc;
+  synth::Controller* controller;
 }
 
 @property (nonatomic, retain) IBOutlet UISlider *lfoRate;
 @property (nonatomic, retain) IBOutlet UISlider *lfoAmount;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *lfoWave;
-@property (nonatomic) IBOutlet synth::LFO *lfo;
-@property (nonatomic) IBOutlet synth::Oscillator *osc;
+@property (nonatomic) IBOutlet synth::Controller *controller;
 
 - (void)changed:(id)sender;
 

@@ -1,4 +1,4 @@
-// synth_test.cpp
+// envelope_test.cpp
 // Author: Allen Porter <allen@thebends.org>
 
 #include <assert.h>

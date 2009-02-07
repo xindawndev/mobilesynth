@@ -4,26 +4,26 @@
 #ifndef __MODULATION_H__
 #define __MODULATION_H__
 
+#include "synth/parameter.h"
+
 namespace synth {
 
-class Oscillator;
-
-class LFO {
+class LFO : public Parameter {
  public:
   LFO();
 
   // Set the amount of modulation from [0, 1].
-  void set_level(float level);
+  void set_level(Parameter* level);
 
   // The specified oscillator should have its level set to 1
-  void set_oscillator(Oscillator* oscillator);
+  void set_oscillator(Parameter* oscillator);
 
   // Returns an amplitude multiplier from [0, 1].
   float GetValue();
 
  private:
-  float level_;
-  Oscillator* oscillator_;
+  Parameter* level_;
+  Parameter* oscillator_;
 };
 
 }  // namespace synth
