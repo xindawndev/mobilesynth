@@ -6,59 +6,65 @@
 
 namespace synth {
 
-const float Frequency::kOctaveCents(1200);
+FixedParameter::FixedParameter(float value) : value_(value) { }
 
-Frequency::Frequency() : base_frequency_(1.0), offset_cents_(0) {
-  reset_frequency();
+FixedParameter::~FixedParameter() { }
+
+float FixedParameter::GetValue() {
+  return value_;
 }
 
-Frequency::~Frequency() { }
+MutableParameter::MutableParameter(float value) : value_(value) { }
 
-float Frequency::GetValue() {
-  return frequency_;
+MutableParameter::~MutableParameter() { }
+
+float MutableParameter::GetValue() {
+  return value_;
 }
 
-void Frequency::set_frequency(float frequency) {
-  base_frequency_ = frequency;
-  reset_frequency();
+void MutableParameter::set_value(float value) {
+  value_ = value;
 }
 
-void Frequency::set_offset(int cents) {
-  offset_cents_ = cents;
-  reset_frequency();
+SumParameter::SumParameter() { }
+
+SumParameter::~SumParameter() { }
+
+float SumParameter::GetValue() {
+  float value = 0;
+  for (size_t i = 0; i < parameters_.size(); ++i) {
+    value += parameters_[i]->GetValue();
+  }
+  return value;
 }
 
-void Frequency::reset_frequency() {
-  frequency_ = base_frequency_ * powf(2, offset_cents_ / kOctaveCents);
+void SumParameter::Clear() {
+  parameters_.clear();
 }
 
-// Use A above Middle C as the reference frequency
-const int Note::kMiddleAKey(49);
-static const float kNotesPerOctave = 12.0;
-static const float kMiddleAFrequency = 440.0;
-
-Note::Note() : key_(kMiddleAKey), octave_(NONE) {
-  reset_key();
+void SumParameter::AddParameter(Parameter* parameter) {
+  parameters_.push_back(parameter);
 }
 
-Note::~Note() { }
+MultiplyParameter::MultiplyParameter() { }
 
-void Note::set_key(int key) {
-  key_ = key;
-  reset_key();
+MultiplyParameter::~MultiplyParameter() { }
+
+float MultiplyParameter::GetValue() {
+  float value = (parameters_.size() > 0) ? 1.0 : 0.0;
+  for (size_t i = 0; i < parameters_.size(); ++i) {
+    value *= parameters_[i]->GetValue();
+  }
+  return value;
 }
 
-void Note::set_octave(OctaveShift octave) {
-  octave_ = octave;
-  reset_key();
+void MultiplyParameter::Clear() {
+  parameters_.clear();
 }
 
-void Note::reset_key() {
-  float frequency =
-      kMiddleAFrequency *
-      powf(2, (key_ - kMiddleAKey) / kNotesPerOctave) *
-      octave_;
-  set_frequency(frequency);
+
+void MultiplyParameter::AddParameter(Parameter* parameter) {
+  parameters_.push_back(parameter);
 }
 
 }  // namespace synth

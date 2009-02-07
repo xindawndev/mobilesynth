@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-namespace synth { class Filter; }
+namespace synth { class Controller; }
 
 @interface FilterView : UIView {
   UISlider* cutoff;
-  synth::Filter* filter;
+  synth::Controller* controller;
 }
 
 @property (nonatomic, retain) IBOutlet UISlider *cutoff;
-@property (nonatomic) IBOutlet synth::Filter *filter;
+@property (nonatomic) IBOutlet synth::Controller *controller;
 
 - (void)changed:(id)sender;
 

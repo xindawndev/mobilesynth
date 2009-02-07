@@ -5,68 +5,43 @@
 #include <assert.h>
 #include <math.h>
 #include <iostream>
+#include "synth/parameter.h"
 
 namespace synth {
 
 Oscillator::Oscillator()
     : wave_type_(SINE),
-      level_(1.0),
-      frequency_(0),
-      cents_(0),
+      frequency_(NULL),
       sample_rate_(kDefaultSampleRate),
-      sample_num_(0),
-      period_(0) { }
+      sample_num_(0) { }
 
 Oscillator::~Oscillator() { }
 
 void Oscillator::set_sample_rate(long sample_rate) {
   sample_rate_ = sample_rate;
-  frequency_changed();
 }
 
 void Oscillator::set_wave_type(WaveType wave_type) {
   wave_type_ = wave_type;
 } 
 
-void Oscillator::set_level(float level) {
-  assert(level >= 0.0);
-  assert(level <= 1.0);
-  level_ = level;
-}
-
-void Oscillator::set_frequency(float frequency) {
-  assert(frequency >= 0);
+void Oscillator::set_frequency(Parameter* frequency) {
   frequency_ = frequency;
-  frequency_changed();
-}
-  
-  
-void Oscillator::set_frequency_shift(int cents) {
-  cents_ = cents;
-  frequency_changed();
 }
 
-void Oscillator::frequency_changed() {
-  // One octave is 1200 cents.  Determine the width of each cent, then
-  // calculate the real frequency difference.
-  float cent_width = frequency_ / 1200;
-  float real_frequency = frequency_ + cents_ * cent_width;
-  // Determine the number of samples until a full period is reached.  There
-  // are sample_rate_ samples per second and the frequency is cycles per second
-  // and we want the number of samles per cycle.
-  if (real_frequency == 0) {
-    period_ = 0;
-  } else {
-    period_ = (float)sample_rate_ / real_frequency;
-  }
-  sample_num_ = 0;
-}
-  
 float Oscillator::GetValue() {
-  if (period_ == 0) {
+  if (frequency_ == NULL) {
     return 0;
   }
-  float x = (sample_num_ / (float)period_);
+  float freq = frequency_->GetValue();
+  if (freq == 0) {
+    return 0;
+  }
+  int period_samples = sample_rate_ / freq;
+  if (period_samples == 0) {
+    return 0;
+  }
+  float x = (sample_num_ / (float)period_samples);
   float value = 0;
   switch (wave_type_) {
     case SINE:
@@ -89,8 +64,8 @@ float Oscillator::GetValue() {
       assert(false);
       break;
   }
-  sample_num_ = (sample_num_ + 1) % period_;
-  return level_ * value;
+  sample_num_ = (sample_num_ + 1) % period_samples;
+  return value;
 }
 
 }  // namespace synth

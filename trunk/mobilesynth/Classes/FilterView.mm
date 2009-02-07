@@ -7,15 +7,15 @@
 //
 
 #import "FilterView.h"
-#include "synth/filter.h"
+#include "synth/controller.h"
 
 @implementation FilterView
 
 @synthesize cutoff;
-@synthesize filter;
+@synthesize controller;
 
 - (void)changed:(id)sender {
-  filter->set_cutoff([cutoff value]);
+  controller->set_filter_cutoff([cutoff value]);
 }
 
 @end

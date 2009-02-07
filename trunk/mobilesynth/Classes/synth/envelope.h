@@ -6,9 +6,11 @@
 #ifndef __ENVELOPE_H__
 #define __ENVELOPE_H__
 
+#include "synth/parameter.h"
+
 namespace synth {
 
-class Envelope {
+class Envelope : public Parameter {
  public:
   Envelope();
   virtual ~Envelope();
@@ -19,11 +21,16 @@ class Envelope {
   // samples
   void set_decay(long decay);
 
-  // Sustain Volumne [0.0, 1.0]
+  // Sustain Volumne
   void set_sustain(float sustain);
 
   // samples
   void set_release(long release);
+
+  // The value reached at the peak of the attack (Typically 1.0).
+  void set_max(float max);
+  // The value at the start and release (Typically 0.0).
+  void set_min(float min);
 
   // Invoked when the note is pressed, resets all counters.
   void NoteOn();
@@ -52,6 +59,9 @@ class Envelope {
   long release_start_;
   long release_end_;
   float release_slope_;
+
+  float min_;
+  float max_;
 
   long current_;  // sample
   float last_value_;

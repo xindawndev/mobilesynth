@@ -7,7 +7,7 @@
 //
 
 #import "OscillatorView.h"
-#include "synth/oscillator.h"
+#include "synth/controller.h"
 
 @implementation OscillatorView
 
@@ -18,8 +18,7 @@
 @synthesize osc2Wave;
 @synthesize osc2Octave;
 
-@synthesize osc1;
-@synthesize osc2;
+@synthesize controller;
 
 - (synth::Oscillator::WaveType)waveTypeForButtonIndex:(int)index {
   switch (index) {
@@ -37,18 +36,39 @@
   }
 }
 
-- (void)changed:(id)sender {
-  if (!osc1 || !osc2) {
-    return;
+- (synth::Controller::OctaveShift)octaveForButtonIndex:(int)index {
+  switch (index) {
+    case 0:
+      return synth::Controller::OCTAVE_1;
+    case 1:
+      return synth::Controller::OCTAVE_2;
+    case 2:
+      return synth::Controller::OCTAVE_4;
+    case 3:
+      return synth::Controller::OCTAVE_8;
+    case 4:
+      return synth::Controller::OCTAVE_16;
+    default:
+      NSLog(@"Unknown wave type: %d", index);
+      return synth::Controller::OCTAVE_1;
   }
+}
+
+
+- (void)changed:(id)sender {
+  // OSC 1
+  controller->set_osc1_level([osc1Level value]);
+  controller->set_osc1_wave_type(
+      [self waveTypeForButtonIndex:[osc1Wave selectedSegmentIndex]]);
+  controller->set_osc1_octave(
+      [self octaveForButtonIndex:[osc1Octave selectedSegmentIndex]]);
   
-  // TODO(allen): Set octave
-  osc1->set_level([osc1Level value]);
-  osc1->set_wave_type(
-      [self waveTypeForButtonIndex: [osc1Wave selectedSegmentIndex]]);
-  osc2->set_level([osc2Level value]);
-  osc2->set_wave_type(
-      [self waveTypeForButtonIndex: [osc2Wave selectedSegmentIndex]]);
+  // OSC 2
+  controller->set_osc2_level([osc2Level value]);
+  controller->set_osc2_wave_type(
+      [self waveTypeForButtonIndex:[osc2Wave selectedSegmentIndex]]);
+  controller->set_osc2_octave(
+      [self octaveForButtonIndex:[osc2Octave selectedSegmentIndex]]);
 }
 
 @end

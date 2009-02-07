@@ -8,27 +8,22 @@
 #include "synth/envelope.h"
 #include "synth/modulation.h"
 #include "synth/oscillator.h"
+#include "synth/parameter.h"
 #include "synth/test_util.h"
 
 namespace {
 
 static void TestController() {
-  synth::Oscillator osc;
-  osc.set_sample_rate(16);
-  osc.set_wave_type(synth::Oscillator::TRIANGLE);
-  osc.set_level(0.5);
-  osc.set_frequency(2);  // two cycles per second
-
-  synth::Envelope env;
-  env.set_attack(0);
-  env.set_decay(0);
-  env.set_sustain(1.0);
-  env.set_release(0);
-
   synth::Controller controller;
-  controller.add_oscillator(&osc);
-  controller.set_volume_envelope(&env);
-  env.NoteOn();
+  controller.set_osc1_level(0.5);
+  controller.set_osc1_wave_type(synth::Oscillator::TRIANGLE);
+  controller.set_sample_rate(16);
+
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(0.0, controller.GetSample());
+  }
+
+  controller.NoteOnFrequency(2);  // 2 cycles per second
 
   for (int i = 0; i < 10; ++i) {
     ASSERT_DOUBLE_EQ(0.5, controller.GetSample());
@@ -42,7 +37,7 @@ static void TestController() {
   }
 
   // Silence
-  env.NoteOff();
+  controller.NoteOff();
   for (int i = 0; i < 10; i++) {
     ASSERT_DOUBLE_EQ(0.0, controller.GetSample());
   }

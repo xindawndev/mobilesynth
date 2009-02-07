@@ -19,6 +19,7 @@
 #include "synth/modulation.h"
 #include "synth/oscillator.h"
 #include "synth/filter.h"
+#include "synth/parameter.h"
 
 
 @implementation mobilesynthViewController
@@ -47,19 +48,15 @@ static float GetFrequencyForNote(int note) {
 
 - (void)noteBegin:(int)note {
   [self noteChange:note];
-  envelope_->NoteOn();
-  filter_envelope_->NoteOn();
+  controller_->NoteOn(note);
 }
 
 - (void)noteChange:(int)note {
-  float freq = GetFrequencyForNote(note);
-  osc1_->set_frequency(freq);
-  osc2_->set_frequency(freq);
+  controller_->NoteChange(note);
 }
 
 - (void)noteEnd {
-  envelope_->NoteOff();
-  filter_envelope_->NoteOff();
+  controller_->NoteOff();
 }
 
 
@@ -133,38 +130,15 @@ static float GetFrequencyForNote(int note) {
   // TODO(allen): Start at the middle of the keyboard (Scroll to key?)
   // TODO(allen): Set this to disable scrolling, and enable sliding.
   [keyboardScrollView setScrollEnabled:NO];
-  
-  osc1_ = new synth::Oscillator;
-  osc2_ = new synth::Oscillator;
-  
-  lfo_osc_ = new synth::Oscillator;
-  lfo_ = new synth::LFO;
-  lfo_->set_oscillator(lfo_osc_);
-  
-  envelope_ = new synth::Envelope;
-  filter_envelope_ = new synth::Envelope;
 
-  filter_ = new synth::LowPass;
-  
-  // Tie all of the components together with the controller. 
   controller_ = new synth::Controller;
-  controller_->add_oscillator(osc1_);
-  controller_->add_oscillator(osc2_);
-  controller_->set_volume_envelope(envelope_);
-  controller_->set_filter_envelope(filter_envelope_);
-  controller_->set_lfo(lfo_);
-  controller_->set_filter(filter_);
-  
-  // Link the synth objects to their UI controllers
-  [oscillatorView setOsc1:osc1_];
-  [oscillatorView setOsc2:osc2_];
-  [oscillatorDetailView setOsc2:osc2_];
-  [modulationView setOsc:lfo_osc_];
-  [modulationView setLfo:lfo_];
-  [filterView setFilter:filter_];
-  [envelopeView setEnvelope:envelope_];
-  [filterEnvelopeView setEnvelope:filter_envelope_];
-
+  [oscillatorView setController:controller_];
+  [oscillatorDetailView setController:controller_];
+  [modulationView setController:controller_];
+  [filterView setController:controller_];
+  [envelopeView setEnvelope:controller_->volume_envelope()];
+  [filterEnvelopeView setEnvelope:controller_->filter_envelope()];
+    
   [self syncControls];
 
   // Initalize all the glue
@@ -199,12 +173,6 @@ static float GetFrequencyForNote(int note) {
 - (void)dealloc {
   [output dealloc];
   delete controller_;
-  delete envelope_;
-  delete filter_;
-  delete lfo_osc_;
-  delete lfo_;
-  delete osc1_;
-  delete osc2_;
   [super dealloc];
 }
 

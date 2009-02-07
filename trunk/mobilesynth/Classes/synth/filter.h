@@ -7,15 +7,20 @@
 #define __FILTER_H__
 
 #include <vector>
+#include "synth/parameter.h"
 
 namespace synth {
 
+// Interface for a filter based on some cutoff frequency (usually high or low
+// pass).  The input value is a sample and the output value is a new sample
+// at that time.
 class Filter {
  public:
   virtual ~Filter();
-  
-  virtual void set_cutoff(float frequency) = 0;
-  virtual void set_offset(float amount) = 0;
+
+  // The cutoff frequency of the filter.
+  virtual void set_cutoff(Parameter* cutoff) = 0;
+
   virtual float GetValue(float x) = 0;
 
  protected:
@@ -28,15 +33,17 @@ class LowPass : public Filter {
   LowPass();
   virtual ~LowPass();
 
-  virtual void set_cutoff(float frequency);
-  virtual void set_offset(float amount);
+  virtual void set_cutoff(Parameter* cutoff);
+
   virtual float GetValue(float x);
 
  private:
   void reset(float frequency);
 
-  float cutoff_;
-  float offset_;
+  Parameter* cutoff_;
+  // Used to keep the last value of the frequency cutoff.  If it changes, we
+  // need to re-initialize the filter co-efficients.
+  float last_cutoff_;
 
   // for input value x[k] and output y[k]
   float x1_;  // input value x[k-1]

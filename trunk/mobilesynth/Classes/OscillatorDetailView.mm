@@ -7,7 +7,7 @@
 //
 
 #import "OscillatorDetailView.h"
-#include "synth/oscillator.h"
+#include "synth/controller.h"
 
 @implementation OscillatorDetailView
 
@@ -16,7 +16,7 @@
 @synthesize osc2TotalLabel;
 @synthesize osc2SemitonesLabel;
 @synthesize osc2CentsLabel;
-@synthesize osc2;
+@synthesize controller;
 
 - (void)changed:(id)sender {
   int total = (int)[osc2Cents value] + 100 * (int)[osc2Semitones value];
@@ -27,7 +27,7 @@
       setText:[NSString stringWithFormat:@"%d", (int)[osc2Cents value]]];
   [osc2TotalLabel
       setText:[NSString stringWithFormat:@"%d CENTS", total]];
-  osc2->set_frequency_shift(total);
+  controller->set_osc2_shift(total);
 }
 
 @end
