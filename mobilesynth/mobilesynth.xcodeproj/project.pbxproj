@@ -37,7 +37,6 @@
 		2C61D7390F020AC800ECE3A2 /* sustain.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C61D7380F020AC800ECE3A2 /* sustain.png */; };
 		2C61D73C0F020FE200ECE3A2 /* release.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C61D73B0F020FE200ECE3A2 /* release.png */; };
 		2C68C41C0F02CCDE00C57532 /* keyboard-max.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C68C41B0F02CCDE00C57532 /* keyboard-max.png */; };
-		2C766D990F3E28FD009135A8 /* frequency.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C766D930F3E28FD009135A8 /* frequency.cpp */; };
 		2C766D9A0F3E28FD009135A8 /* lag_processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C766D950F3E28FD009135A8 /* lag_processor.cpp */; };
 		2C766D9B0F3E28FD009135A8 /* parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C766D970F3E28FD009135A8 /* parameter.cpp */; };
 		2C80E89E0EF4773C0083E440 /* KeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C80E89D0EF4773C0083E440 /* KeyboardView.m */; };
@@ -89,8 +88,6 @@
 		2C61D7380F020AC800ECE3A2 /* sustain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sustain.png; path = images/sustain.png; sourceTree = "<group>"; };
 		2C61D73B0F020FE200ECE3A2 /* release.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = release.png; path = images/release.png; sourceTree = "<group>"; };
 		2C68C41B0F02CCDE00C57532 /* keyboard-max.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "keyboard-max.png"; path = "images/keyboard-max.png"; sourceTree = "<group>"; };
-		2C766D930F3E28FD009135A8 /* frequency.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = frequency.cpp; path = synth/frequency.cpp; sourceTree = "<group>"; };
-		2C766D940F3E28FD009135A8 /* frequency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = frequency.h; path = synth/frequency.h; sourceTree = "<group>"; };
 		2C766D950F3E28FD009135A8 /* lag_processor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = lag_processor.cpp; path = synth/lag_processor.cpp; sourceTree = "<group>"; };
 		2C766D960F3E28FD009135A8 /* lag_processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lag_processor.h; path = synth/lag_processor.h; sourceTree = "<group>"; };
 		2C766D970F3E28FD009135A8 /* parameter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parameter.cpp; path = synth/parameter.cpp; sourceTree = "<group>"; };
@@ -198,8 +195,6 @@
 		2C1BA2070EFDEF29008008AD /* synth */ = {
 			isa = PBXGroup;
 			children = (
-				2C766D930F3E28FD009135A8 /* frequency.cpp */,
-				2C766D940F3E28FD009135A8 /* frequency.h */,
 				2C766D950F3E28FD009135A8 /* lag_processor.cpp */,
 				2C766D960F3E28FD009135A8 /* lag_processor.h */,
 				2C766D970F3E28FD009135A8 /* parameter.cpp */,
@@ -315,7 +310,6 @@
 				2C61D5FF0F01DD2B00ECE3A2 /* OscillatorDetailView.mm in Sources */,
 				2C0145DA0F0DB00400B7A68C /* filter.cpp in Sources */,
 				2C5B31670F2517A800C1D86F /* FilterView.mm in Sources */,
-				2C766D990F3E28FD009135A8 /* frequency.cpp in Sources */,
 				2C766D9A0F3E28FD009135A8 /* lag_processor.cpp in Sources */,
 				2C766D9B0F3E28FD009135A8 /* parameter.cpp in Sources */,
 			);

@@ -16,6 +16,7 @@
 @synthesize osc2TotalLabel;
 @synthesize osc2SemitonesLabel;
 @synthesize osc2CentsLabel;
+@synthesize oscSync;
 @synthesize controller;
 
 - (void)changed:(id)sender {
@@ -26,8 +27,9 @@
   [osc2CentsLabel
       setText:[NSString stringWithFormat:@"%d", (int)[osc2Cents value]]];
   [osc2TotalLabel
-      setText:[NSString stringWithFormat:@"%d CENTS", total]];
+      setText:[NSString stringWithFormat:@"%d", total]];
   controller->set_osc2_shift(total);
+  controller->set_osc_sync([oscSync isOn]);
 }
 
 @end

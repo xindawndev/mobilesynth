@@ -123,6 +123,10 @@ void Controller::set_osc2_octave(OctaveShift octave) {
 void Controller::set_osc2_shift(int cents) {
   osc2_fine_.set_value(powf(2, cents / kOctaveCents));
 }
+
+void Controller::set_osc_sync(bool sync) {
+  osc_sync_ = sync;
+}
   
 void Controller::set_glide_rate(long rate) {
   key_frequency_.set_rate(rate);
@@ -199,6 +203,14 @@ void Controller::GetFloatSamples(float* buffer, int size) {
 }
 
 float Controller::GetSample() {
+  if (osc_sync_) {
+    // If the first oscillator is at the start of its period, reset the second
+    // oscillator so that it is also at the start of its period.
+    if (osc1_.IsStart()) {
+      osc2_.Reset();
+    }
+  }
+
   // Combined oscillators, volume/envelope/modulation
   float value = wave_.GetValue();
 

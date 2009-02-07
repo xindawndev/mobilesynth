@@ -16,6 +16,9 @@ namespace synth { class Controller; }
   UILabel* osc2SemitonesLabel;
   UILabel* osc2CentsLabel;
   UILabel* osc2TotalLabel;
+  
+  UISwitch* oscSync;
+   
   synth::Controller* controller;
 }
 
@@ -24,6 +27,8 @@ namespace synth { class Controller; }
 @property (nonatomic, retain) IBOutlet UILabel *osc2SemitonesLabel;
 @property (nonatomic, retain) IBOutlet UILabel *osc2CentsLabel;
 @property (nonatomic, retain) IBOutlet UILabel *osc2TotalLabel;
+
+@property (nonatomic, retain) IBOutlet UISwitch *oscSync;
 
 @property (nonatomic) IBOutlet synth::Controller *controller;
 

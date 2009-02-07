@@ -110,7 +110,7 @@ float Envelope::GetValue() {
       assert(value > 0.0);  // Handled in DECAY
       break;
     case RELEASE:
-      assert(current_ >= release_start_);
+      //assert(current_ >= release_start_);
       value = release_start_value_ -
            (current_ - release_start_) * release_slope_;
       value = std::max(value, min_);
@@ -123,8 +123,6 @@ float Envelope::GetValue() {
       exit(1);
       break;
   }
-  assert(value <= max_);
-  assert(value >= min_);
   last_value_ = value;
   return value;
 }

@@ -18,6 +18,8 @@ namespace synth { class Controller; }
   UISegmentedControl* osc2Wave;
   UISegmentedControl* osc2Octave;
 
+  UISlider* glideAmount;
+
   synth::Controller* controller;
 }
 
@@ -28,6 +30,8 @@ namespace synth { class Controller; }
 @property (nonatomic, retain) IBOutlet UISlider *osc2Level;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *osc2Wave;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *osc2Octave;
+
+@property (nonatomic, retain) IBOutlet UISlider *glideAmount;
 
 @property (nonatomic) IBOutlet synth::Controller *controller;
 

@@ -35,7 +35,11 @@ class Oscillator : public Parameter {
   // returned value is in the range [-1.0, 1.0].
   virtual float GetValue();
 
-  // TODO(allen): Expose controls to let us do sync between oscillators
+  // Start at the beginning of the period
+  void Reset() { sample_num_ = 0; }
+
+  // Returns true if this is the first sample in the period
+  bool IsStart() { return (sample_num_ == 0); }
 
  private:
   WaveType wave_type_;

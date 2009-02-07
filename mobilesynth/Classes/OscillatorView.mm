@@ -18,7 +18,16 @@
 @synthesize osc2Wave;
 @synthesize osc2Octave;
 
+@synthesize glideAmount;
+
 @synthesize controller;
+
+static const float kSampleRate = 44100.0;
+
+- (long)samples:(float)seconds {
+  float result = kSampleRate * seconds;
+  return (long)result;
+}
 
 - (synth::Oscillator::WaveType)waveTypeForButtonIndex:(int)index {
   switch (index) {
@@ -69,6 +78,8 @@
       [self waveTypeForButtonIndex:[osc2Wave selectedSegmentIndex]]);
   controller->set_osc2_octave(
       [self octaveForButtonIndex:[osc2Octave selectedSegmentIndex]]);
+
+  controller->set_glide_rate([self samples:[glideAmount value]]);
 }
 
 @end
