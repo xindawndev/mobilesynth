@@ -16,10 +16,10 @@
 @synthesize frequencyLabel;
 
 - (void)changed:(id)sender {
+  // TODO(allen): It seems like it would be more natural to make this log scale
   controller->set_filter_cutoff([cutoff value]);
   [frequencyLabel
-   setText:[NSString stringWithFormat:@"%d Hz", (int)[cutoff value]]];
-
+      setText:[NSString stringWithFormat:@"%d Hz", (int)[cutoff value]]];
 }
 
 @end
