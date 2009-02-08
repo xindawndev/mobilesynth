@@ -39,11 +39,11 @@ Controller::Controller()
       modulation_amount_(0),
       filter_cutoff_(0.0) {
   // Osc1: Combine the keyboard frequency (post glide) and the oscillator shift
-  osc1_frequency_.AddParameter(&key_frequency_);
+  osc1_frequency_.AddParameter(&frequency_);
   osc1_frequency_.AddParameter(&osc1_octave_shift_);
   osc1_.set_frequency(&osc1_frequency_);
   // Osc2: Combine the keyboard frequency (post glide) and the oscillator shift
-  osc2_frequency_.AddParameter(&key_frequency_);
+  osc2_frequency_.AddParameter(&frequency_);
   osc2_frequency_.AddParameter(&osc2_fine_);  // fine tuning
   osc2_frequency_.AddParameter(&osc2_octave_shift_);
   osc2_.set_frequency(&osc2_frequency_);
@@ -152,6 +152,9 @@ void Controller::set_modulation_destination(ModulationDestination dest) {
 }
 
 void Controller::reset_routing() {
+  frequency_.Clear();
+  frequency_.AddParameter(&key_frequency_);
+
   wave_.Clear();
   wave_.AddParameter(&osc_);
   wave_.AddParameter(&volume_envelope_);
@@ -181,13 +184,12 @@ void Controller::reset_routing() {
   // Route modulation into the correct pipeline
   switch (modulation_destination_) {
     case LFO_DEST_WAVE:
-      // Modulate the volume
+      // Modulate the volume (tremelo)
       wave_.AddParameter(&modulation_);
       break;
     case LFO_DEST_PITCH:
-      // Modulate the frequency
-      // TODO(allen): adjust pitch -- what does that mean?
-      //osc2_frequency_.AddParameter(&modulation_);
+      // Modulate the frequency (vibrato)
+      frequency_.AddParameter(&modulation_);
       break;
     case LFO_DEST_FILTER:
       // Modulate the cutoff frequency

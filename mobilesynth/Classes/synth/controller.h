@@ -67,17 +67,19 @@ class Controller {
     LFO_SRC_TRIANGLE,
     LFO_SRC_SAWTOOTH,
     LFO_SRC_REVERSE_SAWTOOTH,
-// TODO(allen): What do these mean?
-//    FILTER_ENVELOPE,
+// TODO(allen): How do you determine the sustain length?
+// Is it sustain = period - (attack + decay + release)?
+//    LFO_FILTER_ENVELOPE,
+// TODO(allen): OSC2 needs a manual frequency control for this to work, i think.
 //    OSC2,
   };
   enum ModulationDestination {
     LFO_DEST_WAVE,  // Tremelo
     LFO_DEST_PITCH,  // Vibrato
     LFO_DEST_FILTER,
-    LFO_DEST_OSC2,  // Ring modulation?
+    // TODO(allen): Is this Ring modulation?
+    // LFO_DEST_OSC2,
   };
-  // TODO(allen): Adjust LFO phase
   void set_modulation_source(ModulationSource source);
   void set_modulation_destination(ModulationDestination dest);
   void set_modulation_amount(float amount);
@@ -100,6 +102,8 @@ class Controller {
   MutableParameter keyboard_frequency_;
   // Keyboard frequency plus glide
   LagProcessor key_frequency_;
+  // Keyboard frequency, including any modulation
+  MultiplyParameter frequency_;
 
   // Combine the key_frequency_ and the oscillator shifts into the frequencies
   // for each oscillator.
