@@ -67,6 +67,7 @@ static float GetFrequencyForNote(int note) {
     [modulationView changed:self];
     [filterView changed:self];
     [envelopeView changed:self];
+    [filterEnvelopeView changed: self];
   }
 }
 
