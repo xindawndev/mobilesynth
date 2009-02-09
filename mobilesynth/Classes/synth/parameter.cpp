@@ -31,8 +31,12 @@ SumParameter::SumParameter() { }
 SumParameter::~SumParameter() { }
 
 float SumParameter::GetValue() {
+  size_t s = parameters_.size();
+  if (s == 0) {
+    return 0.0;
+  }
   float value = 0;
-  for (size_t i = 0; i < parameters_.size(); ++i) {
+  for (size_t i = 0; i < s; ++i) {
     value += parameters_[i]->GetValue();
   }
   return value;
@@ -51,8 +55,12 @@ MultiplyParameter::MultiplyParameter() { }
 MultiplyParameter::~MultiplyParameter() { }
 
 float MultiplyParameter::GetValue() {
-  float value = (parameters_.size() > 0) ? 1.0 : 0.0;
-  for (size_t i = 0; i < parameters_.size(); ++i) {
+  size_t s = parameters_.size();
+  if (s == 0) {
+    return 0.0;
+  }
+  float value = 1.0;
+  for (size_t i = 0; i < s; ++i) {
     value *= parameters_[i]->GetValue();
   }
   return value;

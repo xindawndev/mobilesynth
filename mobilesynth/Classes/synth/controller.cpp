@@ -13,8 +13,6 @@
 
 namespace synth {
   
-const float kOctaveCents(1200);
-
 static const int kMiddleAKey(49);
 static const float kNotesPerOctave = 12.0;
 static const float kMiddleAFrequency = 440.0;
@@ -24,13 +22,7 @@ static float KeyToFrequency(int key) {
 }
 
 Controller::Controller()
-    : keyboard_frequency_(0),
-      key_frequency_(&keyboard_frequency_),
-      osc1_octave_shift_(OCTAVE_1),
-      osc2_fine_(1.0),
-      osc2_octave_shift_(OCTAVE_1),
-      osc1_level_(0.0),
-      osc2_level_(0.0),
+    : combined_osc_(&osc1_, &osc2_),
       volume_(1.0),
       osc_sync_(false),
       modulation_source_(LFO_SRC_SQUARE),
@@ -38,24 +30,6 @@ Controller::Controller()
       modulation_frequency_(0),
       modulation_amount_(0),
       filter_cutoff_(0.0) {
-  // Osc1: Combine the keyboard frequency (post glide) and the oscillator shift
-  osc1_frequency_.AddParameter(&frequency_);
-  osc1_frequency_.AddParameter(&osc1_octave_shift_);
-  osc1_.set_frequency(&osc1_frequency_);
-  // Osc2: Combine the keyboard frequency (post glide) and the oscillator shift
-  osc2_frequency_.AddParameter(&frequency_);
-  osc2_frequency_.AddParameter(&osc2_fine_);  // fine tuning
-  osc2_frequency_.AddParameter(&osc2_octave_shift_);
-  osc2_.set_frequency(&osc2_frequency_);
-  // Oscillator levels
-  osc1_output_.AddParameter(&osc1_);
-  osc1_output_.AddParameter(&osc1_level_);
-  osc2_output_.AddParameter(&osc2_);
-  osc2_output_.AddParameter(&osc2_level_);
-  // Sum the oscillators
-  osc_.AddParameter(&osc1_output_);
-  osc_.AddParameter(&osc2_output_);
-        
   modulation_osc_.set_frequency(&modulation_frequency_);
   modulation_.set_oscillator(&modulation_osc_);
   modulation_.set_level(&modulation_amount_);
@@ -81,7 +55,7 @@ void Controller::NoteOn(int note) {
 }
 
 void Controller::NoteOnFrequency(float frequency) {
-  keyboard_frequency_.set_value(frequency);
+  combined_osc_.set_keyboard_frequency(frequency);
   volume_envelope_.NoteOn();
   filter_envelope_.NoteOn();
 }
@@ -89,7 +63,7 @@ void Controller::NoteOnFrequency(float frequency) {
 void Controller::NoteChange(int note) {
   assert(note >= 1);
   assert(note <= 88);
-  keyboard_frequency_.set_value(KeyToFrequency(note));
+  combined_osc_.set_keyboard_frequency(KeyToFrequency(note));
 }
 
 void Controller::NoteOff() {
@@ -98,7 +72,7 @@ void Controller::NoteOff() {
 }
 
 void Controller::set_osc1_level(float level) {
-  osc1_level_.set_value(level);
+  combined_osc_.set_osc1_level(level);
 }
 
 void Controller::set_osc1_wave_type(Oscillator::WaveType wave_type) {
@@ -106,11 +80,11 @@ void Controller::set_osc1_wave_type(Oscillator::WaveType wave_type) {
 }
 
 void Controller::set_osc1_octave(OctaveShift octave) {
-  osc1_octave_shift_.set_value(octave);
+  combined_osc_.set_osc1_octave((int)octave);
 }
 
 void Controller::set_osc2_level(float level) {
-  osc2_level_.set_value(level);
+  combined_osc_.set_osc2_level(level);
 }
 
 void Controller::set_osc2_wave_type(Oscillator::WaveType wave_type) {
@@ -118,19 +92,19 @@ void Controller::set_osc2_wave_type(Oscillator::WaveType wave_type) {
 }
 
 void Controller::set_osc2_octave(OctaveShift octave) {
-  osc2_octave_shift_.set_value(octave);
+  combined_osc_.set_osc2_octave((int)octave);
 }
   
 void Controller::set_osc2_shift(int cents) {
-  osc2_fine_.set_value(powf(2, cents / kOctaveCents));
+  combined_osc_.set_osc2_shift(cents);
 }
 
 void Controller::set_osc_sync(bool sync) {
-  osc_sync_ = sync;
+  combined_osc_.set_osc_sync(sync);
 }
   
 void Controller::set_glide_rate(long rate) {
-  key_frequency_.set_rate(rate);
+  combined_osc_.set_glide_rate(rate);
 }
 
 void Controller::set_modulation_amount(float amount) {
@@ -152,11 +126,8 @@ void Controller::set_modulation_destination(ModulationDestination dest) {
 }
 
 void Controller::reset_routing() {
-  frequency_.Clear();
-  frequency_.AddParameter(&key_frequency_);
-
   wave_.Clear();
-  wave_.AddParameter(&osc_);
+  wave_.AddParameter(&combined_osc_);
   wave_.AddParameter(&volume_envelope_);
   wave_.AddParameter(&volume_);
 
@@ -177,9 +148,12 @@ void Controller::reset_routing() {
       assert(false);
   }
 
+  // Reset the destinations
   filter_cutoff_total_.Clear();
   filter_cutoff_total_.AddParameter(&filter_cutoff_);
   filter_cutoff_total_.AddParameter(&filter_envelope_);
+
+  combined_osc_.set_frequency_modulation(NULL);
 
   // Route modulation into the correct pipeline
   switch (modulation_destination_) {
@@ -189,7 +163,7 @@ void Controller::reset_routing() {
       break;
     case LFO_DEST_PITCH:
       // Modulate the frequency (vibrato)
-      frequency_.AddParameter(&modulation_);
+      combined_osc_.set_frequency_modulation(&modulation_);
       break;
     case LFO_DEST_FILTER:
       // Modulate the cutoff frequency
@@ -211,12 +185,8 @@ void Controller::GetFloatSamples(float* buffer, int size) {
 }
 
 float Controller::GetSample() {
-  if (osc_sync_) {
-    // If the first oscillator is at the start of its period, reset the second
-    // oscillator so that it is also at the start of its period.
-    if (osc1_.IsStart()) {
-      osc2_.Reset();
-    }
+  if (volume_envelope_.released() || filter_envelope_.released()) {
+    return 0;
   }
 
   // Combined oscillators, volume/envelope/modulation

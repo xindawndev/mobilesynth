@@ -6,6 +6,9 @@
 #include "synth/parameter.h"
 #include "synth/envelope.h"
 
+#ifndef __LAG_PROCESSOR_H__
+#define __LAG_PROCESSOR_H__
+
 namespace synth {
 
 class LagProcessor : public Parameter {
@@ -31,3 +34,5 @@ class LagProcessor : public Parameter {
 };
 
 }  // namespace
+
+#endif  // __LOG_PROCESSOR_H__

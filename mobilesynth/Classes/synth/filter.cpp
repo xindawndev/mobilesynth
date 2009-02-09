@@ -22,7 +22,7 @@ void LowPass::set_cutoff(Parameter* cutoff) {
   cutoff_ = cutoff;
 }
 
-void LowPass::reset(float frequency) {
+void LowPass::reset(float frequency) {  
   // Number of filter passes
   float n = 1;
 
@@ -72,7 +72,7 @@ float LowPass::GetValue(float x) {
     // Filtering all frequencies
     return 0.0;
   }
-  if (cutoff != last_cutoff_) {
+  if (fabs(cutoff - last_cutoff_) > 0.001) {
     reset(cutoff);
     last_cutoff_ = cutoff;
   }

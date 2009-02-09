@@ -7,6 +7,7 @@
 #define __OSCILLATOR_H__
 
 #include "synth/parameter.h"
+#include "synth/lag_processor.h"
 
 namespace synth {
 
@@ -43,12 +44,65 @@ class Oscillator : public Parameter {
 
  private:
   WaveType wave_type_;
-  Parameter* level_;
   Parameter* frequency_;
 
   long sample_rate_;  
   long sample_num_;
 };
+
+// Groups logic related to running the oscillators from keyboard input.
+class KeyboardOscillator : public Parameter {
+ public:
+  KeyboardOscillator(Oscillator* osc1, Oscillator* osc2);
+  virtual ~KeyboardOscillator();
+
+  void set_keyboard_frequency(float freq) { base_frequency_ = freq; }
+  void set_glide_rate(long samples) { key_frequency_.set_rate(samples); }
+
+  // Multiple to the specified octave
+  void set_osc1_octave(float multiply) { osc1_octave_ = multiply; }
+  void set_osc2_octave(float multiply) { osc2_octave_ = multiply; }
+
+  void set_osc1_level(float level) { osc1_level_ = level; }
+  void set_osc2_level(float level) { osc2_level_ = level; }
+
+  // Number of cents to shift osc2
+  void set_osc2_shift(int cents) { osc2_shift_ = cents; }
+
+  // Sync osc2 to osc1 (master)
+  void set_osc_sync(bool sync) { sync_ = sync; }
+
+  // Can be NUL to disable frequency modulation, otherwise a multiplier of the
+  // current frequency intended to change over time.
+  void set_frequency_modulation(Parameter* parameter) {
+    frequency_modulation_ = parameter;
+  }
+
+  // Return the value of the combine oscillators
+  virtual float GetValue();
+
+ private:
+  // Changed on key press
+  MutableParameter base_frequency_;
+  // Glide between notes
+  LagProcessor key_frequency_;
+
+  float osc1_octave_;
+  float osc2_octave_;
+  float osc1_level_;
+  float osc2_level_;
+  int osc2_shift_;
+
+  MutableParameter osc1_freq_;
+  MutableParameter osc2_freq_;
+  Parameter* frequency_modulation_;
+
+  bool sync_;
+
+  Oscillator* osc1_;
+  Oscillator* osc2_;
+};
+
 
 }  // namespace synth
 

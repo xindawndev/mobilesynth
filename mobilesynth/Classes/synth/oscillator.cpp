@@ -34,7 +34,7 @@ float Oscillator::GetValue() {
     return 0;
   }
   float freq = frequency_->GetValue();
-  if (freq == 0) {
+  if (freq < 0.01) {
     return 0;
   }
   long period_samples = sample_rate_ / freq;
@@ -63,6 +63,48 @@ float Oscillator::GetValue() {
   }
   sample_num_ = (sample_num_ + 1) % period_samples;
   return value;
+}
+
+
+KeyboardOscillator::KeyboardOscillator(Oscillator* osc1, Oscillator* osc2)
+  : base_frequency_(0),
+    key_frequency_(&base_frequency_),
+    osc1_octave_(1),
+    osc2_octave_(1),
+    osc1_level_(0),
+    osc2_level_(0),
+    osc2_shift_(0),
+    osc1_freq_(0),
+    osc2_freq_(0),
+    frequency_modulation_(NULL),
+    sync_(false),
+    osc1_(osc1),
+    osc2_(osc2) {
+  osc1_->set_frequency(&osc1_freq_);
+  osc2_->set_frequency(&osc2_freq_);
+}
+
+const float kOctaveCents(1200);
+
+KeyboardOscillator::~KeyboardOscillator() { }
+
+float KeyboardOscillator::GetValue() {
+  float root_note = key_frequency_.GetValue(); 
+  if (frequency_modulation_) {
+    root_note *= frequency_modulation_->GetValue();
+  }
+  osc1_freq_.set_value(root_note * osc1_octave_);
+  float osc2_freq = root_note * osc2_octave_;
+  if (osc2_shift_ != 0) {
+    osc2_freq *= powf(2, osc2_shift_ / kOctaveCents);
+  }
+  osc2_freq_.set_value(osc2_freq);
+
+  float value = osc1_level_ * osc1_->GetValue() +
+                osc2_level_ * osc2_->GetValue();
+  // Clip
+  value = fmin(value, 1.0);
+  return fmax(value, -1.0);
 }
 
 }  // namespace synth
