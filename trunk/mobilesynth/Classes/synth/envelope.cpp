@@ -73,6 +73,10 @@ void Envelope::NoteOff() {
   release_end_ = current_ + release_;
 }
 
+bool Envelope::released() const {
+  return (state_ == DONE);
+}    
+  
 float Envelope::GetValue() {
   current_++;
   float value = 0;

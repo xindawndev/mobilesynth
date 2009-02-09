@@ -29,7 +29,12 @@ class Controller {
   void NoteOnFrequency(float frequency);  // For testing
   void NoteChange(int midi_note);  // Note changes without release
   void NoteOff();
-
+  
+  // True when nothing is playing
+  bool released() const {
+    return (volume_envelope_.released() || filter_envelope_.released());
+  }
+  
   void set_sample_rate(float sample_rate);  // For testing
 
   // A shift in frequency by the specified amount.  The frequency gets
@@ -93,36 +98,18 @@ class Controller {
   float GetSample();
 
   void GetFloatSamples(float* buffer, int size);
-
+  
  private:
   // Invoked when one of the routing parameters changes, such as the source
   // or destination of modulation.
   void reset_routing();
 
-  MutableParameter keyboard_frequency_;
-  // Keyboard frequency plus glide
-  LagProcessor key_frequency_;
-  // Keyboard frequency, including any modulation
-  MultiplyParameter frequency_;
-
-  // Combine the key_frequency_ and the oscillator shifts into the frequencies
-  // for each oscillator.
-  MutableParameter osc1_octave_shift_;
-  MultiplyParameter osc1_frequency_;
-  
-  MutableParameter osc2_fine_;
-  MutableParameter osc2_octave_shift_;
-  MultiplyParameter osc2_frequency_;
-
   Oscillator osc1_;
-  MutableParameter osc1_level_;
-  MultiplyParameter osc1_output_;
-
   Oscillator osc2_;
-  MutableParameter osc2_level_;
-  MultiplyParameter osc2_output_;
 
-  SumParameter osc_;
+  // The two oscillators combined
+  KeyboardOscillator combined_osc_;
+
   MutableParameter volume_;
   Envelope volume_envelope_;
   MultiplyParameter wave_;

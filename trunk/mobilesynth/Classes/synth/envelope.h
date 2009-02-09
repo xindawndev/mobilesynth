@@ -41,8 +41,8 @@ class Envelope : public Parameter {
   // be called when Done() returns false.
   virtual float GetValue();
 
-  // Number of samples from start to end of release.
-  long period();
+  // True when the note has finished playing.
+  bool released() const;
 
  private:
   enum State {
