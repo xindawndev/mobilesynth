@@ -112,6 +112,7 @@ class Controller {
 
   MutableParameter volume_;
   Envelope volume_envelope_;
+  // TODO(aporter): Replace MultiplyParameter with a concrete implementation
   MultiplyParameter wave_;
 
   bool osc_sync_;
@@ -124,6 +125,7 @@ class Controller {
   LFO modulation_;
 
   MutableParameter filter_cutoff_;
+  // TODO(aporter): Replace MultiplyParameter with a concrete implementation
   MultiplyParameter filter_cutoff_total_;
   Envelope filter_envelope_;
   LowPass filter_;

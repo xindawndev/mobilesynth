@@ -93,6 +93,9 @@ class KeyboardOscillator : public Parameter {
   float osc2_level_;
   int osc2_shift_;
 
+  int last_osc2_shift_;
+  float osc2_shift_multiple_;
+
   MutableParameter osc1_freq_;
   MutableParameter osc2_freq_;
   Parameter* frequency_modulation_;
