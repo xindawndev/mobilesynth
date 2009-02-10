@@ -32,11 +32,11 @@ static void TestSquare() {
   osc.set_wave_type(synth::Oscillator::SQUARE);
   osc.set_frequency(&freq);
 
-  for (int i = 0; i < 10; ++i) {
+ for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(1.0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(1.0, osc.GetValue());
+    ASSERT_DOUBLE_EQ(1.0, osc.GetValue());
     ASSERT_DOUBLE_EQ(-1.0, osc.GetValue());
-    ASSERT_DOUBLE_EQ(1.0, osc.GetValue());
-    ASSERT_DOUBLE_EQ(1.0, osc.GetValue());
-    ASSERT_DOUBLE_EQ(1.0, osc.GetValue());
     ASSERT_DOUBLE_EQ(-1.0, osc.GetValue());
     ASSERT_DOUBLE_EQ(-1.0, osc.GetValue());
     ASSERT_DOUBLE_EQ(-1.0, osc.GetValue());

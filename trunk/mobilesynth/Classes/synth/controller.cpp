@@ -29,7 +29,7 @@ Controller::Controller()
       modulation_destination_(LFO_DEST_WAVE),
       modulation_frequency_(0),
       modulation_amount_(0),
-      filter_cutoff_(0.0) {
+      filter_cutoff_(-1.0) {
   modulation_osc_.set_frequency(&modulation_frequency_);
   modulation_.set_oscillator(&modulation_osc_);
   modulation_.set_level(&modulation_amount_);

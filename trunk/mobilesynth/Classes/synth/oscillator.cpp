@@ -42,10 +42,13 @@ float Oscillator::GetValue() {
   float value = 0;
   switch (wave_type_) {
     case SINE:
-    case SQUARE:
       value = sinf(2.0 * M_PI * x);
-      if (wave_type_ == SQUARE) {
-        value = (value > 0) ? 1.0 : -1.0;
+      break;
+    case SQUARE:
+      if (sample_num_ < (period_samples / 2)) {
+        value = 1.0;
+      } else {
+        value = -1.0;
       }
       break;
     case TRIANGLE:
