@@ -99,7 +99,11 @@ float KeyboardOscillator::GetValue() {
   osc1_freq_.set_value(root_note * osc1_octave_);
   float osc2_freq = root_note * osc2_octave_;
   if (osc2_shift_ != 0) {
-    osc2_freq *= powf(2, osc2_shift_ / kOctaveCents);
+    if (osc2_shift_ != last_osc2_shift_) {
+      osc2_shift_multiple_ = powf(2, osc2_shift_ / kOctaveCents);
+      last_osc2_shift_ = osc2_shift_;
+    }
+    osc2_freq *= osc2_shift_multiple_;
   }
   osc2_freq_.set_value(osc2_freq);
 
