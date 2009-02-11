@@ -7,7 +7,7 @@
 
 namespace synth {
 
-static const float kSampleRate = 44100.0;
+static const float kSampleRate = 44100.0f;
 
 Filter::Filter() { }
 
@@ -30,7 +30,7 @@ void LowPass::reset(float frequency) {
   float f0 = frequency;
 
   // Sample frequency
-  const float fs = 44100.0;
+  const float fs = 44100.0f;
 
   // 3dB cutoff correction
   float c = powf(powf(2, 1.0f / n) - 1, -0.25);
@@ -68,13 +68,13 @@ float LowPass::GetValue(float x) {
 
   // Re-initialize the filter co-efficients if they changed
   float cutoff = cutoff_->GetValue();
-  if (cutoff < 0) {
+  if (cutoff < 0.0f) {
     return x;
-  } else if (cutoff < 0.001) {
+  } else if (cutoff < 0.001f) {
     // Filtering all frequencies
-    return 0.0;
+    return 0.0f;
   }
-  if (fabs(cutoff - last_cutoff_) > 0.001) {
+  if (fabs(cutoff - last_cutoff_) > 0.001f) {
     reset(cutoff);
     last_cutoff_ = cutoff;
   }

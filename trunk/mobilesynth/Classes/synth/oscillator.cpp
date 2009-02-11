@@ -31,34 +31,34 @@ void Oscillator::set_frequency(Parameter* frequency) {
 
 float Oscillator::GetValue() {
   if (frequency_ == NULL) {
-    return 0;
+    return 0.0f;
   }
   float freq = frequency_->GetValue();
-  if (freq < 0.01) {
-    return 0;
+  if (freq < 0.01f) {
+    return 0.0f;
   }
   long period_samples = sample_rate_ / freq;
   float x = (sample_num_ / (float)period_samples);
   float value = 0;
   switch (wave_type_) {
     case SINE:
-      value = sinf(2.0 * M_PI * x);
+      value = sinf(2.0f * M_PI * x);
       break;
     case SQUARE:
       if (sample_num_ < (period_samples / 2)) {
-        value = 1.0;
+        value = 1.0f;
       } else {
-        value = -1.0;
+        value = -1.0f;
       }
       break;
     case TRIANGLE:
-      value = (2 * fabs(2.0 * x - 2 * floor(x) - 1) - 1);
+      value = (2.0f * fabs(2.0f * x - 2.0f * floor(x) - 1.0f) - 1.0f);
       break;
     case SAWTOOTH:
-      value = 2 * (x - floor(x) - 0.5);
+      value = 2.0f * (x - floor(x) - 0.5f);
       break;
     case REVERSE_SAWTOOTH:
-      value = 2 * (floor(x) - x + 0.5);
+      value = 2.0f * (floor(x) - x + 0.5f);
       break;
     default:
       assert(false);
@@ -110,8 +110,8 @@ float KeyboardOscillator::GetValue() {
   float value = osc1_level_ * osc1_->GetValue() +
                 osc2_level_ * osc2_->GetValue();
   // Clip
-  value = fmin(value, 1.0);
-  return fmax(value, -1.0);
+  value = fminf(value, 1.0f);
+  return fmaxf(value, -1.0f);
 }
 
 }  // namespace synth

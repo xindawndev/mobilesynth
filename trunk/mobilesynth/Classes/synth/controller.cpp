@@ -14,8 +14,8 @@
 namespace synth {
   
 static const int kMiddleAKey(49);
-static const float kNotesPerOctave = 12.0;
-static const float kMiddleAFrequency = 440.0;
+static const float kNotesPerOctave = 12.0f;
+static const float kMiddleAFrequency = 440.0f;
 
 static float KeyToFrequency(int key) {
   return kMiddleAFrequency * powf(2, (key - kMiddleAKey) / kNotesPerOctave);
@@ -26,8 +26,8 @@ Controller::Controller()
       osc_sync_(false),
       modulation_source_(LFO_SRC_SQUARE),
       modulation_destination_(LFO_DEST_WAVE),
-      modulation_frequency_(0),
-      modulation_amount_(0) {
+      modulation_frequency_(0.0f),
+      modulation_amount_(0.0f) {
   modulation_osc_.set_frequency(&modulation_frequency_);
   modulation_.set_oscillator(&modulation_osc_);
   modulation_.set_level(&modulation_amount_);
@@ -183,20 +183,20 @@ float Controller::GetSample() {
   // Combined oscillators, volume/envelope/modulation
   float value = combined_osc_.GetValue();
   // Clip!
-  value = fmax(-1, value);
-  value = fmin(1, value);
+  value = fmaxf(-1.0f, value);
+  value = fminf(1.0f, value);
   // Combined filter with envelope/modulation
   value = filter_.GetValue(value);
   // Clip!
-  value = fmax(-1, value);
-  value = fmin(1, value);
+  value = fmaxf(-1.0f, value);
+  value = fminf(1.0f, value);
   // Adjust volume
   value *= volume_.GetValue();
   return value;
 }
 
 
-Volume::Volume() : level_(1.0),
+Volume::Volume() : level_(1.0f),
                    modulation_(NULL) { }
 
 Volume::~Volume() { }
