@@ -8,6 +8,7 @@
 
 #include <vector>
 #include "synth/parameter.h"
+#include "synth/envelope.h"
 
 namespace synth {
 
@@ -58,6 +59,25 @@ class LowPass : public Filter {
   float b1_;
   float b2_;
   float b3_;
+};
+
+// Encapsulates the logic for calculating the filter cutoff frequency
+class FilterCutoff : public Parameter {
+ public:
+  FilterCutoff();
+  virtual ~FilterCutoff();
+
+  virtual float GetValue();
+
+  void set_cutoff(float cutoff) { cutoff_ = cutoff; }
+  void set_modulation(Parameter* param) { modulation_ = param; }
+  Envelope* envelope() { return &envelope_; }
+
+ private:
+  // base
+  float cutoff_;
+  Envelope envelope_;
+  Parameter* modulation_;
 };
 
 }  // namespace synth

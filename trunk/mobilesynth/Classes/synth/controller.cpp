@@ -23,24 +23,22 @@ static float KeyToFrequency(int key) {
 
 Controller::Controller()
     : combined_osc_(&osc1_, &osc2_),
-      volume_(1.0),
       osc_sync_(false),
       modulation_source_(LFO_SRC_SQUARE),
       modulation_destination_(LFO_DEST_WAVE),
       modulation_frequency_(0),
-      modulation_amount_(0),
-      filter_cutoff_(-1.0) {
+      modulation_amount_(0) {
   modulation_osc_.set_frequency(&modulation_frequency_);
   modulation_.set_oscillator(&modulation_osc_);
   modulation_.set_level(&modulation_amount_);
 
-  filter_.set_cutoff(&filter_cutoff_total_);
+  filter_.set_cutoff(&filter_cutoff_);
 
   reset_routing();
 }
 
 void Controller::set_volume(float volume) {
-  volume_.set_value(volume);
+  volume_.set_level(volume);
 }
 
 void Controller::set_sample_rate(float sample_rate) {
@@ -56,8 +54,8 @@ void Controller::NoteOn(int note) {
 
 void Controller::NoteOnFrequency(float frequency) {
   combined_osc_.set_keyboard_frequency(frequency);
-  volume_envelope_.NoteOn();
-  filter_envelope_.NoteOn();
+  volume_envelope()->NoteOn();
+  filter_envelope()->NoteOn();
 }
 
 void Controller::NoteChange(int note) {
@@ -67,8 +65,8 @@ void Controller::NoteChange(int note) {
 }
 
 void Controller::NoteOff() {
-  volume_envelope_.NoteOff();
-  filter_envelope_.NoteOff();
+  volume_envelope()->NoteOff();
+  filter_envelope()->NoteOff();
 }
 
 void Controller::set_osc1_level(float level) {
@@ -126,11 +124,6 @@ void Controller::set_modulation_destination(ModulationDestination dest) {
 }
 
 void Controller::reset_routing() {
-  wave_.Clear();
-  wave_.AddParameter(&combined_osc_);
-  wave_.AddParameter(&volume_envelope_);
-  wave_.AddParameter(&volume_);
-
   switch (modulation_source_) {
     case LFO_SRC_SQUARE:
       modulation_osc_.set_wave_type(Oscillator::SQUARE);
@@ -149,17 +142,15 @@ void Controller::reset_routing() {
   }
 
   // Reset the destinations
-  filter_cutoff_total_.Clear();
-  filter_cutoff_total_.AddParameter(&filter_cutoff_);
-  filter_cutoff_total_.AddParameter(&filter_envelope_);
-
+  volume_.set_modulation(NULL);
+  filter_cutoff_.set_modulation(NULL);
   combined_osc_.set_frequency_modulation(NULL);
 
   // Route modulation into the correct pipeline
   switch (modulation_destination_) {
     case LFO_DEST_WAVE:
       // Modulate the volume (tremelo)
-      wave_.AddParameter(&modulation_);
+      volume_.set_modulation(&modulation_);
       break;
     case LFO_DEST_PITCH:
       // Modulate the frequency (vibrato)
@@ -167,7 +158,7 @@ void Controller::reset_routing() {
       break;
     case LFO_DEST_FILTER:
       // Modulate the cutoff frequency
-      filter_cutoff_total_.AddParameter(&modulation_);
+      filter_cutoff_.set_modulation(&modulation_);
       break;
     default:
       assert(false);
@@ -175,7 +166,7 @@ void Controller::reset_routing() {
 }
 
 void Controller::set_filter_cutoff(float frequency) {
-  filter_cutoff_.set_value(frequency);
+  filter_cutoff_.set_cutoff(frequency);
 }
 
 void Controller::GetFloatSamples(float* buffer, int size) {
@@ -185,24 +176,36 @@ void Controller::GetFloatSamples(float* buffer, int size) {
 }
 
 float Controller::GetSample() {
-  if (volume_envelope_.released() || filter_envelope_.released()) {
+  if (volume_envelope()->released() || filter_envelope()->released()) {
     return 0;
   }
 
   // Combined oscillators, volume/envelope/modulation
-  float value = wave_.GetValue();
-
+  float value = combined_osc_.GetValue();
   // Clip!
   value = fmax(-1, value);
   value = fmin(1, value);
-
   // Combined filter with envelope/modulation
   value = filter_.GetValue(value);
-
   // Clip!
   value = fmax(-1, value);
   value = fmin(1, value);
+  // Adjust volume
+  value *= volume_.GetValue();
+  return value;
+}
 
+
+Volume::Volume() : level_(1.0),
+                   modulation_(NULL) { }
+
+Volume::~Volume() { }
+
+float Volume::GetValue() {
+  float value = level_ * envelope_.GetValue();
+  if (modulation_) {
+    value *= modulation_->GetValue();
+  }
   return value;
 }
   
