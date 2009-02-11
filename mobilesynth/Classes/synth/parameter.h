@@ -58,44 +58,6 @@ class MutableParameter : public Parameter {
   float value_;
 };
 
-// Sums the values of multiple parameters together
-class SumParameter : public Parameter {
- public:
-  SumParameter();
-  virtual ~SumParameter();
-
-  // Returns the sum of all parameters added with AddParameter
-  virtual float GetValue();
-
-  // Remove all parameters previously added with AddParameter()
-  void Clear();
-
-  // Add a parameter to the stack.
-  void AddParameter(Parameter* parameter);
-
- private:
-  std::vector<Parameter*> parameters_;
-};
-
-// Multiplies the values of multiple parameters together
-class MultiplyParameter : public Parameter {
- public:
-  MultiplyParameter();
-  virtual ~MultiplyParameter();
-
-  // Returns the multiplication of all parameters added with AddParameter
-  virtual float GetValue();
-
-  // Remove all parameters previously added with AddParameter()
-  void Clear();
-
-  // Add a parameter to the stack.
-  void AddParameter(Parameter* parameter);
-
- private:
-  std::vector<Parameter*> parameters_;
-};
-
 }  // namespce synth
 
 #endif  // __PARAMETER_H__

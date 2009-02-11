@@ -16,6 +16,24 @@
 
 namespace synth {
 
+class Volume : public Parameter {
+ public:
+  Volume();
+  virtual ~Volume();
+
+  virtual float GetValue();
+
+  void set_level(float level) { level_ = level; }
+  void set_modulation(Parameter* param) { modulation_ = param; }
+  Envelope* envelope() { return &envelope_; }
+
+ private:
+  // base
+  float level_;
+  Envelope envelope_;
+  Parameter* modulation_;
+};
+
 class Controller {
  public:
   Controller();
@@ -31,8 +49,8 @@ class Controller {
   void NoteOff();
   
   // True when nothing is playing
-  bool released() const {
-    return (volume_envelope_.released() || filter_envelope_.released());
+  bool released() {
+    return (volume_envelope()->released() || filter_envelope()->released());
   }
   
   void set_sample_rate(float sample_rate);  // For testing
@@ -64,8 +82,8 @@ class Controller {
 
   void set_osc_sync(bool sync);
 
-  Envelope* volume_envelope() { return &volume_envelope_; }
-  Envelope* filter_envelope() { return &filter_envelope_; }
+  Envelope* volume_envelope() { return volume_.envelope(); }
+  Envelope* filter_envelope() { return filter_cutoff_.envelope(); }
 
   enum ModulationSource {
     LFO_SRC_SQUARE,
@@ -109,11 +127,7 @@ class Controller {
 
   // The two oscillators combined
   KeyboardOscillator combined_osc_;
-
-  MutableParameter volume_;
-  Envelope volume_envelope_;
-  // TODO(aporter): Replace MultiplyParameter with a concrete implementation
-  MultiplyParameter wave_;
+  Volume volume_;
 
   bool osc_sync_;
 
@@ -124,10 +138,7 @@ class Controller {
   MutableParameter modulation_amount_;
   LFO modulation_;
 
-  MutableParameter filter_cutoff_;
-  // TODO(aporter): Replace MultiplyParameter with a concrete implementation
-  MultiplyParameter filter_cutoff_total_;
-  Envelope filter_envelope_;
+  FilterCutoff filter_cutoff_;
   LowPass filter_;
 };
 

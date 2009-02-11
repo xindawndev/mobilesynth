@@ -87,4 +87,17 @@ float LowPass::GetValue(float x) {
   return y;
 }
 
+FilterCutoff::FilterCutoff() : cutoff_(-1),
+                               modulation_(NULL) { }
+
+FilterCutoff::~FilterCutoff() { }
+
+float FilterCutoff::GetValue() {
+  float value = cutoff_ * envelope_.GetValue();
+  if (modulation_) {
+    value *= modulation_->GetValue();
+  }
+  return value;
+}
+
 }  // namespace synth
