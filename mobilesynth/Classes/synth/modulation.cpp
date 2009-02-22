@@ -29,10 +29,7 @@ float LFO::GetValue() {
     return 1.0;
   }
   float level = level_->GetValue();
-  if (level < 0.01) {
-    return 1.0;
-  }
-  float m = 0.5;
+  float m = 0.5 * level;
   float b = 1.0 - m;
   float value = m * oscillator_->GetValue() + b;
   assert(value >= 0);

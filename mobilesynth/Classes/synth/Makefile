@@ -5,7 +5,7 @@ CFLAGS = -Wall -Werror -I../ -L. -g
 .PHONY: all clean test
 
 SRC = oscillator.cpp envelope.cpp controller.cpp modulation.cpp filter.cpp \
-      parameter.cpp lag_processor.cpp fixed_point.cpp
+      parameter.cpp lag_processor.cpp 
 OBJ = $(SRC:.cpp=.o)
 
 all: $(SUBDIRS) libsynth.a
@@ -31,12 +31,8 @@ lag_processor_test: libsynth.a lag_processor_test.o
 controller_test: libsynth.a controller_test.o
 	$(CC) -o $@ $(CFLAGS) -lsynth controller_test.o
 
-fixed_point_test: libsynth.a fixed_point_test.o
-	$(CC) -o $@ $(CFLAGS) -lsynth fixed_point_test.o
-
 test: oscillator_test envelope_test modulation_test controller_test \
-      lag_processor_test fixed_point_test
-	./fixed_point_test
+      lag_processor_test
 	./envelope_test
 	./lag_processor_test
 	./oscillator_test

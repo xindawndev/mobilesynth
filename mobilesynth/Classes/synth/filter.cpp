@@ -68,7 +68,7 @@ float LowPass::GetValue(float x) {
 
   // Re-initialize the filter co-efficients if they changed
   float cutoff = cutoff_->GetValue();
-  if (cutoff < 0.0f) {
+  if (cutoff <= 0.0f) {
     return x;
   } else if (cutoff < 0.001f) {
     // Filtering all frequencies
@@ -87,17 +87,13 @@ float LowPass::GetValue(float x) {
   return y;
 }
 
-FilterCutoff::FilterCutoff() : cutoff_(0.0),
+FilterCutoff::FilterCutoff() : cutoff_(-1.0f),
                                modulation_(NULL) { }
 
 FilterCutoff::~FilterCutoff() { }
 
 float FilterCutoff::GetValue() {
-  float value = cutoff_;
-  if (!envelope_.released()) {
-    float env = envelope_.GetValue();
-    value *= env;
-  }
+  float value = cutoff_ * envelope_.GetValue();
   if (modulation_) {
     value *= modulation_->GetValue();
   }

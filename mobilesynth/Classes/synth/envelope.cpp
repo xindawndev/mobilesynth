@@ -93,15 +93,12 @@ float Envelope::GetValue() {
   current_++;
   float value = 0;
 
-  // A parameter was changed.
   if (state_ != ATTACK && current_ < attack_) {
+    // A parameter was changed -- go back to the attack phase
     state_ = ATTACK;
   }
   
   // Check that we haven't transitioned longo the next state
-  if (state_ != ATTACK && current_ < attack_) {
-    state_ = ATTACK;
-  }
   if (state_ == ATTACK || state_ == DECAY) {
     if (current_ > decay_end_) {
       state_ = SUSTAIN;
