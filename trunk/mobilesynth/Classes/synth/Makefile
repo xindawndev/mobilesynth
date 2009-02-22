@@ -36,12 +36,12 @@ fixed_point_test: libsynth.a fixed_point_test.o
 
 test: oscillator_test envelope_test modulation_test controller_test \
       lag_processor_test fixed_point_test
-	./oscillator_test
+	./fixed_point_test
 	./envelope_test
+	./lag_processor_test
+	./oscillator_test
 	./modulation_test
 	./controller_test
-	./lag_processor_test
-	./fixed_point_test
 
 install: libsynth.a
 	cp libsynth.a /usr/local/lib/
