@@ -37,8 +37,8 @@ float Oscillator::GetValue() {
   if (freq < 0.01f) {
     return 0.0f;
   }
-  long period_samples = sample_rate_ / freq;
-  float x = (sample_num_ / (float)period_samples);
+  float period_samples = sample_rate_ / freq;
+  float x = (sample_num_ / period_samples);
   float value = 0;
   switch (wave_type_) {
     case SINE:
@@ -52,19 +52,19 @@ float Oscillator::GetValue() {
       }
       break;
     case TRIANGLE:
-      value = (2.0f * fabs(2.0f * x - 2.0f * floor(x) - 1.0f) - 1.0f);
+      value = (2.0f * fabs(2.0f * x - 2.0f * floorf(x) - 1.0f) - 1.0f);
       break;
     case SAWTOOTH:
-      value = 2.0f * (x - floor(x) - 0.5f);
+      value = 2.0f * (x - floorf(x) - 0.5f);
       break;
     case REVERSE_SAWTOOTH:
-      value = 2.0f * (floor(x) - x + 0.5f);
+      value = 2.0f * (floorf(x) - x + 0.5f);
       break;
     default:
       assert(false);
       break;
   }
-  sample_num_ = (sample_num_ + 1) % period_samples;
+  sample_num_ = (sample_num_ + 1) % (long)period_samples;
   return value;
 }
 
@@ -76,7 +76,7 @@ KeyboardOscillator::KeyboardOscillator(Oscillator* osc1, Oscillator* osc2)
     osc2_octave_(1),
     osc1_level_(0),
     osc2_level_(0),
-    osc2_shift_(0),
+    osc2_shift_(1.0f),
     osc1_freq_(0),
     osc2_freq_(0),
     frequency_modulation_(NULL),
@@ -90,6 +90,15 @@ KeyboardOscillator::KeyboardOscillator(Oscillator* osc1, Oscillator* osc2)
 const float kOctaveCents(1200);
 
 KeyboardOscillator::~KeyboardOscillator() { }
+  
+void KeyboardOscillator::set_osc2_shift(int cents) {
+  if (cents == 0) {
+    osc2_shift_ = 1.0f;
+  } else {
+    osc2_shift_ = powf(2.0f, cents / kOctaveCents);
+  }
+}
+
 
 float KeyboardOscillator::GetValue() {
   float root_note = key_frequency_.GetValue(); 
@@ -98,13 +107,7 @@ float KeyboardOscillator::GetValue() {
   }
   osc1_freq_.set_value(root_note * osc1_octave_);
   float osc2_freq = root_note * osc2_octave_;
-  if (osc2_shift_ != 0) {
-    if (osc2_shift_ != last_osc2_shift_) {
-      osc2_shift_multiple_ = powf(2, osc2_shift_ / kOctaveCents);
-      last_osc2_shift_ = osc2_shift_;
-    }
-    osc2_freq *= osc2_shift_multiple_;
-  }
+  osc2_freq *= osc2_shift_;
   osc2_freq_.set_value(osc2_freq);
 
   float value = osc1_level_ * osc1_->GetValue() +
