@@ -44,9 +44,6 @@ void TestMultiply2() {
 }
 
 void TestMultiply3() {
-std::cout << "=> " << synth::fixed_mult(TOFIX(0.5), TOFIX(-1.0)) << std::endl;
-std::cout << "=> " << TOFLT(synth::fixed_mult(TOFIX(0.5), TOFIX(-1.0))) << std::endl;
-
   ASSERT_DOUBLE_EQ(TOFIX(-0.5), synth::fixed_mult(TOFIX(0.5), TOFIX(-1.0)));
   ASSERT_DOUBLE_EQ(-0.35, TOFLT(synth::fixed_mult(TOFIX(-0.5), TOFIX(0.7))));
 }
