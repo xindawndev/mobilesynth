@@ -30,7 +30,7 @@ class LagProcessor : public Parameter {
   float last_value_;
   long samples_;
 
-  Envelope envelope_;
+  Envelope<float> envelope_;
 };
 
 }  // namespace
