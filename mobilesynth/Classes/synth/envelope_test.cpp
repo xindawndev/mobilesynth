@@ -9,10 +9,7 @@
 namespace {
 
 static void TestFlat() {
-  synth::Envelope<float> env;
-  env.set_min(0.0f);
-  env.set_max(1.0f);
-  env.set_sustain(1.0f);
+  synth::Envelope env;
   env.NoteOn();
   for (int i = 0; i < 10; ++i) {
     ASSERT_DOUBLE_EQ(1.0, env.GetValue());
@@ -22,9 +19,7 @@ static void TestFlat() {
 }
 
 static void TestZero() {
-  synth::Envelope<float> env;
-  env.set_min(0.0f);
-  env.set_max(1.0f);
+  synth::Envelope env;
   env.set_attack(0);
   env.set_decay(0);
   env.set_sustain(0);
@@ -38,9 +33,7 @@ static void TestZero() {
 }
 
 static void TestCurve() {
-  synth::Envelope<float> env;
-  env.set_min(0.0f);
-  env.set_max(1.0f);
+  synth::Envelope env;
   env.set_attack(4);
   env.set_decay(4);
   env.set_sustain(0.45);
@@ -74,9 +67,7 @@ static void TestCurve() {
 }
 
 static void TestAttackRelease() {
-  synth::Envelope<float> env;
-  env.set_min(0.0f);
-  env.set_max(1.0f);
+  synth::Envelope env;
   env.set_attack(4);
   env.set_decay(0);
   env.set_sustain(0.99);  // ignored since we never reach it
@@ -94,9 +85,7 @@ static void TestAttackRelease() {
 }
 
 static void TestDecay() {
-  synth::Envelope<float> env;
-  env.set_min(0.0f);
-  env.set_max(1.0f);
+  synth::Envelope env;
   env.set_attack(0);
   env.set_decay(5);
   env.set_sustain(0.0);
@@ -116,9 +105,7 @@ static void TestDecay() {
 }
 
 static void TestDecayRelease() {
-  synth::Envelope<float> env;
-  env.set_min(0.0f);
-  env.set_max(1.0f);
+  synth::Envelope env;
   env.set_attack(4);
   env.set_decay(4);
   env.set_sustain(0.5);  // ignored since we never reach it

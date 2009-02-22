@@ -71,12 +71,12 @@ class FilterCutoff : public Parameter {
 
   void set_cutoff(float cutoff) { cutoff_ = cutoff; }
   void set_modulation(Parameter* param) { modulation_ = param; }
-  Envelope<float>* envelope() { return &envelope_; }
+  Envelope* envelope() { return &envelope_; }
 
  private:
   // base
   float cutoff_;
-  Envelope<float> envelope_;
+  Envelope envelope_;
   Parameter* modulation_;
 };
 

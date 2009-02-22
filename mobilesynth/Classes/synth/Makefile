@@ -4,7 +4,7 @@ CC = g++
 CFLAGS = -Wall -Werror -I../ -L. -g
 .PHONY: all clean test
 
-SRC = oscillator.cpp controller.cpp modulation.cpp filter.cpp \
+SRC = oscillator.cpp envelope.cpp controller.cpp modulation.cpp filter.cpp \
       parameter.cpp lag_processor.cpp fixed_point.cpp
 OBJ = $(SRC:.cpp=.o)
 

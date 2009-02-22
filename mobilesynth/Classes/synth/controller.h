@@ -25,12 +25,12 @@ class Volume : public Parameter {
 
   void set_level(float level) { level_ = level; }
   void set_modulation(Parameter* param) { modulation_ = param; }
-  Envelope<float>* envelope() { return &envelope_; }
+  Envelope* envelope() { return &envelope_; }
 
  private:
   // base
   float level_;
-  Envelope<float> envelope_;
+  Envelope envelope_;
   Parameter* modulation_;
 };
 
@@ -82,8 +82,8 @@ class Controller {
 
   void set_osc_sync(bool sync);
 
-  Envelope<float>* volume_envelope() { return volume_.envelope(); }
-  Envelope<float>* filter_envelope() { return filter_cutoff_.envelope(); }
+  Envelope* volume_envelope() { return volume_.envelope(); }
+  Envelope* filter_envelope() { return filter_cutoff_.envelope(); }
 
   enum ModulationSource {
     LFO_SRC_SQUARE,
