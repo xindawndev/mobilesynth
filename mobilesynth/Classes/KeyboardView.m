@@ -26,7 +26,6 @@
 
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  NSLog(@"touchesBegan");
   UITouch* touch = [touches anyObject];
   CGPoint point = [touch locationInView:self];
   currentNote = [self noteAtPoint:point];
@@ -34,7 +33,6 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-  NSLog(@"touchesMoved");
   UITouch* touch = [touches anyObject];
   CGPoint point = [touch locationInView:self];
   int note = [self noteAtPoint:point];
@@ -45,13 +43,11 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  NSLog(@"touchedEnded");
   currentNote = 0;
   [keyboardDelegate noteEnd];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  NSLog(@"touchesCancelled");
   currentNote = 0;
   [keyboardDelegate noteEnd];
 }
