@@ -37,8 +37,8 @@ float Oscillator::GetValue() {
   if (freq < 0.01f) {
     return 0.0f;
   }
-  float period_samples = sample_rate_ / freq;
-  float x = (sample_num_ / period_samples);
+  long period_samples = sample_rate_ / freq;
+  float x = (sample_num_ / (float)period_samples);
   float value = 0;
   switch (wave_type_) {
     case SINE:
