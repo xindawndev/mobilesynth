@@ -60,15 +60,27 @@ void Envelope::set_min(float min) {
 void Envelope::NoteOn() {
   current_ = 0;
   decay_end_ = attack_ + decay_;
-  attack_slope_ = (max_ - min_) / attack_;
-  decay_slope_ = (max_ - sustain_) / decay_;
+  if (attack_ == 0) {
+    attack_slope_ = 1;
+  } else {
+    attack_slope_ = (max_ - min_) / attack_;
+  }
+  if (decay_ == 0) {
+    decay_slope_ = 1;
+  } else {
+    decay_slope_ = (max_ - sustain_) / decay_;
+  }
   state_ = ATTACK;
 }
 
 void Envelope::NoteOff() {
   state_ = RELEASE;
   release_start_value_ = last_value_;
-  release_slope_ = (release_start_value_ - min_) / release_;
+  if (release_ == 0) {
+    release_slope_ = 1; 
+  } else {
+    release_slope_ = (release_start_value_ - min_) / release_;
+  }
   release_start_ = current_; 
   release_end_ = current_ + release_;
 }

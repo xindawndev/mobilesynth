@@ -53,23 +53,23 @@ class Envelope : public Parameter {
     DONE = 4,
   };
   long attack_;
-  float attack_slope_;
+  float attack_slope_;  // T
   long decay_;
   long decay_end_;
-  float decay_slope_;
-  float sustain_;
+  float decay_slope_;  // T
+  float sustain_;  // T
   long release_;
   long release_start_;
   long release_end_;
-  float release_slope_;
+  float release_slope_;  // T
 
-  float min_;
-  float max_;
+  float min_;  // T
+  float max_;  // T
 
   long current_;  // sample
-  float last_value_;
+  float last_value_;  // T
   State state_;
-  float release_start_value_;
+  float release_start_value_;  // T
 };
 
 }  // namespace synth
