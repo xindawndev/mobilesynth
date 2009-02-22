@@ -88,7 +88,11 @@ float LowPass::GetValue(float x) {
 }
 
 FilterCutoff::FilterCutoff() : cutoff_(-1),
-                               modulation_(NULL) { }
+                               modulation_(NULL) {
+  envelope_.set_min(0.0f);
+  envelope_.set_max(1.0f);
+  envelope_.set_sustain(1.0f);
+}
 
 FilterCutoff::~FilterCutoff() { }
 

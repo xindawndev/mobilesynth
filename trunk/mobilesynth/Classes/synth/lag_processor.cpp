@@ -12,6 +12,8 @@ LagProcessor::LagProcessor(Parameter* param)
       samples_down_(0),
       param_(param),
       last_value_(0) {
+  envelope_.set_min(0);
+  envelope_.set_max(0);
   envelope_.set_attack(0);
   envelope_.set_decay(0);
   envelope_.set_sustain(0);
