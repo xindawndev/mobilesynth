@@ -87,13 +87,17 @@ float LowPass::GetValue(float x) {
   return y;
 }
 
-FilterCutoff::FilterCutoff() : cutoff_(-1),
+FilterCutoff::FilterCutoff() : cutoff_(0.0),
                                modulation_(NULL) { }
 
 FilterCutoff::~FilterCutoff() { }
 
 float FilterCutoff::GetValue() {
-  float value = cutoff_ * envelope_.GetValue();
+  float value = cutoff_;
+  if (!envelope_.released()) {
+    float env = envelope_.GetValue();
+    value *= env;
+  }
   if (modulation_) {
     value *= modulation_->GetValue();
   }

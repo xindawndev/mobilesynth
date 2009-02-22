@@ -10,17 +10,17 @@
 namespace synth {
 
 Envelope::Envelope() : attack_(0),
-                       attack_slope_(0.0),
+                       attack_slope_(0.0f),
                        decay_(0),
                        decay_end_(0),
-                       decay_slope_(0.0),
-                       sustain_(1.0),
+                       decay_slope_(0.0f),
+                       sustain_(1.0f),
                        release_(0),
                        release_start_(0),
                        release_end_(0),
-                       release_slope_(0.0),
-                       min_(0.0),
-                       max_(1.0),
+                       release_slope_(0.0f),
+                       min_(0.0f),
+                       max_(1.0f),
                        current_(0),
                        state_(DONE) {
 }
@@ -92,7 +92,16 @@ bool Envelope::released() const {
 float Envelope::GetValue() {
   current_++;
   float value = 0;
+
+  // A parameter was changed.
+  if (state_ != ATTACK && current_ < attack_) {
+    state_ = ATTACK;
+  }
+  
   // Check that we haven't transitioned longo the next state
+  if (state_ != ATTACK && current_ < attack_) {
+    state_ = ATTACK;
+  }
   if (state_ == ATTACK || state_ == DECAY) {
     if (current_ > decay_end_) {
       state_ = SUSTAIN;
@@ -126,7 +135,6 @@ float Envelope::GetValue() {
       assert(value > 0.0);  // Handled in DECAY
       break;
     case RELEASE:
-      //assert(current_ >= release_start_);
       value = release_start_value_ -
            (current_ - release_start_) * release_slope_;
       value = std::max(value, min_);

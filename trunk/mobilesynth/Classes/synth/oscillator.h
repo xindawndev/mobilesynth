@@ -67,8 +67,8 @@ class KeyboardOscillator : public Parameter {
   void set_osc2_level(float level) { osc2_level_ = level; }
 
   // Number of cents to shift osc2
-  void set_osc2_shift(int cents) { osc2_shift_ = cents; }
-
+  void set_osc2_shift(int cents);
+  
   // Sync osc2 to osc1 (master)
   void set_osc_sync(bool sync) { sync_ = sync; }
 
@@ -91,10 +91,7 @@ class KeyboardOscillator : public Parameter {
   float osc2_octave_;
   float osc1_level_;
   float osc2_level_;
-  int osc2_shift_;
-
-  int last_osc2_shift_;
-  float osc2_shift_multiple_;
+  float osc2_shift_;
 
   MutableParameter osc1_freq_;
   MutableParameter osc2_freq_;

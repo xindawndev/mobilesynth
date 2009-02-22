@@ -41,9 +41,9 @@ float LagProcessor::GetValue() {
       envelope_.set_min(last_value_);
       envelope_.set_max(value);
       envelope_.set_attack(samples_up_);
-      envelope_.set_decay(0.0); 
+      envelope_.set_decay(0); 
       envelope_.set_sustain(value);
-      envelope_.set_release(0.0);
+      envelope_.set_release(0);
       envelope_.NoteOn();
     } else {
       // Slope down
