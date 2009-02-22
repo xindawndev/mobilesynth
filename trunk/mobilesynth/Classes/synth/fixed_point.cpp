@@ -1,31 +1,17 @@
 // fixed_point.cpp
 // Author: Allen Porter <allen@thebends.org>
 
+#include <stdio.h>
+#include <stdint.h>
+
 namespace synth {
 
-static void fixed_multiply(int v1, int v2, int* result_hi, int* result_lo) {
-  // Multiple v1 and v2 into a 64 bit product (hi, lo)
-  int a = v1 >> 16;
-  int b = v1 & 0xffff;
-  int c = v2 >> 16;
-  int d = v2 & 0xffff;
-
-  int lo = b * d;
-  int x = a * d + c * b;  // AD + CB
-  int y = (lo >> 16) + x;
-  lo = (lo & 0xffff) | (y << 16);
-  int hi = (y >> 16);
-  hi += a * c;
-
-  *result_hi = hi;
-  *result_lo = lo;
+int32_t fixed_mult(int32_t v1, int32_t v2) {
+  return ((int64_t)v1 * v2) >> 24;
 }
 
-int fixed_mult(int v1, int v2) {
-  int hi;
-  int lo;
-  fixed_multiply(v1, v2, &hi, &lo);
-  return (hi << 8) | (lo >> 24);
+int32_t fixed_floor(int32_t v) {
+  return 0xff000000 & v;
 }
 
 }  // namespace synth
