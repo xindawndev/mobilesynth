@@ -73,9 +73,14 @@ static float GetFrequencyForNote(int note) {
 
 - (OSStatus)generateSamples:(AudioBufferList*)buffers {
   assert(controller_);
-  assert(buffers->mNumberBuffers == 1);  // mono output
+  assert(buffers->mNumberBuffers == 1);  // mono output  
   AudioBuffer* outputBuffer = &buffers->mBuffers[0];
   SInt32* data = (SInt32*)outputBuffer->mData;
+  if (controller_->released()) {
+    // Silence
+    memset(data, 0, outputBuffer->mDataByteSize);
+    return noErr;
+  }
   int samples = outputBuffer->mDataByteSize / sizeof(SInt32);
   float buffer[samples];
   controller_->GetFloatSamples(buffer, samples);
