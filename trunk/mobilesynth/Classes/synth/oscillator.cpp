@@ -101,6 +101,11 @@ void KeyboardOscillator::set_osc2_shift(int cents) {
 
 
 float KeyboardOscillator::GetValue() {
+  // osc2 is a slave to osc1 when sync is enabled.
+  if (sync_ && osc1_->IsStart()) {
+    osc2_->Reset();
+  }
+  
   float root_note = key_frequency_.GetValue(); 
   if (frequency_modulation_) {
     root_note *= frequency_modulation_->GetValue();
