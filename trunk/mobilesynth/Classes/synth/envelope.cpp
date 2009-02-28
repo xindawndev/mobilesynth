@@ -92,11 +92,6 @@ bool Envelope::released() const {
 float Envelope::GetValue() {
   current_++;
   float value = 0;
-
-  if (state_ != ATTACK && current_ < attack_) {
-    // A parameter was changed -- go back to the attack phase
-    state_ = ATTACK;
-  }
   
   // Check that we haven't transitioned longo the next state
   if (state_ == ATTACK || state_ == DECAY) {
@@ -123,7 +118,6 @@ float Envelope::GetValue() {
       value = std::min(value, max_);
      break;
     case DECAY:
-      assert(current_ >= attack_);
       value = max_ - (current_ - attack_) * decay_slope_;
       value = std::max(value, sustain_);
       break;
