@@ -2,7 +2,7 @@
 
 = Application Description =
 
-mobilesynth is an open source classic monophonic synthesizer, for live performance.
+mobilesynth is an open source classic monophonic synthesizer, designed for live performance.  Developers are encouraged to visit the website and contribute.
 
 Features
   * Monophonic, playing one note at a time like a class synthesizer
