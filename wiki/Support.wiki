@@ -6,8 +6,8 @@ This page describes the different support options available for mobilesynth.  Ke
 
 = General Synthesizer Information =
 
-<a href="http://beausievers.com/synth/synthbasics/">Synthesis Basics</a>
-<a href="http://www.sequencer.de/synthaudio/synthesizer-basics.html">General Synthesizer Information</a>
+  * <a href="http://beausievers.com/synth/synthbasics/">Synthesis Basics</a>
+  * <a href="http://www.sequencer.de/synthaudio/synthesizer-basics.html">General Synthesizer Information</a>
 
 = Bugs and Feature requests =
 
