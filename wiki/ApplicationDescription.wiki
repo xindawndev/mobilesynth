@@ -1,0 +1,20 @@
+#summary Application Description
+
+= Application Description =
+
+mobilesynth is an open source classic monophonic synthesizer, for live performance.
+
+Features
+  * Monophonic, playing one note at a time like a class synthesizer
+  * Two Oscillators, each featuring:
+    * Square, Triangle, Sawtooth, Reverse Sawtooth waves
+    * 5 octaves
+  * Glide between notes (Lag Processor)
+  * Oscillator 2 fine tine (more than one full octave)
+  * Oscillator sync
+  * Tremelo/Wave modulation
+  * Vibrato/Pitch modulation
+  * Filter modulation
+  * Volume Envelope (ADSR)
+  * Low Pass Filter
+  * Filter Envelope (ADSR)
