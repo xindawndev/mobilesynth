@@ -1,4 +1,5 @@
 #summary Support information
+#labels Featured
 
 = Introduction =
 
