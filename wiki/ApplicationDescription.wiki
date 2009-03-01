@@ -6,15 +6,19 @@ mobilesynth is an open source classic monophonic synthesizer, for live performan
 
 Features
   * Monophonic, playing one note at a time like a class synthesizer
-  * Two Oscillators, each featuring:
+  * Oscillator Module
+    * Dual oscillators
     * Square, Triangle, Sawtooth, Reverse Sawtooth waves
-    * 5 octaves
-  * Glide between notes (Lag Processor)
-  * Oscillator 2 fine tine (more than one full octave)
-  * Oscillator sync
-  * Tremelo/Wave modulation
-  * Vibrato/Pitch modulation
-  * Filter modulation
-  * Volume Envelope (ADSR)
-  * Low Pass Filter
-  * Filter Envelope (ADSR)
+    * Octave selector, supporting 5 octaves
+    * Glide between notes (Lag Processor)
+    * Oscillator fine tine (more than one full octave)
+    * Oscillator sync
+  * Low Pass Filter Module
+  * Modulation module
+    * Tremelo/Wave
+    * Vibrato/Pitch
+    * Filter
+  * Envelope Generator module
+    * Supports ADSR (Attack, Decay, Sustain, Release)
+    * Volume
+    * Filter (amount of low pass filter)
