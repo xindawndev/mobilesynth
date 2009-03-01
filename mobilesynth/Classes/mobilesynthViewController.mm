@@ -189,6 +189,10 @@ static float GetFrequencyForNote(int note) {
   [controlPageControl setCurrentPage:page];
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+  pageControlUsed = NO;
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
   // We don't want a "feedback loop" between the UIPageControl and the scroll delegate in
   // which a scroll event generated from the user hitting the page control triggers updates from
@@ -197,7 +201,6 @@ static float GetFrequencyForNote(int note) {
     // do nothing - the scroll was initiated from the page control, not the user dragging
     return;
   }
-  [self syncPageControl];
 }
 
 // At the end of scroll animation, reset the boolean used when scrolls originate from the UIPageControl
