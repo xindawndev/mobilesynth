@@ -348,6 +348,35 @@
 			};
 			name = Release;
 		};
+		2CA328BE0F5A4C400027F959 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Allen Porter";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Allen Porter";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "B7F75DCF-C1F9-4F99-B0CA-3F9466AEF8A4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B7F75DCF-C1F9-4F99-B0CA-3F9466AEF8A4";
+				SDKROOT = iphoneos2.1;
+				USER_HEADER_SEARCH_PATHS = Classes;
+			};
+			name = Distribution;
+		};
+		2CA328BF0F5A4C400027F959 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = mobilesynth_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = mobilesynth;
+			};
+			name = Distribution;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -391,6 +420,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				2CA328BF0F5A4C400027F959 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -400,6 +430,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				2CA328BE0F5A4C400027F959 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
