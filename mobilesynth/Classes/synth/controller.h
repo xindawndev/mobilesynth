@@ -110,7 +110,7 @@ class Controller {
 
   void set_filter_cutoff(float frequency);
 
-  void set_glide_rate(long samples);
+  void set_glide_samples(long samples);
 
   // Get a single sample
   float GetSample();

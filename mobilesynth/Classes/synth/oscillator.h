@@ -57,7 +57,7 @@ class KeyboardOscillator : public Parameter {
   virtual ~KeyboardOscillator();
 
   void set_keyboard_frequency(float freq) { base_frequency_ = freq; }
-  void set_glide_rate(long samples) { key_frequency_.set_rate(samples); }
+  void set_glide_samples(long samples) { key_frequency_.set_samples(samples); }
 
   // Multiple to the specified octave
   void set_osc1_octave(float multiply) { osc1_octave_ = multiply; }

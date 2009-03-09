@@ -101,8 +101,8 @@ void Controller::set_osc_sync(bool sync) {
   combined_osc_.set_osc_sync(sync);
 }
   
-void Controller::set_glide_rate(long rate) {
-  combined_osc_.set_glide_rate(rate);
+void Controller::set_glide_samples(long rate) {
+  combined_osc_.set_glide_samples(rate);
 }
 
 void Controller::set_modulation_amount(float amount) {
