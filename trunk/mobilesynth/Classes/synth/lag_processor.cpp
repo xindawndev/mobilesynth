@@ -3,6 +3,7 @@
 
 #include "synth/lag_processor.h"
 
+#include <math.h>
 #include <iostream>
 
 namespace synth {
@@ -20,16 +21,16 @@ LagProcessor::LagProcessor(Parameter* param)
 
 LagProcessor::~LagProcessor() { }
 
-void LagProcessor::set_rate(long samples) {
-  set_rate_up(samples);
-  set_rate_down(samples);
+void LagProcessor::set_samples(long samples) {
+  set_samples_up(samples);
+  set_samples_down(samples);
 }
 
-void LagProcessor::set_rate_up(long samples) {
+void LagProcessor::set_samples_up(long samples) {
   samples_up_ = samples;
 }
 
-void LagProcessor::set_rate_down(long samples) {
+void LagProcessor::set_samples_down(long samples) {
   samples_down_ = samples;
 }
 

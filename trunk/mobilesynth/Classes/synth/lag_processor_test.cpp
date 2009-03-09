@@ -15,7 +15,7 @@ static void TestFlat() {
     ASSERT_DOUBLE_EQ(1.0, glide.GetValue());
   }
   // Rate has no effect when nothing changes
-  glide.set_rate(10);
+  glide.set_samples(10);
   for (int i = 0; i < 10; ++i) {
     ASSERT_DOUBLE_EQ(1.0, glide.GetValue());
   }
@@ -24,8 +24,8 @@ static void TestFlat() {
 static void TestUpDown() {
   synth::MutableParameter param(0.0);
   synth::LagProcessor glide(&param);
-  glide.set_rate_up(5);
-  glide.set_rate_down(10);
+  glide.set_samples_up(5);
+  glide.set_samples_down(10);
   for (int i = 0; i < 10; ++i) {
     ASSERT_DOUBLE_EQ(0.0, glide.GetValue());
   }
@@ -40,13 +40,13 @@ static void TestUpDown() {
     ASSERT_DOUBLE_EQ(2.0, glide.GetValue());
   }
   param.set_value(1.0);
-  glide.set_rate_down(0);
+  glide.set_samples_down(0);
   for (int i = 0; i < 10; ++i) {
     ASSERT_DOUBLE_EQ(1.0, glide.GetValue());
   }
   // Walk down over 10 samples
   param.set_value(0.0);
-  glide.set_rate_down(10);
+  glide.set_samples_down(10);
   ASSERT_DOUBLE_EQ(0.9, glide.GetValue());
   ASSERT_DOUBLE_EQ(0.8, glide.GetValue());
   ASSERT_DOUBLE_EQ(0.7, glide.GetValue());
@@ -64,8 +64,8 @@ static void TestUpDown() {
 static void TestInterrupt() {
   synth::MutableParameter param(0.0);
   synth::LagProcessor glide(&param);
-  glide.set_rate_up(5);
-  glide.set_rate_down(4);
+  glide.set_samples_up(5);
+  glide.set_samples_down(4);
   for (int i = 0; i < 10; ++i) {
     ASSERT_DOUBLE_EQ(0.0, glide.GetValue());
   }
@@ -85,7 +85,7 @@ static void TestInterrupt() {
 static void TestImmediate() {
   synth::MutableParameter param(0.0);
   synth::LagProcessor glide(&param);
-  glide.set_rate(0);
+  glide.set_samples(0);
   for (int i = 0; i < 10; ++i) {
     ASSERT_DOUBLE_EQ(0.0, glide.GetValue());
   }
