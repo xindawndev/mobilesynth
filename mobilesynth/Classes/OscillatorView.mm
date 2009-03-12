@@ -79,7 +79,7 @@ static const float kSampleRate = 44100.0;
   controller->set_osc2_octave(
       [self octaveForButtonIndex:[osc2Octave selectedSegmentIndex]]);
 
-  controller->set_glide_rate([self samples:[glideAmount value]]);
+  controller->set_glide_samples([self samples:[glideAmount value]]);
 }
 
 @end

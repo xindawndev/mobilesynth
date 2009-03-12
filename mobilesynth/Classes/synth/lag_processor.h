@@ -16,10 +16,7 @@ class LagProcessor : public Parameter {
   LagProcessor(Parameter* param);
   virtual ~LagProcessor();
 
-  // TODO(allen): We should be using a glide rate instead of a fixed number
-  // of samples that it takes to glide.
-
-  // The number of samples needed between sample changes
+  // Number of samples for each 1.0 change in the parameters value
   void set_samples(long samples);
   void set_samples_up(long samples);
   void set_samples_down(long samples);

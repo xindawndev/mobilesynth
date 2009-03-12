@@ -37,11 +37,12 @@ void LagProcessor::set_samples_down(long samples) {
 float LagProcessor::GetValue() {
   float value = param_->GetValue();
   if (last_value_ != value) {
+    float diff = fabs(last_value_ - value);
     if (last_value_ < value) {
       // Slope up
       envelope_.set_min(last_value_);
       envelope_.set_max(value);
-      envelope_.set_attack(samples_up_);
+      envelope_.set_attack(samples_up_ * diff);
       envelope_.set_decay(0); 
       envelope_.set_sustain(value);
       envelope_.set_release(0);
@@ -53,7 +54,7 @@ float LagProcessor::GetValue() {
       envelope_.set_attack(0);
       envelope_.set_decay(0);
       envelope_.set_sustain(last_value_);
-      envelope_.set_release(samples_down_);
+      envelope_.set_release(samples_down_  * diff);
       envelope_.NoteOn();
       envelope_.NoteOff();
     }

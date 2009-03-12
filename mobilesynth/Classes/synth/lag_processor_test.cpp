@@ -24,7 +24,7 @@ static void TestFlat() {
 static void TestUpDown() {
   synth::MutableParameter param(0.0);
   synth::LagProcessor glide(&param);
-  glide.set_samples_up(5);
+  glide.set_samples_up(4);
   glide.set_samples_down(10);
   for (int i = 0; i < 10; ++i) {
     ASSERT_DOUBLE_EQ(0.0, glide.GetValue());
@@ -32,10 +32,13 @@ static void TestUpDown() {
   // Walk up over 5 samples
   param.set_value(2.0);
 
-  ASSERT_DOUBLE_EQ(0.4, glide.GetValue());
-  ASSERT_DOUBLE_EQ(0.8, glide.GetValue());
-  ASSERT_DOUBLE_EQ(1.2, glide.GetValue());
-  ASSERT_DOUBLE_EQ(1.6, glide.GetValue());
+  ASSERT_DOUBLE_EQ(0.25, glide.GetValue());
+  ASSERT_DOUBLE_EQ(0.5, glide.GetValue());
+  ASSERT_DOUBLE_EQ(0.75, glide.GetValue());
+  ASSERT_DOUBLE_EQ(1.0, glide.GetValue());
+  ASSERT_DOUBLE_EQ(1.25, glide.GetValue());
+  ASSERT_DOUBLE_EQ(1.5, glide.GetValue());
+  ASSERT_DOUBLE_EQ(1.75, glide.GetValue());
   for (int i = 0; i < 10; ++i) {
     ASSERT_DOUBLE_EQ(2.0, glide.GetValue());
   }
