@@ -1,0 +1,11 @@
+Provider	Provider Country	Vendor Identifier	UPC	ISRC	Artist / Show	Title / Episode / Season	Label/Studio/Network	Product Type Identifier	Units	Royalty Price	Begin Date	End Date	Customer Currency	Country Code	Royalty Currency	Preorder	Season Pass	ISAN	Apple Identifier	Customer Price	CMA	Asset/Content Flavor
+APPLE	US	1235881997	 	 	thebends	mobilesynth	 	1	2	0	03/05/2009	03/05/2009	MXN	MX	USD	 	 	 	306883488	0	 	 
+APPLE	US	1235881997	 	 	thebends	mobilesynth	 	1	2	0	03/05/2009	03/05/2009	USD	VE	USD	 	 	 	306883488	0	 	 
+APPLE	US	1235881997	 	 	thebends	mobilesynth	 	1	1	0	03/05/2009	03/05/2009	EUR	SK	EUR	 	 	 	306883488	0	 	 
+APPLE	US	1235881997	 	 	thebends	mobilesynth	 	1	1	0	03/05/2009	03/05/2009	CHF	CH	EUR	 	 	 	306883488	0	 	 
+APPLE	US	1235881997	 	 	thebends	mobilesynth	 	1	1	0	03/05/2009	03/05/2009	GBP	GB	GBP	 	 	 	306883488	0	 	 
+APPLE	US	1235881997	 	 	thebends	mobilesynth	 	1	9	0	03/05/2009	03/05/2009	CAD	CA	CAD	 	 	 	306883488	0	 	 
+APPLE	US	1235881997	 	 	thebends	mobilesynth	 	1	2	0	03/05/2009	03/05/2009	EUR	DE	EUR	 	 	 	306883488	0	 	 
+APPLE	US	1235881997	 	 	thebends	mobilesynth	 	1	1	0	03/05/2009	03/05/2009	USD	BR	USD	 	 	 	306883488	0	 	 
+APPLE	US	1235881997	 	 	thebends	mobilesynth	 	1	40	0	03/05/2009	03/05/2009	USD	US	USD	 	 	 	306883488	0	 	 
+APPLE	US	1235881997	 	 	thebends	mobilesynth	 	1	1	0	03/05/2009	03/05/2009	EUR	FR	EUR	 	 	 	306883488	0	 	 
