@@ -98,6 +98,37 @@ static void TestImmediate() {
   }
 }
 
+static void TestReset() {
+  synth::MutableParameter param(0.0);
+  synth::LagProcessor glide(&param);
+  glide.set_samples(2);
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(0.0, glide.GetValue());
+  }
+  // No glide happens after a reset
+  glide.reset();
+  param.set_value(1.0);
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(1.0, glide.GetValue());
+  }
+  param.set_value(2.0);
+  ASSERT_DOUBLE_EQ(1.5, glide.GetValue());
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(2.0, glide.GetValue());
+  }
+  // No glide happens after a reset
+  glide.reset();
+  param.set_value(3.0);
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(3.0, glide.GetValue());
+  }
+  param.set_value(2.0);
+  ASSERT_DOUBLE_EQ(2.5, glide.GetValue());
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_DOUBLE_EQ(2.0, glide.GetValue());
+  }
+}
+
 }  // namespace
 
 int main(int argc, char* argv[]) {
@@ -105,6 +136,7 @@ int main(int argc, char* argv[]) {
   TestUpDown();
   TestInterrupt();
   TestImmediate();
+  TestReset();
   std::cout << "PASS" << std::endl;
   return 0;
 }
