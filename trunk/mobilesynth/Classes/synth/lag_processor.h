@@ -21,12 +21,16 @@ class LagProcessor : public Parameter {
   void set_samples_up(long samples);
   void set_samples_down(long samples);
 
+  // Reset the last value used (effectively disables glide from the last value)
+  void reset();
+
   virtual float GetValue();
 
  private:
   long samples_up_;
   long samples_down_;
   Parameter* param_;
+  bool has_last_value_;
   float last_value_;
   long samples_;
 

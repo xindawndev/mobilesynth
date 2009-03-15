@@ -56,6 +56,7 @@ class KeyboardOscillator : public Parameter {
   KeyboardOscillator(Oscillator* osc1, Oscillator* osc2);
   virtual ~KeyboardOscillator();
 
+  void NoteOn() { key_frequency_.reset(); }
   void set_keyboard_frequency(float freq) { base_frequency_ = freq; }
   void set_glide_samples(long samples) { key_frequency_.set_samples(samples); }
 
