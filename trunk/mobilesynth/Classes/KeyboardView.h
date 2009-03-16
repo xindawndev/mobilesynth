@@ -10,14 +10,13 @@
 
 @protocol KeyboardDelegate
 @required
-- (void)noteBegin:(int)note;
-- (void)noteChange:(int)note;
-- (void)noteEnd;
+- (void)noteOn:(int)note;
+- (void)noteOff:(int)note;
+- (void)allOff;
 @end
 
 @interface KeyboardView : UIImageView {
   id <KeyboardDelegate> keyboardDelegate;
-  int currentNote;
 }
 
 @property (nonatomic, retain) IBOutlet id <KeyboardDelegate> keyboardDelegate;

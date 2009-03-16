@@ -47,25 +47,42 @@ void Controller::set_sample_rate(float sample_rate) {
 }
 
 void Controller::NoteOn(int note) {
+  std::cout << "NoteOn(" << note << ")" << std::endl;
   assert(note >= 1);
   assert(note <= 88);
-  NoteOnFrequency(KeyToFrequency(note));
+  key_stack_.NoteOn(note);
+  if (key_stack_.size() == 1) {
+    // This is the first note played, so start attacking
+    combined_osc_.NoteOn();
+    volume_envelope()->NoteOn();
+    filter_envelope()->NoteOn();
+  }
+  float frequency = KeyToFrequency(key_stack_.GetCurrentNote());
+  combined_osc_.set_keyboard_frequency(frequency);
 }
 
 void Controller::NoteOnFrequency(float frequency) {
-  combined_osc_.NoteOn();
   combined_osc_.set_keyboard_frequency(frequency);
   volume_envelope()->NoteOn();
   filter_envelope()->NoteOn();
 }
 
-void Controller::NoteChange(int note) {
-  assert(note >= 1);
-  assert(note <= 88);
-  combined_osc_.set_keyboard_frequency(KeyToFrequency(note));
+void Controller::NoteOff(int note) {
+  key_stack_.NoteOff(note);
+  std::cout << "NoteOff(" << note << ") size=" << key_stack_.size() << std::endl;
+  if (key_stack_.size() == 0) {
+    // All notes were release, so start the release phase of the envelope
+    NoteOff();
+  } else {
+    // There are still notes on key stack -- switch!
+    float frequency = KeyToFrequency(key_stack_.GetCurrentNote());
+    combined_osc_.set_keyboard_frequency(frequency);
+  }
 }
 
 void Controller::NoteOff() {
+  std::cout << "NoteOff" << std::endl;
+  key_stack_.clear();
   volume_envelope()->NoteOff();
   filter_envelope()->NoteOff();
 }

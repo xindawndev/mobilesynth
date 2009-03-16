@@ -22,8 +22,12 @@ class KeyStack {
 
   // Returns the current not, or 0 if no note is playing.
   int GetCurrentNote();
+  
+  bool IsNoteInStack(int note);
 
   int size() { return notes_.size(); }
+
+  void clear() { notes_.clear(); }
 
  private:
   std::vector<int> notes_;
