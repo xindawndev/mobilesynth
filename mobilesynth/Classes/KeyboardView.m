@@ -13,43 +13,44 @@
 
 @synthesize keyboardDelegate;
 
-- (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-      currentNote = 0;
-    }
-    return self;
-}
-
-- (void)dealloc {
-    [super dealloc];
-}
-
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch* touch = [touches anyObject];
-  CGPoint point = [touch locationInView:self];
-  currentNote = [self noteAtPoint:point];
-  [keyboardDelegate noteBegin:currentNote]; 
+  NSArray* touchArray = [touches allObjects];
+  for (int i = 0; i < [touchArray count]; ++i) {
+    UITouch* touch = [touchArray objectAtIndex:i];  
+    CGPoint point = [touch locationInView:self];
+    [keyboardDelegate noteOn:[self noteAtPoint:point]];
+  }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch* touch = [touches anyObject];
-  CGPoint point = [touch locationInView:self];
-  int note = [self noteAtPoint:point];
-  if (note != currentNote) {
-    currentNote = note;
-    [keyboardDelegate noteChange:note];
+  NSArray* touchArray = [touches allObjects];
+  for (int i = 0; i < [touchArray count]; ++i) {
+    UITouch* touch = [touchArray objectAtIndex:i];  
+    CGPoint point = [touch locationInView:self];
+    CGPoint previousPoint = [touch previousLocationInView:self];
+    int note = [self noteAtPoint:point];
+    int previousNote = [self noteAtPoint:previousPoint];
+    [keyboardDelegate noteOn:note];
+    [keyboardDelegate noteOff:previousNote];
   }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  currentNote = 0;
-  [keyboardDelegate noteEnd];
+  NSArray* touchArray = [touches allObjects];
+  for (int i = 0; i < [touchArray count]; ++i) {
+    UITouch* touch = [touchArray objectAtIndex:i];  
+    CGPoint point = [touch locationInView:self];
+    [keyboardDelegate noteOff:[self noteAtPoint:point]];
+  }
+  if ([touches count] == [[event touchesForView:self] count]) {
+    // Sometimes we don't always get notified about all of the touches ending.
+    // This is a failsafe to just shut everything off.
+    [keyboardDelegate allOff];
+  }
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-  currentNote = 0;
-  [keyboardDelegate noteEnd];
+  [self touchesEnded:touches withEvent:event];
 }
 
 

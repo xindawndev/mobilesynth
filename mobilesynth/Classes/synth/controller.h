@@ -13,6 +13,7 @@
 #include "synth/modulation.h"
 #include "synth/oscillator.h"
 #include "synth/parameter.h"
+#include "synth/key_stack.h"
 
 namespace synth {
 
@@ -41,12 +42,14 @@ class Controller {
   // Volume [0, 1.0]
   void set_volume(float volume);
 
-  // Start/Stop playing a note.  These trigger the Attack and Release of the
-  // volume and filter envelopes.
+  // Start/Stop playing a note.  These may trigger the Attack and Release of the
+  // volume and filter envelopes, depending on the order of the on/off events.
+  // It is an error to call NoteOff() for a note that was never the argument of
+  // NoteOn();
   void NoteOn(int midi_note);
+  void NoteOff(int midi_note);
   void NoteOnFrequency(float frequency);  // For testing
-  void NoteChange(int midi_note);  // Note changes without release
-  void NoteOff();
+  void NoteOff();  // Invoked when all notes have been released as a fallback
   
   // True when nothing is playing
   bool released() {
@@ -137,6 +140,8 @@ class Controller {
   Oscillator modulation_osc_;
   MutableParameter modulation_amount_;
   LFO modulation_;
+
+  KeyStack key_stack_;
 
   FilterCutoff filter_cutoff_;
   LowPass filter_;

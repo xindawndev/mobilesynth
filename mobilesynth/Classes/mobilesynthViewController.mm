@@ -46,19 +46,17 @@ static float GetFrequencyForNote(int note) {
   return kMiddleAFrequency * powf(2, (note - kMiddleANote) / kNotesPerOctave);
 }
 
-- (void)noteBegin:(int)note {
-  [self noteChange:note];
+- (void)noteOn:(int)note {
   controller_->NoteOn(note);
 }
 
-- (void)noteChange:(int)note {
-  controller_->NoteChange(note);
+- (void)noteOff:(int)note {
+  controller_->NoteOff(note);
 }
 
-- (void)noteEnd {
+- (void)allOff {
   controller_->NoteOff();
 }
-
 
 - (void)syncControls {
   @synchronized(self) {

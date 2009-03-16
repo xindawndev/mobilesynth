@@ -61,8 +61,9 @@ namespace synth { class LowPass; }
 @property (nonatomic, retain) IBOutlet EnvelopeView *envelopeView;
 @property (nonatomic, retain) IBOutlet EnvelopeView *filterEnvelopeView;
 
-- (void)noteBegin:(int)note;
-- (void)noteEnd;
+- (void)noteOn:(int)note;
+- (void)noteOff:(int)note;
+- (void)allOff;
 - (OSStatus)generateSamples:(AudioBufferList*)buffers;
 
 // For control panel
