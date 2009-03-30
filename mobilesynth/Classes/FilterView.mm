@@ -12,6 +12,7 @@
 @implementation FilterView
 
 @synthesize cutoff;
+@synthesize resonance;
 @synthesize controller;
 @synthesize frequencyLabel;
 
@@ -20,6 +21,8 @@
   controller->set_filter_cutoff([cutoff value]);
   [frequencyLabel
       setText:[NSString stringWithFormat:@"%d Hz", (int)[cutoff value]]];
+  
+  controller->set_filter_resonance([resonance value]);
 }
 
 @end

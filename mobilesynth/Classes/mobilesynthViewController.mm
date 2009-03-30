@@ -36,6 +36,7 @@
 @synthesize envelopeView;
 @synthesize filterEnvelopeView;
 
+#define degreesToRadians(x) (M_PI * x / 180.0)
 
 // Use A above Middle C as the reference frequency
 static const float kNotesPerOctave = 12.0;
@@ -89,39 +90,39 @@ static float GetFrequencyForNote(int note) {
 }
 
 // Setup the scrolable control panel
-- (void)loadControlViews {
-  CGRect frame = [keyboardScrollView frame];
-  frame.origin.x = frame.size.width / 2;
-  frame.origin.y = 0;
-  frame.size.width = 10;
-  frame.size.height = 10;
-  [keyboardScrollView scrollRectToVisible:frame animated:YES];
-  
-  NSMutableArray *controlViews = [[NSMutableArray alloc] init]; 
+- (void)loadControlViews { 
+  [[self view] addSubview:controlPageControl];
+
+  // Put the page control vertically in the top left corner.
+  controlPageControl.transform =
+    CGAffineTransformRotate(controlPageControl.transform, degreesToRadians(90));
+  controlPageControl.transform =
+    CGAffineTransformTranslate(controlPageControl.transform, 47, 50);
   
   // New controls panels should be added here
+  NSMutableArray *controlViews = [[NSMutableArray alloc] init]; 
   [controlViews addObject:oscillatorView];
   [controlViews addObject:oscillatorDetailView];
   [controlViews addObject:modulationView];
   [controlViews addObject:envelopeView];
   [controlViews addObject:filterView];
   [controlViews addObject:filterEnvelopeView];
-  
+
+  CGRect frame = controlScrollView.frame;
+  frame.origin.x = 0;
   for (int i = 0; i < [controlViews count]; ++i) {
+    frame.origin.y = frame.size.height * i;  
     UIView* view = [controlViews objectAtIndex:i];
-    CGRect frame = controlScrollView.frame;
-    frame.origin.x = frame.size.width * i;
-    frame.origin.y = 0;
     view.frame = frame;
     [controlScrollView addSubview:view];
   }
-  [controlViews release];
+  [controlPageControl setNumberOfPages:[controlViews count]];
   
-  int subviews = [[controlScrollView subviews] count];
-  CGSize frameSize = [controlScrollView frame].size;
-  [controlScrollView setContentSize:CGSizeMake(frameSize.width * subviews,
-                                               frameSize.height)];
-  [controlPageControl setNumberOfPages:subviews];
+  CGSize scrollSize = controlScrollView.frame.size;
+  scrollSize.height *= [controlViews count];
+  [controlScrollView setContentSize:scrollSize];
+  
+  [controlViews release];
 }
 
 - (void)viewDidLoad {
@@ -182,41 +183,35 @@ static float GetFrequencyForNote(int note) {
 
 - (void)syncPageControl {
   // Switch the indicator when more than 50% of the previous/next page is visible
-  CGFloat pageWidth = controlScrollView.frame.size.width;
-  int page = floor((controlScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+  CGFloat pageHeight = controlScrollView.frame.size.height;
+  int page = floor((controlScrollView.contentOffset.y - pageHeight / 2) / pageHeight) + 1;
+  NSLog(@"syncPageControl => %d", page);
   [controlPageControl setCurrentPage:page];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-  pageControlUsed = NO;
+  NSLog(@"begin dragging");
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)sender {
-  // We don't want a "feedback loop" between the UIPageControl and the scroll delegate in
-  // which a scroll event generated from the user hitting the page control triggers updates from
-  // the delegate method. We use a boolean to disable the delegate logic when the page control is used.
-  if (pageControlUsed) {
-    // do nothing - the scroll was initiated from the page control, not the user dragging
-    return;
-  }
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+  NSLog(@"did end dragging");
 }
 
 // At the end of scroll animation, reset the boolean used when scrolls originate from the UIPageControl
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-  pageControlUsed = NO;
+  NSLog(@"end deceleratoting");
   [self syncPageControl];
 }
 
 - (IBAction)changePage:(id)sender {
+  NSLog(@"change page");
   int page = [controlPageControl currentPage];
   // update the scroll view to the appropriate page
   CGRect frame = controlScrollView.frame;
-  frame.origin.x = frame.size.width * page;
-  frame.origin.y = 0;
+  frame.origin.x = 0;
+  frame.origin.y = frame.size.height * page;
 
   [controlScrollView scrollRectToVisible:frame animated:YES];
-  // Set when scrolls originate from the UIPageControl. See scrollViewDidScroll: above.
-  pageControlUsed = YES;
 }
 
 

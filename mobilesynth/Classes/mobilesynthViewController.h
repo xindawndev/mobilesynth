@@ -44,9 +44,6 @@ namespace synth { class LowPass; }
   synth::Controller* controller_;
   
   AudioStreamBasicDescription outputFormat;
-  
-  // Used to prevent a feedback loop
-  BOOL pageControlUsed;
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView *keyboardScrollView;
