@@ -28,11 +28,11 @@ class Filter {
   Filter();
 };
 
-// A simple LowPass FIR filter
-class LowPass : public Filter {
+// A simple LowPassFilter FIR filter
+class LowPassFilter : public Filter {
  public:
-  LowPass();
-  virtual ~LowPass();
+  LowPassFilter();
+  virtual ~LowPassFilter();
 
   virtual void set_cutoff(Parameter* cutoff);
 
@@ -60,6 +60,32 @@ class LowPass : public Filter {
   float b2_;
   float b3_;
 };
+
+// Simple VCF
+class ResonantFilter : public Filter {
+ public:
+  ResonantFilter();
+  virtual ~ResonantFilter();
+
+  virtual void set_cutoff(Parameter* cutoff);
+  virtual void set_resonance(float resonance);
+
+  virtual float GetValue(float x);
+
+ private:
+  Parameter* cutoff_;
+  float resonance_;
+
+  float y1_;
+  float y2_;
+  float y3_;
+  float y4_;
+  float oldx_;
+  float oldy1_;
+  float oldy2_;
+  float oldy3_;
+};
+
 
 // Encapsulates the logic for calculating the filter cutoff frequency
 class FilterCutoff : public Parameter {

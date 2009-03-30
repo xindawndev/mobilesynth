@@ -8,21 +8,22 @@
 namespace synth {
 
 static const float kSampleRate = 44100.0f;
+static const float kE = 2.71828183f;
 
 Filter::Filter() { }
 
 Filter::~Filter() { }
 
-LowPass::LowPass() : cutoff_(NULL), last_cutoff_(0), x1_(0), x2_(0), y1_(0), y2_(0) {
+LowPassFilter::LowPassFilter() : cutoff_(NULL), last_cutoff_(0), x1_(0), x2_(0), y1_(0), y2_(0) {
 }
 
-LowPass::~LowPass() { }
+LowPassFilter::~LowPassFilter() { }
 
-void LowPass::set_cutoff(Parameter* cutoff) {
+void LowPassFilter::set_cutoff(Parameter* cutoff) {
   cutoff_ = cutoff;
 }
 
-void LowPass::reset(float frequency) {  
+void LowPassFilter::reset(float frequency) {  
   // Number of filter passes
   float n = 1;
 
@@ -61,7 +62,7 @@ void LowPass::reset(float frequency) {
   b2_ = 1 - (a0_ + a1_ + a2_ + b1_);
 }
 
-float LowPass::GetValue(float x) {
+float LowPassFilter::GetValue(float x) {
   if (cutoff_ == NULL) {
     return x;
   }
@@ -85,6 +86,45 @@ float LowPass::GetValue(float x) {
   y2_ = y1_;
   y1_ = y;
   return y;
+}
+
+ResonantFilter::ResonantFilter()
+   : cutoff_(NULL), resonance_(0.0f),
+     y1_(0.0f), y2_(0.0f), y3_(0.0f), y4_(0.0f),
+     oldx_(0.0f), oldy1_(0.0f), oldy2_(0.0f), oldy3_(0.0f) { }
+
+ResonantFilter::~ResonantFilter() { }
+
+void ResonantFilter::set_cutoff(Parameter* cutoff) {
+  cutoff_ = cutoff;
+}
+
+void ResonantFilter::set_resonance(float resonance) {
+  resonance_ = resonance;
+}
+
+float ResonantFilter::GetValue(float x) {
+  if (cutoff_ == NULL) {
+    return x;
+  }
+  float cutoff = cutoff_->GetValue();
+  float f = 2.0f * cutoff / kSampleRate;
+  float k = 3.6f * f - 1.6f * f * f - 1;
+  float p = (k + 1.0f) * 0.5f;
+  float scale = powf(kE, (1.0f - p) * 1.386249);
+  float r = resonance_ * scale;
+
+  float out = x - r * y4_;
+  y1_ = out * p + oldx_ * p - k * y1_;
+  y2_ = y1_ * p + oldy1_ * p - k * y2_;
+  y3_ = y2_ * p + oldy2_ * p - k * y3_;
+  y4_ = y3_ * p + oldy3_ * p - k * y4_;
+  y4_ = y4_ - powf(y4_, 3.0f) / 6.0f;
+  oldx_ = out;
+  oldy1_ = y1_;
+  oldy2_ = y2_;
+  oldy3_ = y3_;
+  return out;
 }
 
 FilterCutoff::FilterCutoff() : cutoff_(-1.0f),

@@ -47,7 +47,6 @@ bool KeyStack::IsNoteInStack(int note) {
 
 int KeyStack::GetCurrentNote() {
   if (notes_.size() > 0) {
-    std::cout << "Current: " << notes_.back() << std::endl;
     return notes_.back();
   } else {
     return 0;
