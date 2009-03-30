@@ -12,11 +12,14 @@ namespace synth { class Controller; }
 
 @interface FilterView : UIView {
   UISlider* cutoff;
+  UISlider* resonance;
   UILabel* frequencyLabel;
   synth::Controller* controller;
 }
 
 @property (nonatomic, retain) IBOutlet UISlider *cutoff;
+@property (nonatomic, retain) IBOutlet UISlider *resonance;
+
 @property (nonatomic, retain) IBOutlet UILabel *frequencyLabel;
 
 @property (nonatomic) IBOutlet synth::Controller *controller;
