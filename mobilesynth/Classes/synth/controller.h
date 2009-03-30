@@ -112,6 +112,10 @@ class Controller {
   void set_modulation_frequency(float frequency);
 
   void set_filter_cutoff(float frequency);
+  
+  // [0.0, 1.0]
+  void set_filter_resonance(float value);
+
 
   void set_glide_samples(long samples);
 
@@ -144,7 +148,8 @@ class Controller {
   KeyStack key_stack_;
 
   FilterCutoff filter_cutoff_;
-  LowPass filter_;
+  LowPassFilter lowpass_filter_;
+  ResonantFilter resonant_filter_;
 };
 
 }  // namespace synth

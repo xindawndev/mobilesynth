@@ -32,7 +32,8 @@ Controller::Controller()
   modulation_.set_oscillator(&modulation_osc_);
   modulation_.set_level(&modulation_amount_);
 
-  filter_.set_cutoff(&filter_cutoff_);
+  lowpass_filter_.set_cutoff(&filter_cutoff_);
+  resonant_filter_.set_cutoff(&filter_cutoff_);
 
   reset_routing();
 }
@@ -81,7 +82,6 @@ void Controller::NoteOff(int note) {
 }
 
 void Controller::NoteOff() {
-  std::cout << "NoteOff" << std::endl;
   key_stack_.clear();
   volume_envelope()->NoteOff();
   filter_envelope()->NoteOff();
@@ -186,6 +186,10 @@ void Controller::reset_routing() {
 void Controller::set_filter_cutoff(float frequency) {
   filter_cutoff_.set_cutoff(frequency);
 }
+  
+void Controller::set_filter_resonance(float value) {
+  resonant_filter_.set_resonance(value);
+}
 
 void Controller::GetFloatSamples(float* buffer, int size) {
   for (int i = 0; i < size; ++i) {
@@ -204,7 +208,8 @@ float Controller::GetSample() {
   value = fmaxf(-1.0f, value);
   value = fminf(1.0f, value);
   // Combined filter with envelope/modulation
-  value = filter_.GetValue(value);
+  value = lowpass_filter_.GetValue(value);
+  value = resonant_filter_.GetValue(value);
   // Clip!
   value = fmaxf(-1.0f, value);
   value = fminf(1.0f, value);
