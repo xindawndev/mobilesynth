@@ -81,7 +81,7 @@ static const int kBlackKeyPairEndX = 152;
 static const int kBlackKeyTrioStartX = 211;
 static const int kBlackKeyTrioEndX = 382;
 
-static const int kLowC = 28;
+static const int kLowC = 16;
 
 - (int)octaveAtPoint:(CGPoint)point {
   return point.x / kOctaveSize;
