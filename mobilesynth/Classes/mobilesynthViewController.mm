@@ -121,6 +121,7 @@ static float GetFrequencyForNote(int note) {
   CGSize scrollSize = controlScrollView.frame.size;
   scrollSize.height *= [controlViews count];
   [controlScrollView setContentSize:scrollSize];
+  [controlScrollView flashScrollIndicators];
   
   [controlViews release];
 }
@@ -135,7 +136,7 @@ static float GetFrequencyForNote(int note) {
   // TODO(allen): Start at the middle of the keyboard (Scroll to key?)
   // TODO(allen): Set this to disable scrolling, and enable sliding.
   [keyboardScrollView setScrollEnabled:NO];
-
+  
   controller_ = new synth::Controller;
   [oscillatorView setController:controller_];
   [oscillatorDetailView setController:controller_];

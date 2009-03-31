@@ -15,7 +15,7 @@ namespace synth {
   
 static const int kMiddleAKey(49);
 static const float kNotesPerOctave = 12.0f;
-static const float kMiddleAFrequency = 440.0f;
+static const float kMiddleAFrequency = 220.0f;
 
 static float KeyToFrequency(int key) {
   return kMiddleAFrequency * powf(2, (key - kMiddleAKey) / kNotesPerOctave);
