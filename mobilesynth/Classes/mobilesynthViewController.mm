@@ -185,26 +185,15 @@ static float GetFrequencyForNote(int note) {
   // Switch the indicator when more than 50% of the previous/next page is visible
   CGFloat pageHeight = controlScrollView.frame.size.height;
   int page = floor((controlScrollView.contentOffset.y - pageHeight / 2) / pageHeight) + 1;
-  NSLog(@"syncPageControl => %d", page);
   [controlPageControl setCurrentPage:page];
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-  NSLog(@"begin dragging");
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-  NSLog(@"did end dragging");
 }
 
 // At the end of scroll animation, reset the boolean used when scrolls originate from the UIPageControl
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-  NSLog(@"end deceleratoting");
   [self syncPageControl];
 }
 
 - (IBAction)changePage:(id)sender {
-  NSLog(@"change page");
   int page = [controlPageControl currentPage];
   // update the scroll view to the appropriate page
   CGRect frame = controlScrollView.frame;

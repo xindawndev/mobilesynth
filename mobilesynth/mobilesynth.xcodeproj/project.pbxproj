@@ -40,6 +40,7 @@
 		2C766D9A0F3E28FD009135A8 /* lag_processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C766D950F3E28FD009135A8 /* lag_processor.cpp */; settings = {COMPILER_FLAGS = "-mno-thumb"; }; };
 		2C766D9B0F3E28FD009135A8 /* parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C766D970F3E28FD009135A8 /* parameter.cpp */; settings = {COMPILER_FLAGS = "-mno-thumb"; }; };
 		2C80E89E0EF4773C0083E440 /* KeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C80E89D0EF4773C0083E440 /* KeyboardView.m */; };
+		2C95F7760F81E2A9003EC36B /* ControlScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C95F7750F81E2A9003EC36B /* ControlScrollView.m */; };
 		2CEA46A60F03329800772FF7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CEA46A50F03329800772FF7 /* AudioToolbox.framework */; };
 		2CF108860F51FF1000968084 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF108850F51FF1000968084 /* Icon.png */; };
 		2CF108A10F52073900968084 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF108A00F52073900968084 /* Default.png */; };
@@ -97,6 +98,8 @@
 		2C766D980F3E28FD009135A8 /* parameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parameter.h; path = synth/parameter.h; sourceTree = "<group>"; };
 		2C80E89C0EF4773C0083E440 /* KeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardView.h; sourceTree = "<group>"; };
 		2C80E89D0EF4773C0083E440 /* KeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardView.m; sourceTree = "<group>"; };
+		2C95F7740F81E2A9003EC36B /* ControlScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlScrollView.h; sourceTree = "<group>"; };
+		2C95F7750F81E2A9003EC36B /* ControlScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlScrollView.m; sourceTree = "<group>"; };
 		2CEA46A50F03329800772FF7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		2CF108850F51FF1000968084 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2CF108A00F52073900968084 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -132,6 +135,8 @@
 				28D7ACF70DDB3853001CB0EB /* mobilesynthViewController.mm */,
 				2C80E89C0EF4773C0083E440 /* KeyboardView.h */,
 				2C80E89D0EF4773C0083E440 /* KeyboardView.m */,
+				2C95F7740F81E2A9003EC36B /* ControlScrollView.h */,
+				2C95F7750F81E2A9003EC36B /* ControlScrollView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -322,6 +327,7 @@
 				2C766D9A0F3E28FD009135A8 /* lag_processor.cpp in Sources */,
 				2C766D9B0F3E28FD009135A8 /* parameter.cpp in Sources */,
 				2C45731D0F6DFB1D0048DC7C /* key_stack.cpp in Sources */,
+				2C95F7760F81E2A9003EC36B /* ControlScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
