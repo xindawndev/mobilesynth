@@ -71,7 +71,7 @@ static const float kOctaveSize = 57.14 * 7;
 static const float kKeysPerOctave = 12;
 
 // The X position that marks the start of the black keys
-static const int kBlackKeyEndY = 102;
+static const int kBlackKeyEndY = 97;
 
 // Offsets of the double black keys
 static const int kBlackKeyPairStartX = 39;

@@ -121,22 +121,43 @@ static float GetFrequencyForNote(int note) {
   CGSize scrollSize = controlScrollView.frame.size;
   scrollSize.height *= [controlViews count];
   [controlScrollView setContentSize:scrollSize];
-  [controlScrollView flashScrollIndicators];
   
   [controlViews release];
+}
+
+- (void)startLoadAnimations {
+  //
+  // Attempt some visual cues that will hopefully let the user notice that they
+  // can scroll the control view and keyboard view.
+  //
+  
+  // Start at the bottm and scroll to the top
+  CGRect controlViewStartPosition;
+  controlViewStartPosition.origin.x = controlScrollView.contentSize.width - 5;
+  controlViewStartPosition.origin.y = controlScrollView.contentSize.height - 5;
+  controlViewStartPosition.size.width = 5;
+  controlViewStartPosition.size.height = 5;
+  [controlScrollView scrollRectToVisible:controlViewStartPosition animated:NO];
+  controlViewStartPosition.origin.y = 0;
+  [controlScrollView scrollRectToVisible:controlViewStartPosition animated:YES];
+  
+  // Scroll the keyboard all the wa to the far end.
+  CGRect keybaordStartPosition;
+  keybaordStartPosition.origin.x = [[keyboardImageView image] size].width - 5;
+  keybaordStartPosition.origin.y = 0;
+  keybaordStartPosition.size.width = 5;
+  keybaordStartPosition.size.height = 5;
+  [keyboardScrollView scrollRectToVisible:keybaordStartPosition animated:YES];
+  
+  // Flash as a visual indicator to the user
+  [controlScrollView flashScrollIndicators];
+  [keyboardScrollView flashScrollIndicators];   
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self loadControlViews];
 
-  // Setup the inner size of the scroll view to the size of the full keyboard
-  // image.  This basically makes the scroll view work.
-  [keyboardScrollView setContentSize:[[keyboardImageView image] size]];
-  // TODO(allen): Start at the middle of the keyboard (Scroll to key?)
-  // TODO(allen): Set this to disable scrolling, and enable sliding.
-  [keyboardScrollView setScrollEnabled:NO];
-  
   controller_ = new synth::Controller;
   [oscillatorView setController:controller_];
   [oscillatorDetailView setController:controller_];
@@ -149,7 +170,6 @@ static float GetFrequencyForNote(int note) {
 
   // Initalize all the glue
   [keyboardImageView setKeyboardDelegate:self];
-  
   
   // Format preferred by the iphone (Fixed 8.24)
   outputFormat.mSampleRate = 44100.0;
@@ -165,6 +185,13 @@ static float GetFrequencyForNote(int note) {
   output = [[AudioOutput alloc] initWithAudioFormat:&outputFormat];
   [output setSampleDelegate:self];
   [output start];  // immediately invokes our callback to generate samples
+  
+  // Setup the inner size of the scroll view to the size of the full keyboard
+  // image.  This basically makes the scroll view work.
+  [keyboardScrollView setContentSize:[[keyboardImageView image] size]];
+  [keyboardScrollView setScrollEnabled:YES];
+  
+  [self startLoadAnimations];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
