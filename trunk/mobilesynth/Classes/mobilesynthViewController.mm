@@ -25,7 +25,6 @@
 @implementation mobilesynthViewController
 
 @synthesize keyboardScrollView;
-@synthesize keyboardImageView;
 @synthesize controlScrollView;
 @synthesize controlPageControl;
 
@@ -48,6 +47,9 @@ static float GetFrequencyForNote(int note) {
 }
 
 - (void)noteOn:(int)note {
+  if (note == 0) {
+    NSLog(@"note == 0");
+  }
   controller_->NoteOn(note);
 }
 
@@ -141,9 +143,9 @@ static float GetFrequencyForNote(int note) {
   controlViewStartPosition.origin.y = 0;
   [controlScrollView scrollRectToVisible:controlViewStartPosition animated:YES];
   
-  // Scroll the keyboard all the wa to the far end.
+  // Scroll the keyboard all the way to the far end.
   CGRect keybaordStartPosition;
-  keybaordStartPosition.origin.x = [[keyboardImageView image] size].width - 5;
+  keybaordStartPosition.origin.x = [keyboardScrollView contentSize].width - 5;
   keybaordStartPosition.origin.y = 0;
   keybaordStartPosition.size.width = 5;
   keybaordStartPosition.size.height = 5;
@@ -158,6 +160,19 @@ static float GetFrequencyForNote(int note) {
   [super viewDidLoad];
   [self loadControlViews];
 
+  CGRect keyboardViewFrame;
+  keyboardViewFrame.origin.x = 0;
+  keyboardViewFrame.origin.y = 0;
+  keyboardViewFrame.size.width = 800;
+  // Leave some empty space for scrolling
+  keyboardViewFrame.size.height = keyboardScrollView.frame.size.height - 20;
+  keyboardView = [[KeyboardView alloc] initWithFrame:keyboardViewFrame
+                                     withOctaveCount:2];
+  [keyboardView setKeyboardDelegate:self];
+  [keyboardScrollView addSubview:keyboardView];  
+  [keyboardScrollView setContentSize:keyboardView.frame.size];
+  [keyboardScrollView setScrollEnabled:YES];
+  
   controller_ = new synth::Controller;
   [oscillatorView setController:controller_];
   [oscillatorDetailView setController:controller_];
@@ -167,9 +182,6 @@ static float GetFrequencyForNote(int note) {
   [filterEnvelopeView setEnvelope:controller_->filter_envelope()];
     
   [self syncControls];
-
-  // Initalize all the glue
-  [keyboardImageView setKeyboardDelegate:self];
   
   // Format preferred by the iphone (Fixed 8.24)
   outputFormat.mSampleRate = 44100.0;
@@ -185,12 +197,7 @@ static float GetFrequencyForNote(int note) {
   output = [[AudioOutput alloc] initWithAudioFormat:&outputFormat];
   [output setSampleDelegate:self];
   [output start];  // immediately invokes our callback to generate samples
-  
-  // Setup the inner size of the scroll view to the size of the full keyboard
-  // image.  This basically makes the scroll view work.
-  [keyboardScrollView setContentSize:[[keyboardImageView image] size]];
-  [keyboardScrollView setScrollEnabled:YES];
-  
+    
   [self startLoadAnimations];
 }
 
