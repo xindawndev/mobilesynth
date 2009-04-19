@@ -47,9 +47,6 @@ static float GetFrequencyForNote(int note) {
 }
 
 - (void)noteOn:(int)note {
-  if (note == 0) {
-    NSLog(@"note == 0");
-  }
   controller_->NoteOn(note);
 }
 
