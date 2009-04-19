@@ -22,7 +22,6 @@ bool KeyStack::NoteOn(int note) {
 }
 
 bool KeyStack::NoteOff(int note) {
-  assert(notes_.size() > 0);
   for (vector<int>::iterator it = notes_.begin(); it != notes_.end(); ++it) {
     if (*it == note) {
       notes_.erase(it);
