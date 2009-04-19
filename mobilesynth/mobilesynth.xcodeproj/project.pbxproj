@@ -16,7 +16,6 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* mobilesynthViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* mobilesynthViewController.mm */; settings = {COMPILER_FLAGS = "-mno-thumb"; }; };
 		2C0145DA0F0DB00400B7A68C /* filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C0145D80F0DB00400B7A68C /* filter.cpp */; settings = {COMPILER_FLAGS = "-mno-thumb"; }; };
-		2C0F179B0F59CC4900DEC873 /* keyboard-min.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C0F179A0F59CC4900DEC873 /* keyboard-min.png */; };
 		2C1B9FB50EFDD342008008AD /* AudioOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C1B9FB30EFDD342008008AD /* AudioOutput.m */; };
 		2C1BA21B0EFDEF60008008AD /* controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BA2120EFDEF60008008AD /* controller.cpp */; settings = {COMPILER_FLAGS = "-mno-thumb"; }; };
 		2C1BA21C0EFDEF60008008AD /* envelope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1BA2140EFDEF60008008AD /* envelope.cpp */; settings = {COMPILER_FLAGS = "-mno-thumb"; }; };
@@ -64,7 +63,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2C0145D80F0DB00400B7A68C /* filter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filter.cpp; path = synth/filter.cpp; sourceTree = "<group>"; };
 		2C0145D90F0DB00400B7A68C /* filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filter.h; path = synth/filter.h; sourceTree = "<group>"; };
-		2C0F179A0F59CC4900DEC873 /* keyboard-min.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "keyboard-min.png"; path = "images/keyboard-min.png"; sourceTree = "<group>"; };
 		2C1B9FB30EFDD342008008AD /* AudioOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioOutput.m; sourceTree = "<group>"; };
 		2C1B9FB40EFDD342008008AD /* AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioOutput.h; sourceTree = "<group>"; };
 		2C1BA2120EFDEF60008008AD /* controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = controller.cpp; path = synth/controller.cpp; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2C0F179A0F59CC4900DEC873 /* keyboard-min.png */,
 				2CF108A00F52073900968084 /* Default.png */,
 				2CF108850F51FF1000968084 /* Icon.png */,
 				2C61D73B0F020FE200ECE3A2 /* release.png */,
@@ -318,7 +315,6 @@
 				2C61D73C0F020FE200ECE3A2 /* release.png in Resources */,
 				2CF108860F51FF1000968084 /* Icon.png in Resources */,
 				2CF108A10F52073900968084 /* Default.png in Resources */,
-				2C0F179B0F59CC4900DEC873 /* keyboard-min.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
