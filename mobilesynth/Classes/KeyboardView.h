@@ -15,9 +15,20 @@
 - (void)allOff;
 @end
 
-@interface KeyboardView : UIImageView {
+@protocol Key
+@required
+- (void)keyDown;
+- (void)keyUp;
+// Returns the midi note represented by this key
+- (int)keyNumber;
+@end
+
+@interface KeyboardView : UIView {
+@private
   id <KeyboardDelegate> keyboardDelegate;
 }
+
+- (id)initWithFrame:(CGRect)frame withOctaveCount:(int)count;
 
 @property (nonatomic, retain) IBOutlet id <KeyboardDelegate> keyboardDelegate;
 
@@ -25,7 +36,5 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;
-
-- (int)noteAtPoint:(CGPoint)point;
 
 @end

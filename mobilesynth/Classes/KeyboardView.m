@@ -7,18 +7,51 @@
 //
 
 #import "KeyboardView.h"
-
+#import "OctaveView.h"
+#import "KeyView.h"
 
 @implementation KeyboardView
 
 @synthesize keyboardDelegate;
+
+// The MIDI note of the lowest note on the keyboard
+static const int kLowC = 16;
+
+- (id)initWithFrame:(CGRect)frame withOctaveCount:(int)count {
+  if (self = [super initWithFrame:frame]) {    
+    [self setMultipleTouchEnabled:YES];
+    
+    // Slice the view into horizontal octaves
+    CGRect octaveFrame;
+    octaveFrame.origin.y = 0;
+    octaveFrame.size.width = frame.size.width / count;
+    octaveFrame.size.height = frame.size.height;
+    int key = kLowC;
+    for (int i = 0; i < count; ++i) {
+      octaveFrame.origin.x = i * octaveFrame.size.width;
+      OctaveView* octave = [[OctaveView alloc] initWithFrame:octaveFrame
+                                                withKey:key];
+      key += [octave keyCount];
+      [self addSubview:octave];
+    }
+  }
+  return self;
+}
+
+- (void)dealloc
+{
+  [super dealloc];
+}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   NSArray* touchArray = [touches allObjects];
   for (int i = 0; i < [touchArray count]; ++i) {
     UITouch* touch = [touchArray objectAtIndex:i];  
     CGPoint point = [touch locationInView:self];
-    [keyboardDelegate noteOn:[self noteAtPoint:point]];
+    
+    KeyView *key = (KeyView*)[self hitTest:point withEvent:event];
+    [key keyDown];
+    [keyboardDelegate noteOn:[key keyNumber]];
   }
 }
 
@@ -28,10 +61,21 @@
     UITouch* touch = [touchArray objectAtIndex:i];  
     CGPoint point = [touch locationInView:self];
     CGPoint previousPoint = [touch previousLocationInView:self];
-    int note = [self noteAtPoint:point];
-    int previousNote = [self noteAtPoint:previousPoint];
-    [keyboardDelegate noteOn:note];
-    [keyboardDelegate noteOff:previousNote];
+    
+    KeyView *key = (KeyView*)[self hitTest:point withEvent:event];
+    KeyView *previousKey = (KeyView*)[self hitTest:previousPoint withEvent:event];    
+    if (key == previousKey) {
+      // Nothing to do, movement within a key
+      continue;
+    }
+    if (key) {
+      [key keyDown];    
+      [keyboardDelegate noteOn:[key keyNumber]];
+    }
+    if (previousKey) {
+      [previousKey keyUp];
+      [keyboardDelegate noteOff:[previousKey keyNumber]];
+    }
   }
 }
 
@@ -40,114 +84,25 @@
   for (int i = 0; i < [touchArray count]; ++i) {
     UITouch* touch = [touchArray objectAtIndex:i];  
     CGPoint point = [touch locationInView:self];
-    [keyboardDelegate noteOff:[self noteAtPoint:point]];
+    KeyView *key = (KeyView*)[self hitTest:point withEvent:event];
+    [keyboardDelegate noteOff:[key keyNumber]];
+    [key keyUp];
   }
-  if ([touches count] == [[event touchesForView:self] count]) {
+  if ([[event touchesForView:self] count] == 0) {
     // Sometimes we don't always get notified about all of the touches ending.
     // This is a failsafe to just shut everything off.
     [keyboardDelegate allOff];
+    // Reset the UI
+    int count = [[self subviews] count];
+    for (int i = 0; i < count; ++i) {
+      OctaveView* octaveView = (OctaveView*)[[self subviews] objectAtIndex:i];
+      [octaveView reset];
+    }
   }
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
   [self touchesEnded:touches withEvent:event];
-}
-
-
-//
-// Determines the key at the specified point in the image.  The keyboard is
-// laid out vertically.
-//
-
-// TODO(allen): The keyboard range has been limited temporarily to workaround
-// the fact that it is drawn as a single image which is too large to render
-// when extended with more octaves.  Fix!
-
-// The "width" of each white key
-static const float kKeySize = 57.14;
-
-// An octive is 7 white keys
-static const float kOctaveSize = 57.14 * 7;
-static const float kKeysPerOctave = 12;
-
-// The X position that marks the start of the black keys
-static const int kBlackKeyEndY = 97;
-
-// Offsets of the double black keys
-static const int kBlackKeyPairStartX = 39;
-static const int kBlackKeyPairEndX = 152;
-
-// Offsets of the triple black keys
-static const int kBlackKeyTrioStartX = 211;
-static const int kBlackKeyTrioEndX = 382;
-
-static const int kLowC = 16;
-
-- (int)octaveAtPoint:(CGPoint)point {
-  return point.x / kOctaveSize;
-}
-
-- (int)positionInOctaveAtPoint:(CGPoint)point {
-  return point.x - [self octaveAtPoint:point] * kOctaveSize;
-}
-
-// Note C is 0
-- (int)keyInFirstOctave:(CGPoint)point {
-  if (point.y < kBlackKeyEndY &&
-      point.x > kBlackKeyPairStartX &&
-      point.x <= kBlackKeyPairStartX + kKeySize) {
-    return 1;
-  }
-  if (point.x <= kKeySize) {
-    return 0;
-  }
-  if (point.y < kBlackKeyEndY &&
-      point.x > kBlackKeyPairStartX + kKeySize &&
-      point.x <= kBlackKeyPairStartX + 2 * kKeySize) {
-    return 3;
-  }
-  if (point.x <= 2 * kKeySize) {
-    return 2;
-  }
-  if (point.x <= 3 * kKeySize) {
-    return 4;
-  }  
-  if (point.y < kBlackKeyEndY &&
-      point.x > kBlackKeyTrioStartX &&
-      point.x <= kBlackKeyTrioStartX + kKeySize) {
-    return 6;
-  }
-  if (point.x <= 4 * kKeySize) {
-    return 5;
-  }  
-  if (point.y < kBlackKeyEndY &&
-      point.x > kBlackKeyTrioStartX + kKeySize &&
-      point.x <= kBlackKeyTrioStartX + 2 * kKeySize) {
-    return 8;
-  }
-  if (point.x <= 5 * kKeySize) {
-    return 7;
-  }  
-  if (point.y < kBlackKeyEndY &&
-      point.x > kBlackKeyTrioStartX + 2 * kKeySize &&      
-      point.x <= kBlackKeyTrioStartX + 3 * kKeySize) {
-    return 10;
-  }
-  if (point.x <= 6 * kKeySize) {
-    return 9;
-  }  
-  return 11;
-}
-
-- (int)noteAtPoint:(CGPoint)point {
-  int octave = [self octaveAtPoint:point];  
-  int keys_below_octave = octave * kKeysPerOctave;
-  // Adjust the point so that the x-coordinate is relative to the octave, then
-  // get the key within the octave.
-  point.x = [self positionInOctaveAtPoint:point] - 1;
-  int key = [self keyInFirstOctave:point];
-  // The lowest key on
-  return kLowC + keys_below_octave + key;
 }
 
 @end

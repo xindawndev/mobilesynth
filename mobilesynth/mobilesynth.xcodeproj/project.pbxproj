@@ -41,7 +41,11 @@
 		2C766D9B0F3E28FD009135A8 /* parameter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C766D970F3E28FD009135A8 /* parameter.cpp */; settings = {COMPILER_FLAGS = "-mno-thumb"; }; };
 		2C80E89E0EF4773C0083E440 /* KeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C80E89D0EF4773C0083E440 /* KeyboardView.m */; };
 		2C95F7760F81E2A9003EC36B /* ControlScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C95F7750F81E2A9003EC36B /* ControlScrollView.m */; };
+		2CE953190F8B2A6F003832EC /* KeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE953180F8B2A6F003832EC /* KeyView.m */; };
+		2CE9534A0F8B2C41003832EC /* BlackKeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE953490F8B2C41003832EC /* BlackKeyView.m */; };
 		2CEA46A60F03329800772FF7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CEA46A50F03329800772FF7 /* AudioToolbox.framework */; };
+		2CF0DD6F0F89293900D296DE /* OctaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF0DD6E0F89293900D296DE /* OctaveView.m */; };
+		2CF0DDB00F892D3B00D296DE /* WhiteKeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CF0DDAF0F892D3B00D296DE /* WhiteKeyView.m */; };
 		2CF108860F51FF1000968084 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF108850F51FF1000968084 /* Icon.png */; };
 		2CF108A10F52073900968084 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF108A00F52073900968084 /* Default.png */; };
 /* End PBXBuildFile section */
@@ -100,7 +104,15 @@
 		2C80E89D0EF4773C0083E440 /* KeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardView.m; sourceTree = "<group>"; };
 		2C95F7740F81E2A9003EC36B /* ControlScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControlScrollView.h; sourceTree = "<group>"; };
 		2C95F7750F81E2A9003EC36B /* ControlScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ControlScrollView.m; sourceTree = "<group>"; };
+		2CE953170F8B2A6F003832EC /* KeyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyView.h; sourceTree = "<group>"; };
+		2CE953180F8B2A6F003832EC /* KeyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyView.m; sourceTree = "<group>"; };
+		2CE953480F8B2C41003832EC /* BlackKeyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackKeyView.h; sourceTree = "<group>"; };
+		2CE953490F8B2C41003832EC /* BlackKeyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackKeyView.m; sourceTree = "<group>"; };
 		2CEA46A50F03329800772FF7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		2CF0DD6D0F89293900D296DE /* OctaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OctaveView.h; sourceTree = "<group>"; };
+		2CF0DD6E0F89293900D296DE /* OctaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OctaveView.m; sourceTree = "<group>"; };
+		2CF0DDAE0F892D3B00D296DE /* WhiteKeyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhiteKeyView.h; sourceTree = "<group>"; };
+		2CF0DDAF0F892D3B00D296DE /* WhiteKeyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhiteKeyView.m; sourceTree = "<group>"; };
 		2CF108850F51FF1000968084 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2CF108A00F52073900968084 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* mobilesynth_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mobilesynth_Prefix.pch; sourceTree = "<group>"; };
@@ -137,6 +149,14 @@
 				2C80E89D0EF4773C0083E440 /* KeyboardView.m */,
 				2C95F7740F81E2A9003EC36B /* ControlScrollView.h */,
 				2C95F7750F81E2A9003EC36B /* ControlScrollView.m */,
+				2CF0DD6D0F89293900D296DE /* OctaveView.h */,
+				2CF0DD6E0F89293900D296DE /* OctaveView.m */,
+				2CF0DDAE0F892D3B00D296DE /* WhiteKeyView.h */,
+				2CF0DDAF0F892D3B00D296DE /* WhiteKeyView.m */,
+				2CE953170F8B2A6F003832EC /* KeyView.h */,
+				2CE953180F8B2A6F003832EC /* KeyView.m */,
+				2CE953480F8B2C41003832EC /* BlackKeyView.h */,
+				2CE953490F8B2C41003832EC /* BlackKeyView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -328,6 +348,10 @@
 				2C766D9B0F3E28FD009135A8 /* parameter.cpp in Sources */,
 				2C45731D0F6DFB1D0048DC7C /* key_stack.cpp in Sources */,
 				2C95F7760F81E2A9003EC36B /* ControlScrollView.m in Sources */,
+				2CF0DD6F0F89293900D296DE /* OctaveView.m in Sources */,
+				2CF0DDB00F892D3B00D296DE /* WhiteKeyView.m in Sources */,
+				2CE953190F8B2A6F003832EC /* KeyView.m in Sources */,
+				2CE9534A0F8B2C41003832EC /* BlackKeyView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

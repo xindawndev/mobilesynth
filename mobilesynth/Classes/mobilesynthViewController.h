@@ -28,7 +28,7 @@ namespace synth { class LowPass; }
 @interface mobilesynthViewController : UIViewController <KeyboardDelegate, SampleGenerator> {
  @private
   UIScrollView* keyboardScrollView;
-  KeyboardView* keyboardImageView;
+  KeyboardView* keyboardView;
   UIScrollView* controlScrollView;
   UIPageControl* controlPageControl;
         
@@ -47,7 +47,6 @@ namespace synth { class LowPass; }
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView *keyboardScrollView;
-@property (nonatomic, retain) IBOutlet KeyboardView *keyboardImageView;
 @property (nonatomic, retain) IBOutlet UIScrollView *controlScrollView;
 @property (nonatomic, retain) IBOutlet UIPageControl *controlPageControl;
 
