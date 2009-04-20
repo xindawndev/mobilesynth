@@ -40,7 +40,6 @@ void Controller::set_sample_rate(float sample_rate) {
 }
 
 void Controller::NoteOn(int note) {
-  std::cout << "NoteOn(" << note << ")" << std::endl;
   assert(note >= 1);
   assert(note <= 88);
   key_stack_.NoteOn(note);
@@ -62,7 +61,6 @@ void Controller::NoteOnFrequency(float frequency) {
 
 void Controller::NoteOff(int note) {
   key_stack_.NoteOff(note);
-  std::cout << "NoteOff(" << note << ") size=" << key_stack_.size() << std::endl;
   if (key_stack_.size() == 0) {
     // All notes were release, so start the release phase of the envelope
     NoteOff();
