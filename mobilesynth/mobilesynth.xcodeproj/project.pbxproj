@@ -28,6 +28,7 @@
 		2C3FDDE10EF6072300284C99 /* reverse-sawtooth-wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C3FDDE00EF6072300284C99 /* reverse-sawtooth-wave.png */; };
 		2C45731D0F6DFB1D0048DC7C /* key_stack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C45731B0F6DFB1D0048DC7C /* key_stack.cpp */; };
 		2C5B22550F9C018700BF8EE4 /* arpeggio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B22530F9C018700BF8EE4 /* arpeggio.cpp */; };
+		2C5B229B0F9C09C100BF8EE4 /* ArpeggioView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B229A0F9C09C100BF8EE4 /* ArpeggioView.mm */; };
 		2C5B31670F2517A800C1D86F /* FilterView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B31660F2517A800C1D86F /* FilterView.mm */; };
 		2C61D50F0F01D33600ECE3A2 /* OscillatorView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C61D50E0F01D33600ECE3A2 /* OscillatorView.mm */; };
 		2C61D5FD0F01DD2B00ECE3A2 /* EnvelopeView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C61D5F80F01DD2B00ECE3A2 /* EnvelopeView.mm */; };
@@ -83,6 +84,8 @@
 		2C45731C0F6DFB1D0048DC7C /* key_stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = key_stack.h; path = synth/key_stack.h; sourceTree = "<group>"; };
 		2C5B22530F9C018700BF8EE4 /* arpeggio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = arpeggio.cpp; path = synth/arpeggio.cpp; sourceTree = "<group>"; };
 		2C5B22540F9C018700BF8EE4 /* arpeggio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = arpeggio.h; path = synth/arpeggio.h; sourceTree = "<group>"; };
+		2C5B22990F9C09C100BF8EE4 /* ArpeggioView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArpeggioView.h; sourceTree = "<group>"; };
+		2C5B229A0F9C09C100BF8EE4 /* ArpeggioView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArpeggioView.mm; sourceTree = "<group>"; };
 		2C5B31650F2517A800C1D86F /* FilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterView.h; sourceTree = "<group>"; };
 		2C5B31660F2517A800C1D86F /* FilterView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterView.mm; sourceTree = "<group>"; };
 		2C61D50D0F01D33600ECE3A2 /* OscillatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OscillatorView.h; sourceTree = "<group>"; };
@@ -261,6 +264,8 @@
 				2C61D50E0F01D33600ECE3A2 /* OscillatorView.mm */,
 				2C5B31650F2517A800C1D86F /* FilterView.h */,
 				2C5B31660F2517A800C1D86F /* FilterView.mm */,
+				2C5B22990F9C09C100BF8EE4 /* ArpeggioView.h */,
+				2C5B229A0F9C09C100BF8EE4 /* ArpeggioView.mm */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -354,6 +359,7 @@
 				2CE953190F8B2A6F003832EC /* KeyView.m in Sources */,
 				2CE9534A0F8B2C41003832EC /* BlackKeyView.m in Sources */,
 				2C5B22550F9C018700BF8EE4 /* arpeggio.cpp in Sources */,
+				2C5B229B0F9C09C100BF8EE4 /* ArpeggioView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

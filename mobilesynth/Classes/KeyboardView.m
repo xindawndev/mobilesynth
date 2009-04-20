@@ -45,7 +45,6 @@ static const int kLowC = 16;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   NSArray* touchArray = [touches allObjects];
-  NSLog(@"-%d", [touchArray count]);
   for (int i = 0; i < [touchArray count]; ++i) {
     UITouch* touch = [touchArray objectAtIndex:i];  
     CGPoint point = [touch locationInView:self];

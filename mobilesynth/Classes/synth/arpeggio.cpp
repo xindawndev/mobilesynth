@@ -42,10 +42,11 @@ float Arpeggio::GetValue() {
 }
 
 int Arpeggio::GetNote() {
-  if (keys_->size() == 0) {
+  int size = keys_->size();
+  if (size <= 0) {
     return 0;
   }
-  int max = octaves_ * keys_->size();
+  int max = octaves_ * size;
   if (sample_ == 0) {
     if (step_ == UP) {
       note_ = (note_ + 1) % max;
@@ -73,8 +74,12 @@ int Arpeggio::GetNote() {
     }
   }
   sample_ = (sample_ + 1) % samples_per_note_;
-  int octave = note_ / keys_->size();
-  return octave * kNotesPerOctave + keys_->GetNote(note_ % keys_->size());
+  int octave = note_ / size;
+  return octave * kNotesPerOctave + keys_->GetNote(note_ % size);
+}
+  
+void Arpeggio::reset() {
+  sample_ = 0;
 }
 
 }  // namespace synth

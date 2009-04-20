@@ -24,6 +24,7 @@ namespace synth { class LowPass; }
 @class EnvelopeView;
 @class FilterEnvelopeView;
 @class FilterView;
+@class ArpeggioView;
 
 @interface mobilesynthViewController : UIViewController <KeyboardDelegate, SampleGenerator> {
  @private
@@ -38,7 +39,8 @@ namespace synth { class LowPass; }
   FilterView* filterView;
   EnvelopeView* envelopeView;
   EnvelopeView* filterEnvelopeView;
-  
+  ArpeggioView* arpeggioView;
+
   // Synthesizer components
   AudioOutput* output;
   synth::Controller* controller_;
@@ -56,6 +58,7 @@ namespace synth { class LowPass; }
 @property (nonatomic, retain) IBOutlet FilterView *filterView;
 @property (nonatomic, retain) IBOutlet EnvelopeView *envelopeView;
 @property (nonatomic, retain) IBOutlet EnvelopeView *filterEnvelopeView;
+@property (nonatomic, retain) IBOutlet ArpeggioView *arpeggioView;
 
 - (void)noteOn:(int)note;
 - (void)noteOff:(int)note;
