@@ -50,6 +50,7 @@ void Controller::NoteOn(int note) {
   if (key_stack_.size() == 1) {
     // This is the first note played, so start attacking
     key_lag_processor_.reset();
+    arpeggio_.reset();
     volume_envelope()->NoteOn();
     filter_envelope()->NoteOn();
   }
@@ -121,7 +122,6 @@ void Controller::set_arpeggio_enabled(bool enabled) {
   arpeggio_enabled_ = enabled;
   reset_routing();
 }
-
   
 void Controller::set_arpeggio_samples(long samples) {
   arpeggio_.set_samples_per_note(samples);
@@ -195,6 +195,7 @@ void Controller::reset_routing() {
   }
   
   if (arpeggio_enabled_) {
+    std::cout << "Enabled=" << arpeggio_enabled_ << std::endl;
     key_lag_processor_.set_param(&arpeggio_);
   } else {
     key_lag_processor_.set_param(&key_frequency_);

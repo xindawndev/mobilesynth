@@ -7,6 +7,7 @@
 //
 
 #import "mobilesynthViewController.h"
+#import "ArpeggioView.h"
 #import "AudioOutput.h"
 #import "EnvelopeView.h"
 #import "FilterView.h"
@@ -34,6 +35,7 @@
 @synthesize filterView;
 @synthesize envelopeView;
 @synthesize filterEnvelopeView;
+@synthesize arpeggioView;
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 
@@ -66,6 +68,7 @@ static float GetFrequencyForNote(int note) {
     [filterView changed:self];
     [envelopeView changed:self];
     [filterEnvelopeView changed: self];
+    [arpeggioView changed: self];
   }
 }
 
@@ -106,6 +109,7 @@ static float GetFrequencyForNote(int note) {
   [controlViews addObject:envelopeView];
   [controlViews addObject:filterView];
   [controlViews addObject:filterEnvelopeView];
+  [controlViews addObject:arpeggioView];
 
   CGRect frame = controlScrollView.frame;
   frame.origin.x = 0;
@@ -177,6 +181,7 @@ static float GetFrequencyForNote(int note) {
   [filterView setController:controller_];
   [envelopeView setEnvelope:controller_->volume_envelope()];
   [filterEnvelopeView setEnvelope:controller_->filter_envelope()];
+  [arpeggioView setController:controller_];
     
   [self syncControls];
   

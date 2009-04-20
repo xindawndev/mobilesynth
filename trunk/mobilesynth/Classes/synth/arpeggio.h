@@ -30,6 +30,8 @@ class Arpeggio : public Parameter {
   void set_step(Step step);
 
   void set_samples_per_note(long samples_per_note);
+  
+  void reset();
 
  private:
   KeyStack* keys_;
