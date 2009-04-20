@@ -87,6 +87,23 @@ static void TestOctaves() {
   }
 }
 
+static void TestSamplesPerNote() {
+  synth::KeyStack keys;
+  keys.NoteOn(16);
+  keys.NoteOn(17);
+
+  synth::Arpeggio arpeggio(&keys);
+  arpeggio.set_samples_per_note(3);
+  arpeggio.set_step(synth::Arpeggio::UP);
+  for (int i = 0; i < 10; ++i) {
+    assert(arpeggio.GetNote() == 16);
+    assert(arpeggio.GetNote() == 16);
+    assert(arpeggio.GetNote() == 16);
+    assert(arpeggio.GetNote() == 17);
+    assert(arpeggio.GetNote() == 17);
+    assert(arpeggio.GetNote() == 17);
+  }
+}
 }  // namespace
 
 int main(int argc, char* argv[]) {
@@ -96,6 +113,7 @@ int main(int argc, char* argv[]) {
   TestDown();
   TestUpDown();
   TestOctaves();
+  TestSamplesPerNote();
   std::cout << "PASS" << std::endl;
   return 0;
 }
