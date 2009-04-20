@@ -13,14 +13,6 @@
 
 namespace synth {
   
-static const int kMiddleAKey(49);
-static const float kNotesPerOctave = 12.0f;
-static const float kMiddleAFrequency = 440.0f;
-
-static float KeyToFrequency(int key) {
-  return kMiddleAFrequency * powf(2, (key - kMiddleAKey) / kNotesPerOctave);
-}
-
 Controller::Controller()
     : combined_osc_(&osc1_, &osc2_),
       osc_sync_(false),

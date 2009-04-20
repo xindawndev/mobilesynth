@@ -3,6 +3,7 @@
 
 #include "key_stack.h"
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
@@ -50,6 +51,19 @@ int KeyStack::GetCurrentNote() {
   } else {
     return 0;
   }
+}
+
+int KeyStack::GetNote(int num) {
+  assert(num < (int)notes_.size());
+  return notes_[num];
+}
+
+static const int kMiddleAKey(49);
+static const float kNotesPerOctave = 12.0f;
+static const float kMiddleAFrequency = 440.0f;
+
+float KeyToFrequency(int key) {
+  return kMiddleAFrequency * powf(2, (key - kMiddleAKey) / kNotesPerOctave);
 }
 
 }  // namespace synth

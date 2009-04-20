@@ -22,6 +22,10 @@ class KeyStack {
 
   // Returns the current not, or 0 if no note is playing.
   int GetCurrentNote();
+
+  // Return the note at the specified position in the stack.  num must be less
+  // than size. 
+  int GetNote(int num);
   
   bool IsNoteInStack(int note);
 
@@ -32,6 +36,8 @@ class KeyStack {
  private:
   std::vector<int> notes_;
 };
+
+float KeyToFrequency(int key);
 
 }  // namespace synth
 
