@@ -69,9 +69,10 @@ float Oscillator::GetValue() {
 }
 
 
-KeyboardOscillator::KeyboardOscillator(Oscillator* osc1, Oscillator* osc2)
-  : base_frequency_(0),
-    key_frequency_(&base_frequency_),
+KeyboardOscillator::KeyboardOscillator(Oscillator* osc1,
+                                       Oscillator* osc2,
+                                       Parameter* frequency)
+  : base_frequency_(frequency),
     osc1_octave_(1),
     osc2_octave_(1),
     osc1_level_(0),
@@ -106,7 +107,7 @@ float KeyboardOscillator::GetValue() {
     osc2_->Reset();
   }
   
-  float root_note = key_frequency_.GetValue(); 
+  float root_note = base_frequency_->GetValue(); 
   if (frequency_modulation_) {
     root_note *= frequency_modulation_->GetValue();
   }

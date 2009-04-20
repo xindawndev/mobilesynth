@@ -15,6 +15,8 @@ class LagProcessor : public Parameter {
  public:
   LagProcessor(Parameter* param);
   virtual ~LagProcessor();
+  
+  void set_param(Parameter* param);
 
   // Number of samples for each 1.0 change in the parameters value
   void set_samples(long samples);

@@ -21,6 +21,10 @@ LagProcessor::LagProcessor(Parameter* param)
 }
 
 LagProcessor::~LagProcessor() { }
+  
+void LagProcessor::set_param(Parameter* param) {
+  param_ = param;
+}
 
 void LagProcessor::set_samples(long samples) {
   set_samples_up(samples);
