@@ -14,12 +14,16 @@
 namespace synth {
   
 Controller::Controller()
-    : combined_osc_(&osc1_, &osc2_),
+    : key_frequency_(0.0f),
+      arpeggio_enabled_(false),
+      arpeggio_(&key_stack_),
+      key_lag_processor_(&arpeggio_),
+      combined_osc_(&osc1_, &osc2_, &key_lag_processor_),
       osc_sync_(false),
       modulation_source_(LFO_SRC_SQUARE),
       modulation_destination_(LFO_DEST_WAVE),
       modulation_frequency_(0.0f),
-      modulation_amount_(0.0f) {
+      modulation_amount_(0.0f) {        
   modulation_osc_.set_frequency(&modulation_frequency_);
   modulation_.set_oscillator(&modulation_osc_);
   modulation_.set_level(&modulation_amount_);
@@ -45,16 +49,16 @@ void Controller::NoteOn(int note) {
   key_stack_.NoteOn(note);
   if (key_stack_.size() == 1) {
     // This is the first note played, so start attacking
-    combined_osc_.NoteOn();
+    key_lag_processor_.reset();
     volume_envelope()->NoteOn();
     filter_envelope()->NoteOn();
   }
   float frequency = KeyToFrequency(key_stack_.GetCurrentNote());
-  combined_osc_.set_keyboard_frequency(frequency);
+  key_frequency_.set_value(frequency);
 }
 
 void Controller::NoteOnFrequency(float frequency) {
-  combined_osc_.set_keyboard_frequency(frequency);
+//  combined_osc_.set_keyboard_frequency(frequency);
   volume_envelope()->NoteOn();
   filter_envelope()->NoteOn();
 }
@@ -67,7 +71,7 @@ void Controller::NoteOff(int note) {
   } else {
     // There are still notes on key stack -- switch!
     float frequency = KeyToFrequency(key_stack_.GetCurrentNote());
-    combined_osc_.set_keyboard_frequency(frequency);
+    key_frequency_.set_value(frequency);
   }
 }
 
@@ -109,10 +113,28 @@ void Controller::set_osc_sync(bool sync) {
   combined_osc_.set_osc_sync(sync);
 }
   
-void Controller::set_glide_samples(long rate) {
-  combined_osc_.set_glide_samples(rate);
+void Controller::set_glide_samples(long samples) {
+  key_lag_processor_.set_samples(samples);
 }
 
+void Controller::set_arpeggio_enabled(bool enabled) {
+  arpeggio_enabled_ = enabled;
+  reset_routing();
+}
+
+  
+void Controller::set_arpeggio_samples(long samples) {
+  arpeggio_.set_samples_per_note(samples);
+}
+
+void Controller::set_arpeggio_octaves(int octaves) {
+  arpeggio_.set_octaves(octaves);
+}
+  
+void Controller::set_arpeggio_step(Arpeggio::Step step) {
+  arpeggio_.set_step(step);
+}
+  
 void Controller::set_modulation_amount(float amount) {
   modulation_amount_.set_value(amount);
 }
@@ -170,6 +192,12 @@ void Controller::reset_routing() {
       break;
     default:
       assert(false);
+  }
+  
+  if (arpeggio_enabled_) {
+    key_lag_processor_.set_param(&arpeggio_);
+  } else {
+    key_lag_processor_.set_param(&key_frequency_);
   }
 }
 

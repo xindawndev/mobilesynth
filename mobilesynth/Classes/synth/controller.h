@@ -7,6 +7,7 @@
 #define __CONTROLLER_H__
 
 #include <vector>
+#include "synth/arpeggio.h"
 #include "synth/envelope.h"
 #include "synth/filter.h"
 #include "synth/lag_processor.h"
@@ -116,8 +117,12 @@ class Controller {
   // [0.0, 1.0]
   void set_filter_resonance(float value);
 
-
   void set_glide_samples(long samples);
+  
+  void set_arpeggio_enabled(bool enabled);
+  void set_arpeggio_samples(long samples);
+  void set_arpeggio_octaves(int octaves);
+  void set_arpeggio_step(Arpeggio::Step step);
 
   // Get a single sample
   float GetSample();
@@ -128,6 +133,13 @@ class Controller {
   // Invoked when one of the routing parameters changes, such as the source
   // or destination of modulation.
   void reset_routing();
+
+  KeyStack key_stack_;
+  MutableParameter key_frequency_;
+
+  bool arpeggio_enabled_;
+  Arpeggio arpeggio_;
+  LagProcessor key_lag_processor_;
 
   Oscillator osc1_;
   Oscillator osc2_;
@@ -144,8 +156,6 @@ class Controller {
   Oscillator modulation_osc_;
   MutableParameter modulation_amount_;
   LFO modulation_;
-
-  KeyStack key_stack_;
 
   FilterCutoff filter_cutoff_;
   LowPassFilter lowpass_filter_;

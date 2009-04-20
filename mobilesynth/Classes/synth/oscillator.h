@@ -53,12 +53,10 @@ class Oscillator : public Parameter {
 // Groups logic related to running the oscillators from keyboard input.
 class KeyboardOscillator : public Parameter {
  public:
-  KeyboardOscillator(Oscillator* osc1, Oscillator* osc2);
+  KeyboardOscillator(Oscillator* osc1,
+                     Oscillator* osc2,
+                     Parameter* frequency);
   virtual ~KeyboardOscillator();
-
-  void NoteOn() { key_frequency_.reset(); }
-  void set_keyboard_frequency(float freq) { base_frequency_ = freq; }
-  void set_glide_samples(long samples) { key_frequency_.set_samples(samples); }
 
   // Multiple to the specified octave
   void set_osc1_octave(float multiply) { osc1_octave_ = multiply; }
@@ -83,10 +81,7 @@ class KeyboardOscillator : public Parameter {
   virtual float GetValue();
 
  private:
-  // Changed on key press
-  MutableParameter base_frequency_;
-  // Glide between notes
-  LagProcessor key_frequency_;
+  Parameter* base_frequency_;
 
   float osc1_octave_;
   float osc2_octave_;
