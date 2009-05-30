@@ -16,5 +16,6 @@
 - (id)initWithFrame:(CGRect)frame withKey:(int)keyNumber;
 - (int)keyCount;
 - (void)reset;
+- (BOOL)isOpaque;
 
 @end

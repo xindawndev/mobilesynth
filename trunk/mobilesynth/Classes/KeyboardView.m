@@ -105,4 +105,8 @@ static const int kLowC = 16;
   [self touchesEnded:touches withEvent:event];
 }
 
+- (BOOL)isOpaque {
+  return YES;
+}
+
 @end

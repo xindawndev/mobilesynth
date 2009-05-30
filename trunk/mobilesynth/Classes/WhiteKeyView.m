@@ -35,7 +35,6 @@ static const CGFloat kKeySideEndColor = 0.93;
 static const CGFloat kKeyTopColor = 0.98;
 
 - (void)drawRect:(CGRect)rect {
-
   CGContextRef context = UIGraphicsGetCurrentContext();
 
   CGFloat fillcolor[] = { kKeySideStartColor,
