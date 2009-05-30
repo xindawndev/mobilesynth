@@ -26,7 +26,7 @@
 		2C3FDDDB0EF6052B00284C99 /* triangle-wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C3FDDDA0EF6052B00284C99 /* triangle-wave.png */; };
 		2C3FDDDF0EF606E600284C99 /* sawtooth-wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C3FDDDE0EF606E600284C99 /* sawtooth-wave.png */; };
 		2C3FDDE10EF6072300284C99 /* reverse-sawtooth-wave.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C3FDDE00EF6072300284C99 /* reverse-sawtooth-wave.png */; };
-		2C45731D0F6DFB1D0048DC7C /* key_stack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C45731B0F6DFB1D0048DC7C /* key_stack.cpp */; };
+		2C45731D0F6DFB1D0048DC7C /* key_stack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C45731B0F6DFB1D0048DC7C /* key_stack.cpp */; settings = {COMPILER_FLAGS = "-mno-thumb"; }; };
 		2C5B22550F9C018700BF8EE4 /* arpeggio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B22530F9C018700BF8EE4 /* arpeggio.cpp */; };
 		2C5B229B0F9C09C100BF8EE4 /* ArpeggioView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B229A0F9C09C100BF8EE4 /* ArpeggioView.mm */; };
 		2C5B31670F2517A800C1D86F /* FilterView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B31660F2517A800C1D86F /* FilterView.mm */; };
@@ -426,8 +426,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Allen Porter";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Allen Porter";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Allen Porter (4QLXHMSHVU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Allen Porter (4QLXHMSHVU)";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -435,8 +435,8 @@
 				HEADER_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "C1A8D510-C6F3-4C50-A8F4-17B63C79D60E";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C1A8D510-C6F3-4C50-A8F4-17B63C79D60E";
+				PROVISIONING_PROFILE = "2073FB39-614D-4FAA-B121-299E7972D155";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2073FB39-614D-4FAA-B121-299E7972D155";
 				SDKROOT = iphoneos2.2;
 				USER_HEADER_SEARCH_PATHS = Classes/;
 			};
@@ -446,11 +446,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Allen Porter (4QLXHMSHVU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Allen Porter (4QLXHMSHVU)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				PROVISIONING_PROFILE = "2073FB39-614D-4FAA-B121-299E7972D155";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2073FB39-614D-4FAA-B121-299E7972D155";
 				SDKROOT = iphoneos2.1;
 				USER_HEADER_SEARCH_PATHS = Classes;
 			};
