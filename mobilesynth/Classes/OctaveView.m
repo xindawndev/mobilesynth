@@ -86,4 +86,8 @@ static const int kBlackKey2Count = sizeof(kBlackKey2Numbers) / sizeof(int);
   }
 }
 
+- (BOOL)isOpaque {
+  return YES;
+}
+
 @end

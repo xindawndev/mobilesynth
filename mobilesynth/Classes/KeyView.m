@@ -17,6 +17,7 @@
     [self setBackgroundColor:[UIColor clearColor]];
     [self setMultipleTouchEnabled:YES];
     key = keyNumber;
+    keyPressed = FALSE;
   }
   return self;
 }
@@ -26,13 +27,17 @@
 }
 
 - (void)keyDown {
-  keyPressed = TRUE;
-  [self setNeedsDisplay];  
+  if (!keyPressed) {
+    keyPressed = TRUE;
+    [self setNeedsDisplay]; 
+  }
 }
 
 - (void)keyUp {
-  keyPressed = FALSE;
-  [self setNeedsDisplay];  
+  if (keyPressed) {
+    keyPressed = FALSE;
+    [self setNeedsDisplay];
+  }
 }
 
 - (int)keyNumber {
