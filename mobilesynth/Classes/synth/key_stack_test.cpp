@@ -40,6 +40,7 @@ static void TestMultiple() {
   stack.NoteOff(2);
   assert(0 == stack.GetCurrentNote());
   assert(0 == stack.size());
+  assert(0 == stack.GetNote(0));
 }
 
 static void TestDuplicates() {
