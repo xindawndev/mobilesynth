@@ -54,7 +54,7 @@ int KeyStack::GetCurrentNote() {
 }
 
 int KeyStack::GetNote(int num) {
-  if (num > notes_.size()) {
+  if (num >= (int)notes_.size()) {
     return 0;
   }
   return notes_[num];

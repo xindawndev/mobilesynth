@@ -59,7 +59,7 @@ void Controller::NoteOn(int note) {
 }
 
 void Controller::NoteOnFrequency(float frequency) {
-//  combined_osc_.set_keyboard_frequency(frequency);
+  key_frequency_.set_value(frequency);
   volume_envelope()->NoteOn();
   filter_envelope()->NoteOn();
 }
