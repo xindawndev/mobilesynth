@@ -25,10 +25,11 @@ namespace synth { class LowPass; }
 @class FilterEnvelopeView;
 @class FilterView;
 @class ArpeggioView;
+@class TouchForwardingUIScrollView;
 
 @interface mobilesynthViewController : UIViewController <KeyboardDelegate, SampleGenerator> {
  @private
-  UIScrollView* keyboardScrollView;
+  TouchForwardingUIScrollView* keyboardScrollView;
   KeyboardView* keyboardView;
   UIScrollView* controlScrollView;
   UIPageControl* controlPageControl;
@@ -62,7 +63,6 @@ namespace synth { class LowPass; }
 
 - (void)noteOn:(int)note;
 - (void)noteOff:(int)note;
-- (void)allOff;
 - (OSStatus)generateSamples:(AudioBufferList*)buffers;
 
 // For control panel

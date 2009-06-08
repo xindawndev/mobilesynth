@@ -3,6 +3,7 @@
 
 #include "synth/arpeggio.h"
 #include <iostream>
+#include <assert.h>
 #include "synth/key_stack.h"
 
 namespace synth {
