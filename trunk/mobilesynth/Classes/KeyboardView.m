@@ -10,6 +10,19 @@
 #import "OctaveView.h"
 #import "KeyView.h"
 
+@interface KeyDownInfo : NSObject {
+  UITouch* touch;
+  KeyView* keyView;
+}
+@property (nonatomic, retain) UITouch* touch;
+@property (nonatomic, retain) KeyView* keyView;
+@end
+
+@implementation KeyDownInfo
+@synthesize touch;
+@synthesize keyView;
+@end
+
 @implementation KeyboardView
 
 @synthesize keyboardDelegate;
@@ -20,6 +33,9 @@ static const int kLowC = 16;
 - (id)initWithFrame:(CGRect)frame withOctaveCount:(int)count {
   if (self = [super initWithFrame:frame]) {    
     [self setMultipleTouchEnabled:YES];
+    [self setOpaque:YES];
+    
+    keyDownSet = [[NSMutableSet setWithCapacity:0] retain];
     
     // Slice the view into horizontal octaves
     CGRect octaveFrame;
@@ -38,20 +54,49 @@ static const int kLowC = 16;
   return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
   [super dealloc];
+  [keyDownSet release];
+}
+
+- (KeyDownInfo*)findKey:(UITouch*)touch {
+  NSArray* keyDownArray = [keyDownSet allObjects];
+  for (int i = 0; i < [keyDownArray count]; ++i) {
+    KeyDownInfo* keyDown = [keyDownArray objectAtIndex:i];
+    if (keyDown.touch == touch) {
+      return keyDown;
+    }
+  }
+  return NULL;
+}
+
+- (KeyView*)keyViewForTouch:(UITouch*)touch withEvent:(UIEvent *)event{
+  CGPoint point = [touch locationInView:self];
+  return (KeyView*)[self hitTest:point withEvent:event];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   NSArray* touchArray = [touches allObjects];
   for (int i = 0; i < [touchArray count]; ++i) {
     UITouch* touch = [touchArray objectAtIndex:i];  
-    CGPoint point = [touch locationInView:self];
+    KeyDownInfo* keyPress = [self findKey:touch];
+    if (keyPress) {
+      NSLog(@"Unexpected; Touch already began: %@", touch);
+      continue;
+    }
     
-    KeyView *key = (KeyView*)[self hitTest:point withEvent:event];
-    [key keyDown];
-    [keyboardDelegate noteOn:[key keyNumber]];
+    KeyView *keyView = [self keyViewForTouch:touch withEvent:event];
+    if (!keyView) {
+      continue;
+    }
+    [keyView keyDown];    
+    [keyboardDelegate noteOn:[keyView keyNumber]];
+
+    // Store the key for later access
+    keyPress = [[KeyDownInfo alloc] init];
+    keyPress.touch = touch;
+    keyPress.keyView = keyView;
+    [keyDownSet addObject:keyPress];
   }
 }
 
@@ -59,54 +104,58 @@ static const int kLowC = 16;
   NSArray* touchArray = [touches allObjects];
   for (int i = 0; i < [touchArray count]; ++i) {
     UITouch* touch = [touchArray objectAtIndex:i];  
-    CGPoint point = [touch locationInView:self];
-    CGPoint previousPoint = [touch previousLocationInView:self];
-    
-    KeyView *key = (KeyView*)[self hitTest:point withEvent:event];
-    KeyView *previousKey = (KeyView*)[self hitTest:previousPoint withEvent:event];    
-    if (key == previousKey) {
-      // Nothing to do, movement within a key
+    KeyDownInfo* keyPress = [self findKey:touch];
+    if (!keyPress) {
+      // We got forwarded a touch that did not start on the keyboard.  It might
+      // be worth handling this (and the touch moved off a key case below)
       continue;
     }
-    if (key) {
-      [key keyDown];    
-      [keyboardDelegate noteOn:[key keyNumber]];
+    KeyView *keyView = [self keyViewForTouch:touch withEvent:event];
+    if (keyPress.keyView == keyView) {
+      // The touch moved, but did not change keys
+      continue;
     }
-    if (previousKey) {
-      [previousKey keyUp];
-      [keyboardDelegate noteOff:[previousKey keyNumber]];
+    if (!keyView) {
+      // The touch moved off of a key.  Do not update the current key pressed
+      // and continue to play the same note.  The "off" event will be handled
+      // in touchesEnded.
+      continue;
     }
+
+    // Press the new key, release the old key
+    [keyView keyDown];
+    [keyboardDelegate noteOn:[keyView keyNumber]];
+    KeyView* previousKeView = keyPress.keyView;
+    [previousKeView keyUp];
+    [keyboardDelegate noteOff:[previousKeView keyNumber]];
+
+    // Record the new key that is being pressed
+    keyPress.keyView = keyView;
   }
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {  
   NSArray* touchArray = [touches allObjects];
-  for (int i = 0; i < [touchArray count]; ++i) {
+  for (int i = 0; i < [touchArray count]; ++i) {    
     UITouch* touch = [touchArray objectAtIndex:i];  
-    CGPoint point = [touch locationInView:self];
-    KeyView *key = (KeyView*)[self hitTest:point withEvent:event];
-    [keyboardDelegate noteOff:[key keyNumber]];
-    [key keyUp];
-  }
-  if ([[event touchesForView:self] count] == 0) {
-    // Sometimes we don't always get notified about all of the touches ending.
-    // This is a failsafe to just shut everything off.
-    [keyboardDelegate allOff];
-    // Reset the UI
-    int count = [[self subviews] count];
-    for (int i = 0; i < count; ++i) {
-      OctaveView* octaveView = (OctaveView*)[[self subviews] objectAtIndex:i];
-      [octaveView reset];
+    KeyDownInfo* keyPress = [self findKey:touch];
+    if (!keyPress) {
+      // The TouchForwardingUIScrollView may invoke us multiple times for the
+      // same event as a workaround for its parent UIScrollView not always
+      // invoking touchesEnded.      
+      continue;
     }
+    KeyView* previousKeyView = keyPress.keyView;
+    [previousKeyView keyUp];
+    [keyboardDelegate noteOff:[previousKeyView keyNumber]];
+    
+    // Stop tracking the touch event
+    [keyDownSet removeObject:keyPress];
   }
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
   [self touchesEnded:touches withEvent:event];
-}
-
-- (BOOL)isOpaque {
-  return YES;
 }
 
 @end

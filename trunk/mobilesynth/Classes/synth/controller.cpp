@@ -195,7 +195,6 @@ void Controller::reset_routing() {
   }
   
   if (arpeggio_enabled_) {
-    std::cout << "Enabled=" << arpeggio_enabled_ << std::endl;
     key_lag_processor_.set_param(&arpeggio_);
   } else {
     key_lag_processor_.set_param(&key_frequency_);

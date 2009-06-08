@@ -12,7 +12,6 @@
 @required
 - (void)noteOn:(int)note;
 - (void)noteOff:(int)note;
-- (void)allOff;
 @end
 
 @protocol Key
@@ -26,6 +25,7 @@
 @interface KeyboardView : UIView {
 @private
   id <KeyboardDelegate> keyboardDelegate;
+  NSMutableSet* keyDownSet;
 }
 
 - (id)initWithFrame:(CGRect)frame withOctaveCount:(int)count;
@@ -36,6 +36,5 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;
-- (BOOL)isOpaque;
 
 @end

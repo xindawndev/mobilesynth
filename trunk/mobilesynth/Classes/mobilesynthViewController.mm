@@ -15,6 +15,7 @@
 #import "ModulationView.h"
 #import "OscillatorView.h"
 #import "OscillatorDetailView.h"
+#import "TouchForwardingUIScrollView.h"
 #include "synth/controller.h"
 #include "synth/envelope.h"
 #include "synth/modulation.h"
@@ -54,10 +55,6 @@ static float GetFrequencyForNote(int note) {
 
 - (void)noteOff:(int)note {
   controller_->NoteOff(note);
-}
-
-- (void)allOff {
-  controller_->NoteOff();
 }
 
 - (void)syncControls {
@@ -173,6 +170,9 @@ static float GetFrequencyForNote(int note) {
   [keyboardScrollView addSubview:keyboardView];  
   [keyboardScrollView setContentSize:keyboardView.frame.size];
   [keyboardScrollView setScrollEnabled:YES];
+  
+  // Forward touch events to the keyboard
+  [keyboardScrollView setTouchView:keyboardView];
   
   controller_ = new synth::Controller;
   [oscillatorView setController:controller_];
