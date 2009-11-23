@@ -1,0 +1,34 @@
+<project name="mobilesynth" default="all">
+  <property name="build" value="build"/>
+
+  <path id="classpath.base">
+  </path>
+  <path id="classpath.test">
+    <pathelement path="${build}"/>
+    <pathelement path="/usr/share/junit/junit.jar"/>
+    <pathelement path="${java.class.path}"/>
+    <path refid="classpath.base"/>
+  </path>
+
+  <target name="prepare">
+    <mkdir dir="${build}"/>
+  </target>
+  <target name="all" depends="prepare">
+    <javac srcdir="java" destdir="${build}"/>
+  </target>
+  <target name="test" depends="all">
+    <javac srcdir="javatests" destdir="${build}">
+      <classpath refid="classpath.test"/>
+    </javac>
+    <junit printsummary="yes">
+      <classpath refid="classpath.test"/>
+      <formatter type="plain" usefile="false"/>
+      <batchtest todir="${build}">
+        <fileset dir="javatests"/>
+      </batchtest>
+    </junit>
+  </target>
+  <target name="clean">
+    <delete dir="${build}"/>
+  </target>
+</project>
