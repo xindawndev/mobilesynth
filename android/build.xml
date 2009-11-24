@@ -17,7 +17,7 @@
     <javac srcdir="java" destdir="${build}"/>
   </target>
   <target name="test" depends="all">
-    <javac srcdir="javatests" destdir="${build}">
+    <javac srcdir="javatests" destdir="${build}" debug="on">
       <classpath refid="classpath.test"/>
     </javac>
     <junit printsummary="yes">
