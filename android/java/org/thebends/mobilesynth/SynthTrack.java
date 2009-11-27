@@ -6,53 +6,82 @@ import android.media.AudioTrack;
 
 import org.thebends.synth.Parameter;
 
+import java.util.logging.Logger;
+
+/**
+ * A thread that continually outputs synthesizer audio.
+i*/
 class SynthTrack {
+  private static Logger LOG = Logger.getLogger(
+      SynthTrack.class.getSimpleName());
 
   private static final int SAMPLE_RATE_HZ = 44100;
-  private static final int MIN_BUFFER_SIZE =
-      AudioTrack.getMinBufferSize(SAMPLE_RATE_HZ, AudioFormat.CHANNEL_OUT_MONO,
-          AudioFormat.ENCODING_PCM_16BIT);
-  private static final int BUFFER_SIZE = Math.max(MIN_BUFFER_SIZE, 1024);
 
-  private final AudioTrack track;
+  // Give the audio track a large buffer, writing much smaller chunks
+  private static final int BUFFER_SIZE = 50 * 1024;
+  private static final int CHUNK_SIZE = 4 * 1024;
+
+  private final SynthRunner runner;
   private final Thread thread;
 
   public SynthTrack(Parameter parameter) {
-    track = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE_HZ,
-        AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
-        BUFFER_SIZE, AudioTrack.MODE_STREAM);
-    track.play();
-    thread = new Thread(new SynthRunner(parameter, track), "SynthTrack");
+    runner = new SynthRunner(parameter);
+    thread = new Thread(runner, "SynthTrack");
     thread.start();
+    LOG.info("SynthTrack started");
+  }
+
+  /**
+   * Stops the synth thread.
+   */
+  public void shutdown() {
+    runner.beginShutdown();
+    try {
+      thread.join();
+    } catch (InterruptedException e) {
+      // We expect SynthRunner to stop quickly
+      throw new RuntimeException(e);
+    }
+    LOG.info("SynthTrack shutdown");
   }
 
   private static class SynthRunner implements Runnable {
     private final Parameter parameter;
     private final AudioTrack track;
+    private boolean running = false;
 
-    public SynthRunner(Parameter parameter, AudioTrack track) {
+    public SynthRunner(Parameter parameter) {
       this.parameter = parameter;
-      this.track = track;
+      track = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE_HZ,
+          AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
+          BUFFER_SIZE, AudioTrack.MODE_STREAM);
+      running = true;
     }
 
     @Override
     public void run() {
-System.err.println("Thread started");
-      while (true) {
-        short[] data = getBuffer();
-        track.write(data, 0, BUFFER_SIZE);
+      LOG.info("run");
+      track.play();
+      final short chunk[] = new short[CHUNK_SIZE];
+      while (isRunning()) {
+        for (int i = 0; i < CHUNK_SIZE; ++i) {
+          chunk[i] = parameter.getShortValue();
+        }
+        track.write(chunk, 0, CHUNK_SIZE);
       }
+      track.stop();
+      LOG.info("stop");
+    }
+
+    private synchronized boolean isRunning() {
+      return running;
     }
 
     /**
-     * Fill an entire buffer.
+     * Tells the synth runner to begin stopping.
      */
-    private short[] getBuffer() {
-      short buffer[] = new short[BUFFER_SIZE];
-      for (int i = 0; i < BUFFER_SIZE; ++i) {
-        buffer[i] = getShortValue(parameter.getValue());
-      }
-      return buffer;
+    public synchronized void beginShutdown() {
+      running = false;
     }
 
     /**
