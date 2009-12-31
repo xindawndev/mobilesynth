@@ -6,7 +6,6 @@
 #ifndef __FILTER_H__
 #define __FILTER_H__
 
-#include <vector>
 #include "synth/parameter.h"
 #include "synth/envelope.h"
 

@@ -6,7 +6,6 @@
 #ifndef __CONTROLLER_H__
 #define __CONTROLLER_H__
 
-#include <vector>
 #include "synth/arpeggio.h"
 #include "synth/envelope.h"
 #include "synth/filter.h"

@@ -3,7 +3,6 @@
 
 #include <assert.h>
 #include <iostream>
-#include <vector>
 #include "synth/controller.h"
 #include "synth/envelope.h"
 #include "synth/modulation.h"

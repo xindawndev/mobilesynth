@@ -3,9 +3,11 @@
 
 #include "synth/envelope.h"
 
+//#include <algorithm>
+//#include <cmath>
 #include <assert.h>
-#include <cmath>
-#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
 namespace synth {
 
@@ -115,11 +117,11 @@ float Envelope::GetValue() {
   switch (state_) {
     case ATTACK:
       value = current_ * attack_slope_ + min_;
-      value = std::min(value, max_);
+      value = (value < max_) ? value : max_;
      break;
     case DECAY:
       value = max_ - (current_ - attack_) * decay_slope_;
-      value = std::max(value, sustain_);
+      value = (value > sustain_) ? value : sustain_;
       break;
     case SUSTAIN:
       value = sustain_;
@@ -128,13 +130,13 @@ float Envelope::GetValue() {
     case RELEASE:
       value = release_start_value_ -
            (current_ - release_start_) * release_slope_;
-      value = std::max(value, min_);
+      value = (value > min_) ? value : min_;
       break;
     case DONE:
       value = min_;
       break;
     default:
-      std::cerr << "Unhandled state: " << state_;
+      fprintf(stderr, "Unhandled state: %d", state_);
       exit(1);
       break;
   }

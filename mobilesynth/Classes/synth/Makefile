@@ -43,8 +43,8 @@ test: oscillator_test envelope_test modulation_test controller_test \
 	./lag_processor_test
 	./oscillator_test
 	./modulation_test
-	./arpeggio_test
 	./key_stack_test
+	./arpeggio_test
 	./controller_test
 
 install: libsynth.a

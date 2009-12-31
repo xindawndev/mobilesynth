@@ -4,7 +4,6 @@
 #include "synth/oscillator.h"
 #include <assert.h>
 #include <math.h>
-#include <iostream>
 #include "synth/parameter.h"
 
 namespace synth {

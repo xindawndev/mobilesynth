@@ -3,9 +3,9 @@
 
 #include "synth/modulation.h"
 #include <assert.h>
+#include <stddef.h>
 #include <sys/param.h>
 #include "synth/oscillator.h"
-#include <iostream>
 
 namespace synth {
 

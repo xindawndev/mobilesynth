@@ -5,7 +5,6 @@
 
 #include <math.h>
 #include <assert.h>
-#include <iostream>
 #include "synth/envelope.h"
 #include "synth/filter.h"
 #include "synth/modulation.h"

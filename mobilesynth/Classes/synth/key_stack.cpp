@@ -2,30 +2,43 @@
 // Author: Allen Porter <allen@thebends.org>
 
 #include "key_stack.h"
-#include <iostream>
 #include <math.h>
+#include <assert.h>
 
 using namespace std;
 
 namespace synth {
 
+KeyStack::KeyStack() : size_(0) { }
+
+KeyStack::~KeyStack() { }
+
 bool KeyStack::NoteOn(int note) {
-  for (vector<int>::iterator it = notes_.begin(); it != notes_.end(); ++it) {
-    if (*it == note) {
-      // Insert a duplicate in the same position so does not override something
-      // higher on the stack.
-      notes_.insert(it, note);
+  assert(size_ < kMaxSize);
+  for (int i = 0; i < size_; ++i) {
+    if (notes_[i] == note) {
+      count_[i]++;
       return false;
     }
   }
-  notes_.push_back(note);
+  notes_[size_] = note;
+  count_[size_] = 1;
+  size_++;
   return true;
 }
 
 bool KeyStack::NoteOff(int note) {
-  for (vector<int>::iterator it = notes_.begin(); it != notes_.end(); ++it) {
-    if (*it == note) {
-      notes_.erase(it);
+  for (int i = 0; i < size_; ++i) {
+    if (notes_[i] == note) {
+      count_[i]--;
+      if (count_[i] == 0) {
+        // Remove this element from the stack -- copy all elements above
+        for (int j = i; j < size_ - 1; ++j) {
+          notes_[j] = notes_[j + 1];
+          count_[j] = count_[j + 1];
+        }
+        size_--;
+      }
       return true;
     }
   }
@@ -37,24 +50,31 @@ bool KeyStack::NoteOff(int note) {
 }
   
 bool KeyStack::IsNoteInStack(int note) {
-  for (vector<int>::iterator it = notes_.begin(); it != notes_.end(); ++it) {
-    if (*it == note) {
+  for (int i = 0; i < size_; ++i) {
+    if (notes_[i] == note) {
       return true;
     }
   }
   return false;
 }
 
-int KeyStack::GetCurrentNote() {
-  if (notes_.size() > 0) {
-    return notes_.back();
-  } else {
-    return 0;
+int KeyStack::size() {
+  int count = 0;
+  for (int i = 0; i < size_; ++i) {
+    count += count_[i];
   }
+  return count;
+}
+
+int KeyStack::GetCurrentNote() {
+  if (size_ > 0) {
+    return notes_[size_ - 1];
+  }
+  return 0;
 }
 
 int KeyStack::GetNote(int num) {
-  if (num >= (int)notes_.size()) {
+  if (num >= size_) {
     return 0;
   }
   return notes_[num];
