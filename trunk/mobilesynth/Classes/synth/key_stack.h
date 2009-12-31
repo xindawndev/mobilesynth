@@ -8,12 +8,16 @@
 #ifndef __KEY_STACK_H__
 #define __KEY_STACK_H__
 
-#include <vector>
-
 namespace synth {
 
 class KeyStack {
  public:
+  // We can't push more notes on the stack than this
+  static const int kMaxSize = 64;
+
+  KeyStack();
+  ~KeyStack();
+
   // Returns true if this was the first note pushed on to the key stack
   bool NoteOn(int note);
 
@@ -29,12 +33,15 @@ class KeyStack {
   
   bool IsNoteInStack(int note);
 
-  int size() { return notes_.size(); }
+  int size();
 
-  void clear() { notes_.clear(); }
+  void clear() { size_ = 0; }
 
  private:
-  std::vector<int> notes_;
+  int size_;
+  int notes_[kMaxSize];
+  // Number of times the note at the position was pressed
+  int count_[kMaxSize];
 };
 
 float KeyToFrequency(int key);

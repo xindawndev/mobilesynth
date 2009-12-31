@@ -4,7 +4,6 @@
 #include "synth/lag_processor.h"
 
 #include <math.h>
-#include <iostream>
 
 namespace synth {
 

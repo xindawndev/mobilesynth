@@ -3,7 +3,6 @@
 
 #include <assert.h>
 #include <iostream>
-#include <vector>
 #include "synth/oscillator.h"
 #include "synth/parameter.h"
 #include "synth/test_util.h"

@@ -2,8 +2,8 @@
 // Allen Porter <allen@thebends.org>
 
 #include "synth/arpeggio.h"
-#include <iostream>
 #include <assert.h>
+#include <stdlib.h>
 #include "synth/key_stack.h"
 
 namespace synth {

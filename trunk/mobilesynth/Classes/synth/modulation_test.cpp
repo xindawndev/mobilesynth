@@ -3,7 +3,6 @@
 
 #include <assert.h>
 #include <iostream>
-#include <vector>
 #include "synth/modulation.h"
 #include "synth/oscillator.h"
 #include "synth/test_util.h"

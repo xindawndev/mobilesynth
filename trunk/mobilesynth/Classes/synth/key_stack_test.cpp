@@ -3,7 +3,6 @@
 
 #include <assert.h>
 #include <iostream>
-#include <vector>
 #include "synth/key_stack.h"
 
 namespace {

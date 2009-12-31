@@ -15,8 +15,6 @@
 #ifndef __PARAMETER_H__
 #define __PARAMETER_H__
 
-#include <vector>
-
 namespace synth {
   
 class Parameter {
