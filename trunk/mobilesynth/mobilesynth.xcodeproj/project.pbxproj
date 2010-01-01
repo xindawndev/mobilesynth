@@ -52,6 +52,15 @@
 		2CF108A10F52073900968084 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CF108A00F52073900968084 /* Default.png */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildRule section */
+		2C43DBD40FEF2B8700CF509B /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* mobilesynthAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mobilesynthAppDelegate.h; sourceTree = "<group>"; };
@@ -287,6 +296,7 @@
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 			);
 			buildRules = (
+				2C43DBD40FEF2B8700CF509B /* PBXBuildRule */,
 			);
 			dependencies = (
 			);

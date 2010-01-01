@@ -4,7 +4,7 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-import org.thebends.synth.Parameter;
+import org.thebends.synth.SynthJni;
 
 import java.util.logging.Logger;
 
@@ -24,8 +24,8 @@ class SynthTrack {
   private final SynthRunner runner;
   private final Thread thread;
 
-  public SynthTrack(Parameter parameter) {
-    runner = new SynthRunner(parameter);
+  public SynthTrack() {
+    runner = new SynthRunner();
     thread = new Thread(runner, "SynthTrack");
     thread.start();
     LOG.info("SynthTrack started");
@@ -46,12 +46,10 @@ class SynthTrack {
   }
 
   private static class SynthRunner implements Runnable {
-    private final Parameter parameter;
     private final AudioTrack track;
     private boolean running = false;
 
-    public SynthRunner(Parameter parameter) {
-      this.parameter = parameter;
+    public SynthRunner() {
       track = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE_HZ,
           AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
           BUFFER_SIZE, AudioTrack.MODE_STREAM);
@@ -64,8 +62,9 @@ class SynthTrack {
       track.play();
       final short chunk[] = new short[CHUNK_SIZE];
       while (isRunning()) {
+        final float chunkFloat[] = SynthJni.getSamples(CHUNK_SIZE);
         for (int i = 0; i < CHUNK_SIZE; ++i) {
-          chunk[i] = parameter.getShortValue();
+          chunk[i] = (short)(chunkFloat[i] * Short.MAX_VALUE);
         }
         track.write(chunk, 0, CHUNK_SIZE);
       }
