@@ -1,11 +1,12 @@
 ECHO = echo
 INSTALL_DIR = /usr/local
 CC = g++
-CFLAGS = -Wall -Werror -I../ -L. -g
+CFLAGS = -Wall -Werror -I../ -L. -g \
+         -I/System/Library/Frameworks/JavaVM.framework/Headers
 .PHONY: all clean test
 
 SRC = oscillator.cpp envelope.cpp controller.cpp modulation.cpp filter.cpp \
-      parameter.cpp lag_processor.cpp key_stack.cpp arpeggio.cpp
+      parameter.cpp lag_processor.cpp key_stack.cpp arpeggio.cpp synth-jni.cpp
 OBJ = $(SRC:.cpp=.o)
 
 all: $(SUBDIRS) libsynth.a

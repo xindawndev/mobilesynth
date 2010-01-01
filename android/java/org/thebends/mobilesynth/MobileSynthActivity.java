@@ -11,7 +11,6 @@ public class MobileSynthActivity extends Activity {
   private static Logger LOG = Logger.getLogger(
       MobileSynthActivity.class.getSimpleName());
 
-  private Oscillator osc;
   private SynthTrack t;
 
   /** Called when the activity is first created. */
@@ -21,13 +20,10 @@ public class MobileSynthActivity extends Activity {
     LOG.info("Creating synth activity");
     // TODO(allen): Layout the keyboard
     setContentView(R.layout.main);
-
-    osc = new Oscillator(FixedParameter.get(1000), 44100);
-    osc.setWaveForm(Oscillator.WaveForm.SAWTOOTH);
   }
 
   private void play() {
-    t = new SynthTrack(osc);
+    t = new SynthTrack();
   }
 
   @Override

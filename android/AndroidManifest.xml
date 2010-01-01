@@ -12,4 +12,6 @@
             </intent-filter>
         </activity>
     </application>
+    <!-- Required for JNI -->
+    <uses-sdk android:minSdkVersion="3" />
 </manifest> 
