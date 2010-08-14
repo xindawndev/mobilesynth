@@ -1,0 +1,77 @@
+import os
+
+def RunTest(target, source, env):
+  program = str(source[0].abspath)
+  if os.spawnl(os.P_WAIT, program, program)==0:
+    open(str(target[0]),'w').write("PASSED\n")
+  else:
+    return 1
+
+def UnitTest(env, target, source, **kwargs):
+  test = env.Program(target, source, **kwargs)
+  run_test_target = target + '.passed'
+  if env.GetOption('clean') and os.path.exists(run_test_target):
+    os.unlink(run_test_target)
+  if 'test' in COMMAND_LINE_TARGETS:
+    run_test = env.RunTest(run_test_target, target)
+    env.Alias('test', run_test)
+    env.AlwaysBuild(run_test)
+  return test
+AddMethod(Environment, UnitTest)
+
+mode = ARGUMENTS.get('mode', 'release')
+if not (mode in ['debug', 'release']):
+  print "Error: expected 'debug' or 'release', found: " + mymode
+  Exit(1)
+
+env = Environment()
+env.Append(BUILDERS = {'RunTest' : Builder(action = RunTest)})
+if mode == 'debug':
+  env.Append(CCFLAGS = '-g -DDEBUG ')
+env.Append(CPPATH = '.')
+env.Append(CCFLAGS = [
+    '-Werror',
+    '-Wall',
+  ])
+env.Append(LINKFLAGS = [
+    '-lglog',
+    '-framework', 'Carbon',
+    '-framework', 'CoreServices',
+  ])
+
+synth = env.Library(target = 'synth',
+            source = [
+              'oscillator.cpp',
+              'numeric.cpp',
+              'wave.cpp',
+            ])
+
+test_env = env.Clone()
+test_env.Append(LINKFLAGS = [
+    '-lgtest',
+    '-lsynth',
+  ])
+
+numeric_test = env.UnitTest(target = 'numeric_test',
+             source = [ 'numeric_test.cpp' ],
+             LIBS = [
+               synth,
+               'gtest',
+             ])
+Depends(numeric_test, synth)
+
+oscillator_test = env.UnitTest(target = 'oscillator_test',
+             source = [ 'oscillator_test.cpp' ],
+             LIBS = [
+               synth,
+               'gtest',
+             ])
+Depends(oscillator_test, synth)
+
+wave_test = env.UnitTest(target = 'wave_test',
+             source = [ 'wave_test.cpp' ],
+             LIBS = [
+               synth,
+               'gtest',
+             ])
+Depends(wave_test, synth)
