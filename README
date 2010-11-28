@@ -1,0 +1,14 @@
+About
+-----
+
+Synthesizer library in Java.  Not technically related to mobilesynth, but close
+enough that its sharing the same repository for now.
+
+Building
+--------
+
+Building this project requires buildr, available from:
+  http://buildr.apache.org/
+
+$ buildr compile
+$ buildr test
