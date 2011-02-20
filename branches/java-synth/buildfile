@@ -1,3 +1,5 @@
+require 'buildr/scala'
+
 repositories.remote << 'http://www.ibiblio.org/maven2'
 
 GUAVA = 'com.google.guava:guava:jar:r07'
@@ -8,11 +10,8 @@ define 'synth' do
   project.version = '0.0.1'
   project.group = 'thebends'
   compile.with GUAVA
-  compile.options.lint = 'all'
-  compile.options.other = '-Werror'
   test.with EASYMOCK, CGLIB
-  package :jar
 
-  run.using :main => 'org.thebends.synth.PlaySine'
+  run.using :main => 'org.thebends.synth.Player'
 end
 
