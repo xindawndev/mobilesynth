@@ -6,16 +6,25 @@ import javax.sound.sampled.AudioSystem
 import javax.sound.sampled.DataLine
 import javax.sound.sampled.SourceDataLine
 
+import ValueImplicits._;
+
+
 /**
- * Simple program to play a sine wave, as a first timer exercise of PCM
+ * Simple program to play a wave, as a first timer exercise of PCM
  * synthesis in Scala.
  */
 object Player extends Application {
-  val FREQUENCY:Float = 440.0f  // Hz
+  val RATE:Double = 5.0f  // Hz
+  val FREQUENCY:Double = 550.0f  // Hz
   val BUFFER_SIZE = 1024;
-  val sine = new Sine(new ConstGenerator(FREQUENCY));
-
+  val lfo = new Oscillator(RATE, Oscillators.sawtooth);
+  var freq = new ControlValue() {
+      def value(): Double = {
+        return FREQUENCY + FREQUENCY * lfo.value()
+      }
+    }
+  val osc = new Oscillator(freq, Oscillators.sawtooth);
   println("Playing...(from Scala)")
-  val amp = new Amplifier(sine, BUFFER_SIZE)
+  val amp = new Output(osc, BUFFER_SIZE)
   amp.start
 }
