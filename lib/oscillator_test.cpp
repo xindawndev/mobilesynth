@@ -4,14 +4,15 @@
 #include <glog/logging.h>
 #include <gtest/gtest.h>
 #include "oscillator.h"
+#include "gate.h"
 
 using namespace ::ysynth;
 
 namespace {
 
 TEST(Oscillator, OneCyclePerSecond) {
-  ConstantSupplier<float> freq(1.0f);
-  Oscillator osc(4, &freq);
+  ConstantSupplier<ControlValue> freq(1.0f);
+  Oscillator osc(4, &freq, ClosedGate());
   for (int i = 0; i < 10; i++) {
     EXPECT_FLOAT_EQ(0.0f, osc.GetValue());
     EXPECT_FLOAT_EQ(0.25f, osc.GetValue());
@@ -21,8 +22,8 @@ TEST(Oscillator, OneCyclePerSecond) {
 }
 
 TEST(Oscillator, TwoCyclesPerSecond) {
-  ConstantSupplier<float> freq(2.0f);
-  Oscillator osc(8, &freq);
+  ConstantSupplier<ControlValue> freq(2.0f);
+  Oscillator osc(8, &freq, ClosedGate());
   for (int i = 0; i < 10; i++) {
     EXPECT_FLOAT_EQ(0.0f, osc.GetValue());
     EXPECT_FLOAT_EQ(0.25f, osc.GetValue());

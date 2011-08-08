@@ -5,12 +5,15 @@
 
 namespace ysynth {
 
+class Gate;
+
 // An oscillator generates a value between 0 and 1 at some particular
 // frequency.
 class Oscillator : Supplier<float> {
  public:
   Oscillator(long sample_rate,
-             Supplier<float>* frequency);
+             Supplier<ControlValue>* frequency,
+             Gate* gate);
   virtual ~Oscillator();
 
   // Output is in the range [0, 1]
@@ -19,7 +22,8 @@ class Oscillator : Supplier<float> {
  private:
   long sample_num_;
   long sample_rate_; 
-  Supplier<float>* frequency_;
+  Supplier<ControlValue>* frequency_;
+  Gate* gate_;
 };
 
 }  // namespace ysynth

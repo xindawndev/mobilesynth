@@ -1,10 +1,16 @@
-// function.h
+// types.h
 // Author: Allen Porter <allen@thebends.org>
 //
 // Some types modeled after the base collection types used in the Gaua library.
 // http://code.google.com/p/google-collections/
 
+#ifndef __TYPES_H__
+#define __TYPES_H__
+
 namespace ysynth {
+
+typedef double AudioValue;
+typedef double ControlValue;
 
 template<typename X>
 class Supplier {
@@ -41,7 +47,7 @@ class Function {
 };
 
 template<typename X>
-class Predicate : Function<X, bool> {
+class Predicate : public Function<X, bool> {
  public:
   virtual ~Predicate() { }
 
@@ -52,3 +58,5 @@ class Predicate : Function<X, bool> {
 };
 
 }  // namespace ysynth
+
+#endif  // __TYPES_H__

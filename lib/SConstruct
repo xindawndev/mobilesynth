@@ -44,6 +44,8 @@ synth = env.Library(target = 'synth',
               'oscillator.cpp',
               'numeric.cpp',
               'wave.cpp',
+              'gate.cpp',
+              'types.h',
             ])
 
 test_env = env.Clone()
